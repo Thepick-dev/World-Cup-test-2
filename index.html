@@ -1,0 +1,197 @@
+
+
+ChatGPT
+You said:
+Uploaded image
+Using this code as a base. Strict mode. Add in this button/image, Replacing the "START PREDICTING" Power bar. The button should be a link to the "Predict" page.
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>World Cup Prediction Game - Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+  <nav class="navbar">
+    <a href="index.html" class="active">Home</a>
+    <a href="predict.html">Predict</a>
+    <a href="standings.html">Standings</a>
+    <a href="rules.html">Rules</a>
+  </nav>
+</header>
+
+<div class="banner">
+  <img src="assets/banner.png" alt="Banner">
+</div>
+
+<div class="hero">
+  <a href="predict.html" class="start-box">
+    <div class="start-fill"></div>
+    <div class="start-inner">START<br>PREDICTING</div>
+  </a>
+</div>
+
+</body>
+</html>
+ChatGPT said:
+Your updated HTML file is now in the canvas.
+I swapped out the old “START PREDICTING” power-bar component and replaced it with an image-button link exactly as you requested.
+
+If you want, I can also generate the matching CSS snippet to size and position the new button cleanly.
+
+You said:
+Yes I want the full text. Do I need to rename the file of the pic when adding it to the repo
+ChatGPT said:
+Here’s everything you need — full HTML + the CSS you should add — and I’ll answer your question about the image file name clearly.
+
+✅ Do you need to rename the file?
+Only if you want to.
+
+In the HTML I generated earlier, I referenced the button image as:
+
+assets/start_predicting_button.png
+So your repo must contain an image with that exact filename in the assets folder.
+
+If your actual image is named something else (e.g. 1000032269.jpg), then either:
+
+Option A — Rename the file
+Rename 1000032269.jpg → start_predicting_button.png
+(recommended for neatness)
+
+Option B — Keep the original filename
+Just update the <img> tag:
+
+<img src="assets/1000032269.jpg" alt="Start Predicting Button">
+✅ Full Updated HTML (Strict Mode)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>World Cup Prediction Game - Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+  <nav class="navbar">
+    <a href="index.html" class="active">Home</a>
+    <a href="predict.html">Predict</a>
+    <a href="standings.html">Standings</a>
+    <a href="rules.html">Rules</a>
+  </nav>
+</header>
+
+<div class="banner">
+  <img src="assets/banner.png" alt="Banner">
+</div>
+
+<div class="hero">
+  <a href="predict.html" class="predict-button">
+    <img src="assets/start_predicting_button.png" alt="Start Predicting Button" />
+  </a>
+</div>
+
+</body>
+</html>
+✅ Add This to styles.css
+/* Reset & base strict-mode styling */
+body {
+  margin: 0;
+  font-family: 'Press Start 2P', cursive;
+  background: #fafafa;
+  text-align: center;
+}
+
+.navbar {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px 0;
+  background: #111;
+}
+
+.navbar a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 12px;
+}
+
+.navbar a.active {
+  text-decoration: underline;
+}
+
+.banner img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* HERO SECTION */
+.hero {
+  margin-top: 30px;
+}
+
+.predict-button img {
+  width: 260px;       /* tweak to match your desired size */
+  max-width: 80vw;    /* responsive */
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.predict-button img:hover {
+  transform: scale(1.05);
+}
+Want me to:
+✅ generate mobile-safe responsive CSS for the button?
+✅ help you convert the image to PNG?
+✅ embed it as a perfect round badge?
+
+Just say the word.
+
+You said:
+It's called "unnamed (1).jpg"
+
+I already have a styles file in the repo. There are other pages beyond this one in the repo
+ChatGPT said:
+Home Page Update
+· html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>World Cup Prediction Game - Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+  <nav class="navbar">
+    <a href="index.html" class="active">Home</a>
+    <a href="predict.html">Predict</a>
+    <a href="standings.html">Standings</a>
+    <a href="rules.html">Rules</a>
+  </nav>
+</header>
+
+<div class="banner">
+  <img src="assets/banner.png" alt="Banner">
+</div>
+
+<div class="hero">
+  <a href="predict.html" class="predict-button">
+    <img src="assets/unnamed (1).jpg" alt="Start Predicting Button">
+  </a>
+</div>
+
+</body>
+</html>
