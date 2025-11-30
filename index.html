@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>World Cup Prediction Game - Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+  <style>
+    /* Base strict-mode layout */
+    body {
+      margin: 0;
+      font-family: 'Press Start 2P', cursive;
+      background: #fafafa;
+      text-align: center;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px 0;
+      background: #111;
+    }
+
+    .navbar a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 12px;
+    }
+
+    .navbar a.active {
+      text-decoration: underline;
+    }
+
+    /* BANNER */
+    .banner img {
+      display: block;
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+
+    /* HERO BUTTON */
+    .hero {
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    .predict-button img {
+      width: 260px;
+      max-width: 80vw;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .predict-button img:hover {
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <nav class="navbar">
+    <a href="index.html" class="active">Home</a>
+    <a href="predict.html">Predict</a>
+    <a href="standings.html">Standings</a>
+    <a href="rules.html">Rules</a>
+  </nav>
+</header>
+
+<div class="banner">
+  <img src="assets/banner.png" alt="Banner">
+</div>
+
+<div class="hero">
+  <a href="predict.html" class="predict-button">
+    <img src="assets/unnamed (1).jpg" alt="Start Predicting Button">
+  </a>
+</div>
+
+</body>
+</html>
