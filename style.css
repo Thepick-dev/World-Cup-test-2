@@ -24,11 +24,15 @@ body {
   background-size: 20px 20px;
 }
 
-/* --- 2. BANNER & STING (CENTERED) --- */
+/* --- 2. BANNER & STING (FIXED ALIGNMENT) --- */
 .hero-section {
   width: 100%; max-width: 960px; height: 280px; background: #000;
   border-bottom: 4px solid var(--neon-cyan); position: relative;
-  overflow: hidden; display: flex; justify-content: center; align-items: center;
+  overflow: hidden; 
+  display: flex; 
+  flex-direction: column;
+  justify-content: center; /* Vertical center */
+  align-items: center;     /* Horizontal center - fixes left push */
 }
 
 .arena-banner { position: absolute; inset: 0; pointer-events: none; }
@@ -37,12 +41,14 @@ body {
   position: absolute; left: 20px; bottom: 20px; width: 100px; height: 100px;
   background: var(--player-idle) no-repeat center/contain;
   animation: player-sequence var(--total-time) step-end forwards;
+  z-index: 2;
 }
 
 .sprite-ball {
   position: absolute; left: 100px; bottom: 30px; width: 25px; height: 25px;
   background: var(--ball-normal) no-repeat center/contain;
   animation: ball-sequence var(--total-time) linear forwards;
+  z-index: 1;
 }
 
 .hero-content { z-index: 5; opacity: 0; animation: fadeIn 0.3s ease-out 0.8s forwards; text-align: center; }
@@ -57,36 +63,60 @@ body {
   background: var(--neon-pink); padding: 5px 10px; display: inline-block; margin-top: 10px;
 }
 
-/* MOBILE BANNER FIX */
+/* MOBILE BANNER FIX: STACKING & SCALING */
 @media (max-width: 600px) {
-  .hero-section { height: 220px; }
-  .sprite-player { width: 60px; height: 60px; left: 5px; bottom: 5px; }
-  .sprite-ball { left: 50px; bottom: 15px; width: 15px; height: 15px; }
-  .glitch { font-size: 22px; }
-  .hero-sub { font-size: 8px; }
+  .hero-section { height: 240px; padding: 20px; }
+  
+  /* Scale sprites down and move them slightly so they don't block text */
+  .sprite-player { width: 60px; height: 60px; left: 10px; bottom: 10px; opacity: 0.6; }
+  .sprite-ball { left: 60px; bottom: 15px; width: 15px; height: 15px; opacity: 0.6; }
+  
+  .glitch { font-size: 26px; line-height: 1.2; }
+  .hero-sub { font-size: 9px; letter-spacing: 1px; }
 }
 
 /* --- 3. INPUTS (STRICT BLACK FILL) --- */
 input, select {
   width: 100%; padding: 18px; margin: 10px 0;
-  background-color: #000 !important; color: var(--neon-yellow) !important;
+  background-color: #000 !important; /* Ensure black fill */
+  color: var(--neon-yellow) !important;
   border: 2px solid #555; font-family: "VT323", monospace; font-size: 26px; outline: none;
+  -webkit-appearance: none; /* Fix for mobile browser styles */
 }
-input:focus { border-color: var(--neon-yellow); }
+input:focus { border-color: var(--neon-yellow); background-color: #000 !important; }
 
-/* --- 4. CHECKBOXES (YELLOW) --- */
+/* --- 4. CHECKBOXES (YELLOW ACCENT) --- */
 .terms-container label { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; color: var(--neon-yellow); cursor: pointer; text-align: left; }
-.terms-container input[type="checkbox"] { width: 22px; height: 22px; accent-color: var(--neon-yellow); cursor: pointer; }
+.terms-container input[type="checkbox"] { 
+    width: 22px; height: 22px; 
+    accent-color: var(--neon-yellow); /* Yellow fill instead of blue */
+    cursor: pointer; 
+}
 
 /* --- 5. FOOTER NAV --- */
-.footer-nav { margin-top: 50px; padding: 20px; width: 100%; max-width: 960px; border-top: 1px solid #333; display: flex; justify-content: center; gap: 25px; }
-.footer-nav a { color: #666; text-decoration: none; font-family: "Press Start 2P", cursive; font-size: 9px; }
-.footer-nav a:hover { color: var(--neon-yellow); }
+.footer-nav { 
+    margin-top: 50px; 
+    padding: 40px 20px; 
+    width: 100%; 
+    max-width: 960px; 
+    border-top: 1px solid #333; 
+    display: flex; 
+    justify-content: center; 
+    gap: 30px; 
+}
+.footer-nav a { 
+    color: #888; 
+    text-decoration: none; 
+    font-family: "Press Start 2P", cursive; 
+    font-size: 9px; 
+    transition: color 0.2s;
+}
+.footer-nav a:hover { color: var(--neon-yellow); text-decoration: underline; }
 
 /* KEYFRAMES */
 @keyframes player-sequence { 0% { background-image: var(--player-idle); } 50% { background-image: var(--player-windup); } 55%, 100% { background-image: var(--player-kick); } }
-@keyframes ball-sequence { 0%, 54% { transform: translateX(0); } 55% { background-image: var(--ball-super); width: 80px; transform: translateX(0); } 100% { background-image: var(--ball-super); width: 80px; transform: translateX(1000px); } }
-@keyframes fadeIn { to { opacity: 1; } }
+@keyframes ball-sequence { 0%, 54% { transform: translateX(0); } 55% { background-image: var(--ball-super); width: 80px; transform: translateX(0); } 100% { background-image: var(--ball-super); width: 80px; transform: translateX(1200px); } }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
 /* COMMON PANELS */
 .panel { width: 95%; max-width: 960px; background: var(--panel); border: 3px solid var(--neon-cyan); padding: 20px; margin-bottom: 25px; }
