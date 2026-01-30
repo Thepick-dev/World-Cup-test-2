@@ -5,10 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>GOALSURGE! — ROUND 3</title>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+
 <link rel="stylesheet" href="style.css">
 
 <style>
-/* --- 2. SPECIFIC ROUND 3 STYLES --- */
+/* --- ROUND 3 SPECIFIC LAYOUTS (Kept here as requested) --- */
 .instructions { font-family: "VT323", monospace; font-size: 18px; color: #aaa; margin-bottom: 15px; text-align: left; text-transform: uppercase; }
 .match-box { border: 2px solid #333; background: #12121c; padding: 15px; margin-bottom: 25px; }
 .match-title { font-family: "Press Start 2P"; font-size: 12px; color: var(--neon-pink); margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px; }
@@ -31,10 +32,8 @@
 .option-row.selected { border-color: var(--neon-pink); color: #fff; background: rgba(255, 42, 109, 0.1); }
 .opt-id { font-family: "Press Start 2P"; font-size: 12px; color: var(--neon-yellow); min-width: 30px; }
 .submit-overlay { position: fixed; inset: 0; background: rgba(10, 10, 15, 0.98); display: none; align-items: center; justify-content: center; z-index: 20; }
-.submit-box { width: 96%; max-width: 500px; max-height: 95vh; overflow-y: auto; background: #000; border: 4px solid var(--neon-yellow); }
-.submit-header { background: var(--neon-yellow); color: #000; padding: 15px; font-family: "Press Start 2P"; font-size: 14px; text-align: center; }
-.submit-body { padding: 20px; text-align: left; font-family: "VT323"; font-size: 22px; color: #fff;}
-.summary-list li { margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 5px; list-style: none; }
+.submit-box { width: 96%; max-width: 500px; max-height: 95vh; overflow-y: auto; background: #000; border: 4px solid var(--neon-yellow); padding: 20px; }
+.summary-list li { margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 5px; list-style: none; text-align: left; }
 .summary-list strong { color: var(--neon-cyan); font-family: "Press Start 2P"; font-size: 10px; margin-right: 10px;}
 </style>
 </head>
@@ -66,9 +65,9 @@
     <input id="leaguePin" placeholder="LEAGUE PIN (OPTIONAL)" maxlength="4" oninput="validate()">
 
     <div class="terms-container">
-        <label><input type="checkbox" id="privacyCheck" onchange="validate()"> <span>ACCEPT <a href="#">PRIVACY POLICY</a> (REQUIRED)</span></label>
-        <label><input type="checkbox" id="termsCheck" onchange="validate()"> <span>ACCEPT <a href="#">TERMS OF USE</a> (REQUIRED)</span></label>
-        <label><input type="checkbox" id="marketingCheck"> <span>FUTURE COMPETITION UPDATES (OPTIONAL)</span></label>
+        <label><input type="checkbox" id="privacyCheck" onchange="validate()"> <span>ACCEPT PRIVACY POLICY</span></label>
+        <label><input type="checkbox" id="termsCheck" onchange="validate()"> <span>ACCEPT TERMS OF USE</span></label>
+        <label><input type="checkbox" id="marketingCheck"> <span>FUTURE UPDATES (OPTIONAL)</span></label>
     </div>
 
     <input id="tiebreaker" placeholder="TIEBREAKER: TOTAL YEL CARDS?" type="number" oninput="validate()">
@@ -77,21 +76,16 @@
 
 <div class="panel">
     <h1>ROUND 3: SEMI FINALS</h1>
-    <div class="instructions">POINTS: Correct Winner (5pts), Correct Method (3pts), Time Block (5pts).</div>
+    <div class="instructions">POINTS: Winner (5pts), Method (3pts), Time (5pts).</div>
     <div id="sf1-container"></div>
     <div id="sf2-container"></div>
 </div>
 
 <div class="panel">
-    <h1>3RD PLACE PLAYOFF</h1>
-    <div id="playoff-container"></div>
-</div>
-
-<div class="panel">
     <h1>WORLD CUP WINNER</h1>
     <div class="strategy-toggle">
-        <button class="strat-btn" id="btnHedge" onclick="setStrategy('hedge')">HEDGE IT<br>(RANK 1-4)</button>
-        <button class="strat-btn" id="btnRisk" onclick="setStrategy('risk')">RISK IT<br>(PICK 1 WINNER)</button>
+        <button class="strat-btn" id="btnHedge" onclick="setStrategy('hedge')">HEDGE IT</button>
+        <button class="strat-btn" id="btnRisk" onclick="setStrategy('risk')">RISK IT</button>
     </div>
     <div id="hedgeContent" class="strat-content">
         <select id="rank1" onchange="validate()"><option value="">1ST PLACE...</option></select>
@@ -105,11 +99,6 @@
 </div>
 
 <div class="panel">
-    <h1>THE FINAL</h1>
-    <div id="final-container"></div>
-</div>
-
-<div class="panel">
     <h1>RED CARD CHAOS [10pts]</h1>
     <div id="redCardOptions"></div>
 </div>
@@ -120,8 +109,6 @@
         <option value="">SELECT DUO...</option>
         <option>Mbappe & Kane</option>
         <option>Messi & Alvarez</option>
-        <option>Yamal & Williams</option>
-        <option>Bellingham & Saka</option>
     </select>
 </div>
 
@@ -142,66 +129,64 @@
 
 <div class="submit-overlay" id="submitOverlay">
   <div class="submit-box">
-    <div class="submit-header">CONFIRM PICKS</div>
-    <div class="submit-body">
-        <ul id="summaryList" class="summary-list"></ul>
-        <div style="text-align:center; margin-top:20px; display:flex; gap:10px;">
-            <button onclick="document.getElementById('submitOverlay').style.display='none'" style="flex:1; background:#333; font-size:12px;">EDIT</button>
-            <button onclick="alert('SUBMITTED!')" style="flex:1; font-size:12px;">CONFIRM</button>
-        </div>
-    </div>
+    <div style="font-family:'Press Start 2P'; color:var(--neon-yellow); margin-bottom:20px;">CONFIRM PICKS</div>
+    <ul id="summaryList" class="summary-list"></ul>
+    <button onclick="document.getElementById('submitOverlay').style.display='none'" style="background:#333;">EDIT</button>
+    <button onclick="alert('SUBMITTED!')">CONFIRM</button>
   </div>
 </div>
 
 <script>
 const CONFIG = { sf1_home: "ENGLAND", sf1_away: "FRANCE", sf2_home: "SPAIN", sf2_away: "ARGENTINA" };
 const TEAMS = [CONFIG.sf1_home, CONFIG.sf1_away, CONFIG.sf2_home, CONFIG.sf2_away];
-const picks = { user: '', email: '', tiebreaker: '', sf1: { winner: null, method: null, time: null }, sf2: { winner: null, method: null, time: null }, p3:  { winner: null, method: null, time: null }, fin: { winner: null, method: null, time: null }, strategy: null, hedge: [null, null, null, null], risk: null, redCard: null, combo: null, totalGoals: null };
+const picks = { user: '', email: '', tiebreaker: '', sf1: { winner: null, method: null, time: null }, sf2: { winner: null, method: null, time: null }, strategy: null, redCard: null, combo: null, totalGoals: null };
 
 window.onload = function() {
     renderMatch('sf1-container', 'sf1', CONFIG.sf1_home, CONFIG.sf1_away, 'SEMI FINAL 1');
     renderMatch('sf2-container', 'sf2', CONFIG.sf2_home, CONFIG.sf2_away, 'SEMI FINAL 2');
-    renderMatch('playoff-container', 'p3', 'SF1 LOSER', 'SF2 LOSER', '3RD PLACE PLAYOFF');
-    renderMatch('final-container', 'fin', 'SF1 WINNER', 'SF2 WINNER', 'THE FINAL');
     renderRedCardOptions();
     populateTeamDropdowns();
 };
 
 function renderMatch(containerId, matchKey, home, away, title) {
     const c = document.getElementById(containerId);
-    let html = `
+    c.innerHTML = `
     <div class="match-box">
         <div class="match-title">${title}</div>
         <div class="method-grid" id="grid-${matchKey}">
             <div class="team-col">
                 <div class="team-header">${home}</div>
-                <button class="arcade-btn" onclick="selectMatchResult('${matchKey}', '${home}', 'Normal Time', this)">Normal</button>
-                <button class="arcade-btn" onclick="selectMatchResult('${matchKey}', '${home}', 'Extra Time', this)">Ex.Time</button>
-                <button class="arcade-btn" onclick="selectMatchResult('${matchKey}', '${home}', 'Penalties', this)">Pens</button>
+                <button class="arcade-btn" onclick="selectMatchResult('${matchKey}', '${home}', 'Normal', this)">Normal</button>
+                <button class="arcade-btn" onclick="selectMatchResult('${matchKey}', '${home}', 'Ex.Time', this)">Ex.Time</button>
+                <button class="arcade-btn" onclick="selectMatchResult('${matchKey}', '${home}', 'Pens', this)">Pens</button>
             </div>
             <div class="team-col">
                 <div class="team-header">${away}</div>
-                <button class="arcade-btn" onclick="selectMatchResult('${matchKey}', '${away}', 'Normal Time', this)">Normal</button>
-                <button class="arcade-btn" onclick="selectMatchResult('${matchKey}', '${away}', 'Extra Time', this)">Ex.Time</button>
-                <button class="arcade-btn" onclick="selectMatchResult('${matchKey}', '${away}', 'Penalties', this)">Pens</button>
+                <button class="arcade-btn" onclick="selectMatchResult('${matchKey}', '${away}', 'Normal', this)">Normal</button>
+                <button class="arcade-btn" onclick="selectMatchResult('${matchKey}', '${away}', 'Ex.Time', this)">Ex.Time</button>
+                <button class="arcade-btn" onclick="selectMatchResult('${matchKey}', '${away}', 'Pens', this)">Pens</button>
             </div>
         </div>
         <div class="section-label">TIME OF 1ST GOAL</div>
         <div class="time-grid" id="time-${matchKey}">
-            ${['0-10','11-20','21-30','31-40','41-50','51-60','61-70','71-80','81-90', '90+', 'ET 1', 'ET 2'].map(t => `<button class="time-btn" onclick="selectMatchTime('${matchKey}', '${t}', this)">${t}</button>`).join('')}
+            ${['0-10','11-20','21-30','31-40','41-50','51-60','61-70','71-80','81-90', '90+'].map(t => `<button class="time-btn" onclick="selectMatchTime('${matchKey}', '${t}', this)">${t}</button>`).join('')}
         </div>
     </div>`;
-    c.innerHTML = html;
 }
 
 function renderRedCardOptions() {
-    const opts = [{id:'A', text: "No red cards."}, {id:'B', text: "Exactly 1 red card."}, {id:'C', text: "More than 1 red card."}, {id:'D', text: "SF Red Card."}, {id:'E', text: "Final/3rd Red Card."}, {id:'F', text: "Final Red Card."}];
+    const opts = [{id:'A', text: "No red cards."}, {id:'B', text: "Exactly 1 red card."}, {id:'C', text: "More than 1."}];
     const container = document.getElementById('redCardOptions');
     opts.forEach(opt => {
         const div = document.createElement('div');
         div.className = 'option-row';
         div.innerHTML = `<div class="opt-id">${opt.id}</div> <div>${opt.text}</div>`;
-        div.onclick = () => selectRedCard(opt.id, div);
+        div.onclick = () => {
+            document.querySelectorAll('.option-row').forEach(r => r.classList.remove('selected'));
+            div.classList.add('selected');
+            picks.redCard = opt.id;
+            validate();
+        };
         container.appendChild(div);
     });
 }
@@ -240,13 +225,6 @@ function setStrategy(strat) {
     validate();
 }
 
-function selectRedCard(optId, el) {
-    document.querySelectorAll('.option-row').forEach(row => row.classList.remove('selected'));
-    el.classList.add('selected');
-    picks.redCard = optId;
-    validate();
-}
-
 function selectTotalGoals(btn, val) {
     document.getElementById('totalGoalsGrid').querySelectorAll('.time-btn').forEach(b => b.classList.remove('selected'));
     btn.classList.add('selected');
@@ -259,14 +237,10 @@ function validate() {
     picks.email = document.getElementById('email').value;
     picks.tiebreaker = document.getElementById('tiebreaker').value;
     picks.combo = document.getElementById('playerCombo').value;
-    const privacyCheck = document.getElementById('privacyCheck').checked;
-    const termsCheck = document.getElementById('termsCheck').checked;
-
-    let valid = !!(picks.user && picks.email && privacyCheck && termsCheck && picks.tiebreaker && picks.sf1.winner && picks.sf2.winner && picks.p3.winner && picks.fin.winner && picks.strategy && picks.redCard && picks.combo && picks.totalGoals);
+    const ok = picks.user && picks.email && document.getElementById('privacyCheck').checked && document.getElementById('termsCheck').checked && picks.tiebreaker && picks.sf1.winner && picks.sf2.winner && picks.strategy && picks.redCard && picks.combo && picks.totalGoals;
     const sys = document.getElementById('sysMsg');
-    const btn = document.getElementById('submitBtn');
-    if(valid) { sys.textContent = "SYSTEM READY."; sys.className = "sys complete"; btn.disabled = false; }
-    else { sys.textContent = "AWAITING DATA..."; sys.className = "sys"; btn.disabled = true; }
+    if(ok) { sys.textContent = "READY."; sys.className = "sys complete"; document.getElementById('submitBtn').disabled = false; }
+    else { sys.textContent = "AWAITING DATA..."; sys.className = "sys"; document.getElementById('submitBtn').disabled = true; }
 }
 
 function showSummary() {
