@@ -1,4 +1,4 @@
-/* --- 1. GLOBAL CORE PALETTE --- */
+/* --- 1. CORE PALETTE & ASSETS --- */
 :root {
   --bg: #0f0e17;
   --panel: #1a1a2e;
@@ -6,7 +6,6 @@
   --neon-cyan: #05d9e8;
   --neon-yellow: #ffc800;
   --text-main: #d1d1d1;
-  
   --player-idle: url('p1.png');
   --player-windup: url('p2.png');
   --player-kick: url('p3.png');
@@ -32,21 +31,21 @@ body {
   min-height: 100vh;
 }
 
-/* --- 2. UNIFIED HERO BANNER (FIXED SPACING & MOBILE) --- */
+/* --- 2. UNIFIED HERO BANNER (CENTERED & MOBILE OPTIMIZED) --- */
 .hero-section {
   width: 100%;
   max-width: 960px;
-  padding: 40px 20px;
+  min-height: 250px;
   margin-bottom: 20px;
   border-bottom: 4px solid var(--neon-cyan);
   background: #000; 
   position: relative;
   overflow: hidden;
-  min-height: 250px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center; /* Centers the content horizontally */
+  align-items: center; /* Fixes wording pushed too far left */
+  padding: 20px;
 }
 
 .arena-banner {
@@ -89,6 +88,14 @@ body {
 }
 .power-fill { height: 100%; width: 0%; background: var(--neon-yellow); animation: fill-bar 0.6s linear forwards; }
 
+/* Mobile Banner Adjustments */
+@media (max-width: 600px) {
+  .hero-section { min-height: 200px; padding-top: 80px; }
+  .sprite-player { width: 60px; height: 60px; top: 10%; }
+  .sprite-ball { left: 10%; top: 35%; width: 20px; height: 20px; }
+  .glitch { font-size: 24px !important; }
+}
+
 @keyframes player-sequence {
   0% { background-image: var(--player-idle); }
   50% { background-image: var(--player-windup); }
@@ -107,44 +114,37 @@ body {
   z-index: 3;
   opacity: 0;
   animation: fadeInText 0.3s ease-in 0.8s forwards;
-  width: 100%;
-  text-align: center; /* Ensures text is centered */
+  text-align: center;
 }
 
 .glitch {
   font-family: "Press Start 2P", cursive;
-  font-size: 32px; /* Base size for mobile */
+  font-size: 64px; /* Desktop Size */
   color: var(--neon-yellow);
-  text-shadow: 3px 3px 0px var(--neon-pink), -2px -2px 0px var(--neon-cyan);
+  text-shadow: 4px 4px 0px var(--neon-pink), -3px -3px 0px var(--neon-cyan);
   text-transform: uppercase;
-  margin: 0 auto;
-  line-height: 1.2;
+  margin: 0;
+  line-height: 1.1;
+  letter-spacing: -2px;
 }
 
-/* --- 3. MOBILE OVERRIDES --- */
-@media (max-width: 600px) {
-  .sprite-player { width: 70px; height: 70px; left: 0; top: 10%; }
-  .sprite-ball { left: 10%; top: 35%; }
-  .hero-section { min-height: 200px; padding: 80px 10px 20px; }
-  .glitch { font-size: 24px; }
+.hero-sub {
+  font-family: "Press Start 2P", cursive;
+  font-size: 14px;
+  color: #fff;
+  margin-top: 15px;
+  letter-spacing: 3px;
+  background: var(--neon-pink);
+  padding: 6px 12px;
+  display: inline-block;
+  box-shadow: 4px 4px 0 #000;
 }
 
-@media (min-width: 768px) {
-  .glitch { font-size: 64px; }
-  .hero-section { min-height: 280px; }
-  .sprite-player { width: 120px; height: 120px; }
-}
-
-/* --- 4. PANELS & INPUTS (ALWAYS BLACK) --- */
-.panel {
-  width: 95%; max-width: 960px; background: var(--panel);
-  border: 3px solid var(--neon-cyan); padding: 20px; margin-bottom: 25px;
-}
-
+/* --- 3. INPUTS (ALWAYS BLACK) --- */
 input, select {
   width: 100%; padding: 20px; margin: 10px 0; 
-  background: #000 !important; /* Force black background */
-  color: var(--neon-yellow); 
+  background-color: #000 !important; /* Force black background */
+  color: var(--neon-yellow) !important; 
   border: 2px solid #888;
   font-family: "VT323", monospace;
   font-size: 28px;
@@ -152,37 +152,43 @@ input, select {
   text-transform: uppercase;
 }
 
-/* --- 5. CHECKBOXES (NOW YELLOW) --- */
-.terms-container { margin: 15px 0; text-align: left; border-top: 1px solid #333; padding-top: 15px; }
-.terms-container label { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; color: var(--neon-yellow); cursor: pointer; font-size: 20px;}
+/* --- 4. CHECKBOXES (YELLOW STYLE) --- */
+.terms-container label { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; color: var(--neon-yellow); cursor: pointer; font-size: 20px; text-align: left; }
 .terms-container input[type="checkbox"] { 
-  width: 20px; height: 20px; 
-  accent-color: var(--neon-yellow); /* Changed from blue/cyan to yellow */
+  width: 24px; height: 24px; 
+  accent-color: var(--neon-yellow); /* Yellow checkboxes */
   cursor: pointer; 
 }
 
-/* --- 6. FOOTER NAV --- */
+/* --- 5. FOOTER --- */
 .footer-nav {
-  margin-top: auto;
-  padding: 20px;
+  margin-top: 40px;
+  padding: 30px;
   width: 100%;
   max-width: 960px;
   border-top: 1px solid #333;
   display: flex;
   justify-content: center;
-  gap: 30px;
+  gap: 20px;
 }
 .footer-nav a {
   color: #666;
   text-decoration: none;
-  font-size: 14px;
-  text-transform: uppercase;
   font-family: "Press Start 2P", cursive;
   font-size: 10px;
+  text-transform: uppercase;
 }
 .footer-nav a:hover { color: var(--neon-yellow); }
 
-/* ANIMATION UTILS */
+/* MISC UTILS */
+.panel { width: 95%; max-width: 960px; background: var(--panel); border: 3px solid var(--neon-cyan); padding: 20px; margin-bottom: 25px; }
+h1 { font-family: "Press Start 2P", cursive; font-size: 24px; margin-bottom: 20px; color: var(--neon-cyan); border-bottom: 4px solid #000; padding-bottom: 10px; text-align: left; }
+.nav { width: 100%; max-width: 960px; display: flex; gap: 10px; padding: 10px; margin-top: 10px; }
+.nav a { flex: 1; font-family: "Press Start 2P", cursive; font-size: 18px; padding: 20px 10px; color: var(--neon-cyan); text-decoration: none; background: #111; border: 2px solid var(--neon-cyan); text-transform: uppercase; display: flex; align-items: center; justify-content: center; }
+.nav a.active { background: var(--neon-pink); color: #fff; }
+button { font-family: "Press Start 2P", cursive; font-size: 18px; padding: 20px 30px; color: #fff; background: var(--neon-pink); border: 2px solid #fff; cursor: pointer; text-transform: uppercase; }
+.sys { margin: 15px 0; font-size: 22px; color: #555; text-transform: uppercase; min-height: 24px; }
+.sys.complete { color: var(--neon-cyan); }
 @keyframes fill-bar { 0% { width: 0%; } 100% { width: 100%; background: var(--neon-pink); } }
 @keyframes show-bar { to { opacity: 1; } }
 @keyframes fadeInText { to { opacity: 1; } }
