@@ -1,11 +1,42 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>GOALSURGE! — ROUND 3</title>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>GOALSURGE! — ROUND 3</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
+<style>
+/* --- 2. SPECIFIC ROUND 3 STYLES --- */
+.instructions { font-family: "VT323", monospace; font-size: 18px; color: #aaa; margin-bottom: 15px; text-align: left; text-transform: uppercase; }
+.match-box { border: 2px solid #333; background: #12121c; padding: 15px; margin-bottom: 25px; }
+.match-title { font-family: "Press Start 2P"; font-size: 12px; color: var(--neon-pink); margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px; }
+.section-label { font-family: "Press Start 2P"; font-size: 10px; color: var(--neon-cyan); margin: 15px 0 10px; text-align:left; }
+.method-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+.team-col { display: flex; flex-direction: column; gap: 5px; }
+.team-header { font-family: "Press Start 2P"; font-size: 10px; color: #fff; margin-bottom: 5px; }
+.arcade-btn { font-family: "VT323"; font-size: 18px; padding: 10px; background: #000; border: 1px solid #444; color: #666; cursor: pointer; text-transform: uppercase; transition: all 0.2s; }
+.arcade-btn.selected { background: var(--neon-cyan); color: #000; border-color: #fff; box-shadow: 0 0 10px var(--neon-cyan); font-weight: bold; }
+.time-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
+.time-btn { font-family: "VT323"; font-size: 16px; padding: 8px 2px; background: #000; border: 1px solid #444; color: #666; cursor: pointer; }
+.time-btn.selected { background: var(--neon-pink); color: #fff; border-color: #fff; box-shadow: 0 0 10px var(--neon-pink); }
+.strategy-toggle { display: flex; gap: 15px; margin: 20px 0; }
+.strat-btn { flex: 1; padding: 20px 10px; background: #000; border: 2px solid #444; color: #666; font-family: "Press Start 2P"; font-size: 12px; cursor: pointer; transition: all 0.3s; }
+.strat-btn.active-hedge { border-color: var(--neon-cyan); color: var(--neon-cyan); box-shadow: inset 0 0 15px rgba(5, 217, 232, 0.3); }
+.strat-btn.active-risk { border-color: var(--neon-pink); color: var(--neon-pink); box-shadow: inset 0 0 15px rgba(255, 42, 109, 0.3); }
+.strat-content { display: none; padding: 15px; border: 1px dashed #333; margin-top: 15px; }
+.strat-content.visible { display: block; }
+.option-row { display: flex; align-items: center; gap: 15px; padding: 15px; border: 1px solid #333; background: #000; margin-bottom: 8px; cursor: pointer; font-family: "VT323"; font-size: 20px; color: #888; text-align: left; }
+.option-row.selected { border-color: var(--neon-pink); color: #fff; background: rgba(255, 42, 109, 0.1); }
+.opt-id { font-family: "Press Start 2P"; font-size: 12px; color: var(--neon-yellow); min-width: 30px; }
+.submit-overlay { position: fixed; inset: 0; background: rgba(10, 10, 15, 0.98); display: none; align-items: center; justify-content: center; z-index: 20; }
+.submit-box { width: 96%; max-width: 500px; max-height: 95vh; overflow-y: auto; background: #000; border: 4px solid var(--neon-yellow); }
+.submit-header { background: var(--neon-yellow); color: #000; padding: 15px; font-family: "Press Start 2P"; font-size: 14px; text-align: center; }
+.submit-body { padding: 20px; text-align: left; font-family: "VT323"; font-size: 22px; color: #fff;}
+.summary-list li { margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 5px; list-style: none; }
+.summary-list strong { color: var(--neon-cyan); font-family: "Press Start 2P"; font-size: 10px; margin-right: 10px;}
+</style>
 </head>
 <body>
 
@@ -19,12 +50,9 @@
 <div class="hero-section">
     <div class="scanlines"></div>
     <div class="arena-banner">
-        <div class="sprite-player">
-            <div class="power-bar-container"><div class="power-fill"></div></div>
-        </div>
+        <div class="sprite-player"><div class="power-bar-container"><div class="power-fill"></div></div></div>
         <div class="sprite-ball"></div>
     </div>
-
     <div class="hero-content">
         <h1 class="glitch" data-text="GOALSURGE!">GOALSURGE!</h1>
         <div class="hero-sub">WORLD CUP PREDICTION GAME: ROUND 3</div>
@@ -61,7 +89,6 @@
 
 <div class="panel">
     <h1>WORLD CUP WINNER</h1>
-    <div class="instructions">CHOOSE STRATEGY: HEDGE (Safe Points) or RISK (Big Bonus).</div>
     <div class="strategy-toggle">
         <button class="strat-btn" id="btnHedge" onclick="setStrategy('hedge')">HEDGE IT<br>(RANK 1-4)</button>
         <button class="strat-btn" id="btnRisk" onclick="setStrategy('risk')">RISK IT<br>(PICK 1 WINNER)</button>
@@ -232,16 +259,19 @@ function validate() {
     picks.email = document.getElementById('email').value;
     picks.tiebreaker = document.getElementById('tiebreaker').value;
     picks.combo = document.getElementById('playerCombo').value;
-    let valid = !!(picks.user && picks.email && document.getElementById('privacyCheck').checked && document.getElementById('termsCheck').checked && picks.tiebreaker && picks.sf1.winner && picks.sf2.winner && picks.p3.winner && picks.fin.winner && picks.strategy && picks.redCard && picks.combo && picks.totalGoals);
+    const privacyCheck = document.getElementById('privacyCheck').checked;
+    const termsCheck = document.getElementById('termsCheck').checked;
+
+    let valid = !!(picks.user && picks.email && privacyCheck && termsCheck && picks.tiebreaker && picks.sf1.winner && picks.sf2.winner && picks.p3.winner && picks.fin.winner && picks.strategy && picks.redCard && picks.combo && picks.totalGoals);
     const sys = document.getElementById('sysMsg');
     const btn = document.getElementById('submitBtn');
-    if(valid) { sys.textContent = "SYSTEM READY. SUBMIT TO PROCEED."; sys.className = "sys complete"; btn.disabled = false; }
-    else { sys.textContent = "AWAITING COMPLETE DATA..."; sys.className = "sys"; btn.disabled = true; }
+    if(valid) { sys.textContent = "SYSTEM READY."; sys.className = "sys complete"; btn.disabled = false; }
+    else { sys.textContent = "AWAITING DATA..."; sys.className = "sys"; btn.disabled = true; }
 }
 
 function showSummary() {
     const list = document.getElementById('summaryList');
-    list.innerHTML = `<li><strong>PLAYER:</strong> ${picks.user}</li><li><strong>SF1:</strong> ${picks.sf1.winner}</li><li><strong>SF2:</strong> ${picks.sf2.winner}</li><li><strong>STRATEGY:</strong> ${picks.strategy}</li><li><strong>GOALS:</strong> ${picks.totalGoals}</li>`;
+    list.innerHTML = `<li><strong>PLAYER:</strong> ${picks.user.toUpperCase()}</li><li><strong>SF1:</strong> ${picks.sf1.winner}</li><li><strong>SF2:</strong> ${picks.sf2.winner}</li><li><strong>STRATEGY:</strong> ${picks.strategy.toUpperCase()}</li><li><strong>GOALS:</strong> ${picks.totalGoals}</li>`;
     document.getElementById('submitOverlay').style.display = 'flex';
 }
 </script>
