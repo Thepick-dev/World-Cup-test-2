@@ -1,109 +1,40 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>GOALSURGE! — ROUND 2</title>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
-    <style>
-        /* --- 1. GLOBAL CORE STYLES (EMBEDDED) --- */
-        :root {
-            --bg: #0f0e17;
-            --panel: #1a1a2e;
-            --neon-pink: #ff2a6d;
-            --neon-cyan: #05d9e8;
-            --neon-yellow: #ffc800;
-            --text-main: #d1d1d1;
-            --player-idle: url('p1.png');
-            --player-windup: url('p2.png');
-            --player-kick: url('p3.png');
-            --ball-normal: url('b1.png');
-            --ball-super: url('b2.png');
-            --total-time: 1.2s;
-        }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>GOALSURGE! — ROUND 2</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+<link rel="stylesheet" href="style.css">
 
-        body {
-            margin: 0; background-color: var(--bg);
-            background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-            background-size: 20px 20px; color: var(--text-main); font-family: "VT323", monospace;
-            font-size: 20px; text-align: center; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding-bottom: 60px;
-        }
+<style>
+/* --- ROUND 2 SPECIFIC LAYOUTS (Bracket & Multiplier Game) --- */
+.bracket-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 30px; }
+@media(max-width:700px) { .bracket-grid { grid-template-columns: 1fr; } }
 
-        /* --- HERO BANNER --- */
-        .hero-section {
-            width: 100%; max-width: 960px; padding: 60px 0; margin-bottom: 20px;
-            border-bottom: 4px solid var(--neon-cyan); background: #000;
-            position: relative; overflow: hidden; min-height: 220px; display: flex; flex-direction: column; justify-content: center; align-items: center;
-        }
-        .arena-banner { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
-        .sprite-player {
-            position: absolute; left: 2%; top: 25%; width: 120px; height: 120px; background-image: var(--player-idle);
-            background-size: contain; background-repeat: no-repeat; background-position: bottom center;
-            animation: player-sequence var(--total-time) step-end forwards;
-        }
-        .sprite-ball {
-            position: absolute; left: 15%; top: 53%; width: 30px; height: 30px; background-image: var(--ball-normal);
-            background-size: contain; background-repeat: no-repeat; animation: ball-sequence var(--total-time) linear forwards;
-        }
-        .power-bar-container {
-            position: absolute; top: -15px; left: 0; width: 100%; height: 8px; background: #222; border: 1px solid #fff;
-            opacity: 0; animation: show-bar 0.1s linear 0s forwards;
-        }
-        .power-fill { height: 100%; width: 0%; background: var(--neon-yellow); animation: fill-bar 0.6s linear forwards; }
-        .hero-content { position: relative; z-index: 3; opacity: 0; animation: fadeInText 0.3s ease-in 0.8s forwards; }
-        .scanlines { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.1) 50%); background-size: 100% 4px; }
-        .glitch { font-family: "Press Start 2P", cursive; font-size: 64px; color: var(--neon-yellow); text-shadow: 4px 4px 0px var(--neon-pink), -3px -3px 0px var(--neon-cyan); text-transform: uppercase; margin: 0; line-height: 1; letter-spacing: -2px; }
-        .hero-sub { font-family: "Press Start 2P", cursive; font-size: 14px; color: #fff; margin-top: 15px; letter-spacing: 5px; background: var(--neon-pink); padding: 6px 12px; display: inline-block; box-shadow: 4px 4px 0 #000; }
+.match { background: #12121c; border: 2px solid #000; padding: 10px; }
+.team-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid #222; }
+.team-name { font-size: 22px; flex: 1; text-align: left; color: #eee; }
+.stage-title { font-family: "Press Start 2P"; font-size: 12px; margin: 25px 0 15px; color: var(--neon-yellow); text-align: left; border-left: 4px solid var(--neon-pink); padding-left: 10px; }
 
-        @keyframes player-sequence { 0% { background-image: var(--player-idle); } 50% { background-image: var(--player-windup); } 55% { background-image: var(--player-kick); transform: translateX(10px); } 100% { background-image: var(--player-kick); transform: translateX(10px); } }
-        @keyframes ball-sequence { 0%, 54.9% { background-image: var(--ball-normal); transform: translateX(0); } 55% { background-image: var(--ball-super); width: 120px; height: 40px; transform: translateX(0); } 100% { background-image: var(--ball-super); width: 120px; height: 40px; transform: translateX(1200px); } }
-        @keyframes fill-bar { 0% { width: 0%; } 100% { width: 100%; background: var(--neon-pink); } }
-        @keyframes show-bar { to { opacity: 1; } }
-        @keyframes fadeInText { to { opacity: 1; } }
+/* METHOD BUTTONS (N, ET, P) */
+.method-btn { font-size: 12px; padding: 8px; width: 40px; background: #222; border: 1px solid #444; color: #666; box-shadow: 2px 2px 0 #000; cursor: pointer; }
+.method-btn.selected-N { background: var(--neon-cyan); color: #000; border-color: #fff; box-shadow: 2px 2px 0 var(--neon-cyan); }
+.method-btn.selected-ET { background: var(--neon-yellow); color: #000; border-color: #fff; box-shadow: 2px 2px 0 var(--neon-yellow); }
+.method-btn.selected-P { background: var(--neon-pink); color: #fff; border-color: #fff; box-shadow: 2px 2px 0 var(--neon-pink); }
 
-        /* --- UTILS --- */
-        .nav { width: 100%; max-width: 960px; display: flex; gap: 10px; padding: 10px; margin-top: 10px; }
-        .nav a { flex: 1; font-family: "Press Start 2P", cursive; font-size: 18px; padding: 20px 10px; color: var(--neon-cyan); text-decoration: none; background: #111; border: 2px solid var(--neon-cyan); box-shadow: 4px 4px 0px 0px rgba(5, 217, 232, 0.4); text-transform: uppercase; display: flex; align-items: center; justify-content: center; }
-        .nav a.active { background: var(--neon-pink); border-color: var(--neon-pink); color: #fff; }
-        button { font-family: "Press Start 2P", cursive; font-size: 18px; padding: 20px 30px; margin: 10px 0; color: #fff; background: var(--neon-pink); border: 2px solid #fff; box-shadow: 4px 4px 0px #000; cursor: pointer; text-transform: uppercase; }
+/* CARD GAME STYLES */
+.card-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 15px 0; width: 100%; }
+.card { aspect-ratio: 3/4; border: 2px solid var(--neon-cyan); background: #111; display: flex; align-items: center; justify-content: center; cursor: pointer; font-family: "Press Start 2P"; font-size: 20px; color: var(--neon-cyan); box-shadow: 2px 2px 0 #000; transition: all 0.1s; }
+.card.revealed { cursor: default; background: #222; border-color: #555; color: #fff; }
+.multiplier-box { font-family: "Press Start 2P"; font-size: 24px; color: var(--neon-yellow); border: 4px solid var(--neon-yellow); padding: 15px; margin: 15px 0; text-shadow: 2px 2px 0 #000; }
 
-        /* --- PANELS & UNIFIED INPUTS --- */
-        .panel { width: 95%; max-width: 960px; background: var(--panel); border: 3px solid var(--neon-cyan); padding: 20px; margin-bottom: 25px; box-shadow: 0 0 20px rgba(5, 217, 232, 0.1); }
-        h1 { font-family: "Press Start 2P", cursive; font-size: 24px; margin-bottom: 20px; color: var(--neon-cyan); border-bottom: 4px solid #000; padding-bottom: 10px; text-align: left; }
-        input, select { width: 100%; padding: 20px; margin: 10px 0; background: #000; color: var(--neon-yellow); border: 2px solid #888; font-family: "VT323", monospace; font-size: 28px; outline: none; text-transform: uppercase; }
-        ::placeholder { color: var(--neon-yellow); }
-
-        /* --- ROUND 2 SPECIFIC STYLES --- */
-        .bracket-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 30px; }
-        @media(max-width:700px) { .bracket-grid { grid-template-columns: 1fr; } }
-        .match { background: #12121c; border: 2px solid #000; padding: 10px; }
-        .team-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid #222; }
-        .team-name { font-size: 26px; flex: 1; text-align: left; color: #eee; }
-        .stage-title { font-family: "Press Start 2P"; font-size: 12px; margin: 25px 0 15px; color: var(--neon-yellow); text-align: left; border-left: 4px solid var(--neon-pink); padding-left: 10px; }
-        .method-btn { font-size: 12px; padding: 12px 5px; width: 50px; background: #222; border: 1px solid #444; color: #666; box-shadow: 2px 2px 0 #000; cursor: pointer; }
-        .method-btn.selected-N { background: var(--neon-cyan); color: #000; border-color: #fff; }
-        .method-btn.selected-ET { background: var(--neon-yellow); color: #000; border-color: #fff; }
-        .method-btn.selected-P { background: var(--neon-pink); color: #fff; border-color: #fff; }
-        
-        /* Card Game Styles */
-        .card-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 15px 0; width: 100%; }
-        .card { aspect-ratio: 3/4; border: 2px solid var(--neon-cyan); background: #111; display: flex; align-items: center; justify-content: center; cursor: pointer; font-family: "Press Start 2P"; font-size: 20px; color: var(--neon-cyan); box-shadow: 2px 2px 0 #000; }
-        .card.revealed { cursor: default; background: #222; border-color: #555; color: #fff; }
-        .multiplier-box { font-family: "Press Start 2P"; font-size: 24px; color: var(--neon-yellow); border: 4px solid var(--neon-yellow); padding: 15px; margin: 15px 0; }
-        
-        /* Overlays */
-        .terms-container { margin: 15px 0; text-align: left; border-top: 1px solid #333; padding-top: 15px; }
-        .terms-container label { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; color: var(--neon-yellow); cursor: pointer; font-size: 20px;}
-        .terms-container input { width: 20px; height: 20px; accent-color: var(--neon-cyan); }
-        .sys { margin: 15px 0; font-size: 22px; color: #555; text-transform: uppercase; min-height: 24px; }
-        .sys.complete { color: var(--neon-cyan); text-shadow: 0 0 5px var(--neon-cyan); }
-        .arcade-popup { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #000; border: 4px solid var(--neon-pink); padding: 30px; z-index: 1000; width: 90%; max-width: 500px; display: none; flex-direction: column; align-items: center; justify-content: center; max-height: 90vh; overflow-y: auto; }
-        .overlay-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: none; z-index: 999; }
-        .summary-list { text-align: left; font-size: 14px; width: 100%; max-height: 300px; overflow-y: auto; background: #111; padding: 10px; border: 1px solid #333; }
-        .summary-item { margin-bottom: 5px; border-bottom: 1px solid #222; padding-bottom: 2px; }
-    </style>
+.arcade-popup { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #000; border: 4px solid var(--neon-pink); padding: 30px; z-index: 1000; width: 90%; max-width: 500px; display: none; flex-direction: column; align-items: center; justify-content: center; max-height: 90vh; overflow-y: auto; }
+.overlay-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: none; z-index: 999; }
+.summary-list { text-align: left; font-size: 14px; width: 100%; max-height: 300px; overflow-y: auto; background: #111; padding: 10px; border: 1px solid #333; }
+.summary-item { margin-bottom: 5px; border-bottom: 1px solid #222; padding-bottom: 2px; }
+</style>
 </head>
 <body>
 
@@ -144,13 +75,6 @@
 
 <div class="panel">
     <h1>THE BRACKET</h1>
-    <div class="sys" style="color:#fff; font-size: 16px; margin-bottom:20px;">
-        SELECT WINNERS & METHOD:<br>
-        <span style="color:var(--neon-cyan)">N (NORMAL)</span> | 
-        <span style="color:var(--neon-yellow)">ET (EXTRA TIME)</span> | 
-        <span style="color:var(--neon-pink)">P (PENALTIES)</span>
-    </div>
-
     <div class="stage-title">LAST 32</div>
     <div id="r32" class="bracket-grid"></div>
 
@@ -171,11 +95,10 @@
             <option>RICE × HAALAND</option>
             <option>MESSI × NEYMAR</option>
             <option>RONALDO × MBAPPÉ</option>
-            <option>poo × wee</option>
         </select>
         <div class="multiplier-box" id="multiplierBox">1.00</div>
         <div class="card-grid" id="cardGrid"></div>
-        <button id="stickBtn" style="width:100%; border-color:var(--neon-yellow); color:var(--neon-yellow);" onclick="finishGame()">STICK & SUBMIT</button>
+        <button id="stickBtn" style="border-color:var(--neon-yellow); color:var(--neon-yellow);" onclick="finishGame()">STICK & SUBMIT</button>
     </div>
 </div>
 
@@ -184,7 +107,6 @@
         <h1 style="color:var(--neon-yellow); border:none; text-align:center;">ENTRY TICKET</h1>
         <div id="summaryResults" style="width:100%;"></div>
         <div style="text-align:center; margin-top:20px; width:100%;">
-            <div style="color:var(--neon-pink); font-family:'Press Start 2P'; font-size: 10px; margin-bottom:10px;">[ CAPTURE SCREENSHOT NOW ]</div>
             <button onclick="location.reload()" style="font-size:12px; padding:15px; width:100%;">EXIT TERMINAL</button>
         </div>
     </div>
@@ -192,7 +114,7 @@
 
 <script>
 'use strict';
-const TEAMS=["UPPER VOLTA","SPAIN","GERMANY","ITALY","BRAZIL","ARGENTINA","ENGLAND","PORTUGAL","SENEGAL","BELGIUM","NETHERLANDS","USA","MEXICO","CANADA","JAPAN","S KOREA","AUSTRALIA","COSTA RICA","MOROCCO","EGYPT","IRAN","QATAR","URUGUAY","CHILE","SWITZERLAND","DENMARK","SWEDEN","POLAND","AUSTRIA","NORWAY","SCOTLAND","WALES"];
+const TEAMS=["SPAIN","GERMANY","ITALY","BRAZIL","ARGENTINA","ENGLAND","PORTUGAL","FRANCE","SENEGAL","BELGIUM","NETHERLANDS","USA","MEXICO","CANADA","JAPAN","S KOREA","AUSTRALIA","MOROCCO","EGYPT","URUGUAY","CHILE","DENMARK","POLAND","NORWAY","SCOTLAND","WALES","SWEDEN","AUSTRIA","QATAR","IRAN","NIGERIA","ECUADOR"];
 const state={r32:Array(32).fill(null),r16:Array(16).fill(null),qf:Array(8).fill(null)};
 const userSelections = { r32:[], r16:[], qf:[] };
 
@@ -200,20 +122,13 @@ function buildRound(container, teams, stage){
     container.innerHTML='';
     teams.forEach((t,i)=>{
         if(i%2!==0)return;
-        const m=document.createElement('div');
-        m.className='match';
+        const m=document.createElement('div'); m.className='match';
         [0,1].forEach(offset=>{
             const idx=i+offset;
-            const r=document.createElement('div');
-            r.className='team-row';
-            const name = document.createElement('span');
-            name.className = 'team-name';
-            name.textContent = teams[idx]||'TBD';
-            r.appendChild(name);
+            const r=document.createElement('div'); r.className='team-row';
+            r.innerHTML = `<span class="team-name">${teams[idx]||'TBD'}</span>`;
             ['N','ET','P'].forEach(o=>{
-                const b=document.createElement('button');
-                b.className = 'method-btn';
-                b.textContent=o;
+                const b=document.createElement('button'); b.className = 'method-btn'; b.textContent=o;
                 b.onclick=()=>{
                     const base=Math.floor(idx/2)*2;
                     state[stage][base]=null; state[stage][base+1]=null;
@@ -291,7 +206,7 @@ function initPSBP(){
 
 function finishGame() {
     document.getElementById('psbpOverlay').style.display = 'none';
-    let picksHtml = `<div class="compact-info"><span style="color:var(--neon-cyan)">PLAYER:</span> ${document.getElementById('user').value.toUpperCase()}<br><span>GOALS:</span> ${document.getElementById('goals').value}</div><div class="multiplier-box" style="font-size:16px;">MULTIPLIER: x${multiplier.toFixed(2)}</div><div class="summary-list">`;
+    let picksHtml = `<div class="compact-info"><span style="color:var(--neon-cyan)">PLAYER:</span> ${document.getElementById('user').value.toUpperCase()}<br><span>GOALS:</span> ${document.getElementById('goals').value}</div><div class="summary-list">`;
     ['r32', 'r16', 'qf'].forEach(stage => {
         picksHtml += `<div style="color:var(--neon-pink); font-size:10px; margin-top:10px;">${stage.toUpperCase()}</div>`;
         userSelections[stage].forEach(pick => { if(pick) picksHtml += `<div class="summary-item">${pick}</div>`; });
