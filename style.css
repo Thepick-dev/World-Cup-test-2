@@ -1,4 +1,4 @@
-/* --- 1. CORE PALETTE & ASSETS --- */
+/* --- 1. CORE CONFIG --- */
 :root {
   --bg: #0f0e17;
   --panel: #1a1a2e;
@@ -17,178 +17,81 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  margin: 0;
-  background-color: var(--bg);
-  background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  margin: 0; background-color: var(--bg); color: var(--text-main);
+  font-family: "VT323", monospace; font-size: 20px; text-align: center;
+  display: flex; flex-direction: column; align-items: center; min-height: 100vh;
+  background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
   background-size: 20px 20px;
-  color: var(--text-main);
-  font-family: "VT323", monospace;
-  font-size: 20px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
 }
 
-/* --- 2. UNIFIED HERO BANNER (CENTERED & MOBILE OPTIMIZED) --- */
+/* --- 2. BANNER & STING (CENTERED) --- */
 .hero-section {
-  width: 100%;
-  max-width: 960px;
-  min-height: 250px;
-  margin-bottom: 20px;
-  border-bottom: 4px solid var(--neon-cyan);
-  background: #000; 
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center; /* Fixes wording pushed too far left */
-  padding: 20px;
+  width: 100%; max-width: 960px; height: 280px; background: #000;
+  border-bottom: 4px solid var(--neon-cyan); position: relative;
+  overflow: hidden; display: flex; justify-content: center; align-items: center;
 }
 
-.arena-banner {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1;
-}
+.arena-banner { position: absolute; inset: 0; pointer-events: none; }
 
 .sprite-player {
-  position: absolute; 
-  left: 2%; 
-  top: 25%; 
-  width: 100px; 
-  height: 100px; 
-  background-image: var(--player-idle);
-  background-size: contain; 
-  background-repeat: no-repeat; 
-  background-position: bottom center;
+  position: absolute; left: 20px; bottom: 20px; width: 100px; height: 100px;
+  background: var(--player-idle) no-repeat center/contain;
   animation: player-sequence var(--total-time) step-end forwards;
 }
 
 .sprite-ball {
-  position: absolute; 
-  left: 12%; 
-  top: 50%; 
-  width: 25px; 
-  height: 25px; 
-  background-image: var(--ball-normal);
-  background-size: contain; 
-  background-repeat: no-repeat;
+  position: absolute; left: 100px; bottom: 30px; width: 25px; height: 25px;
+  background: var(--ball-normal) no-repeat center/contain;
   animation: ball-sequence var(--total-time) linear forwards;
 }
 
-.power-bar-container {
-  position: absolute;
-  top: -12px; left: 0; width: 100%; height: 6px;
-  background: #222; border: 1px solid #fff;
-  opacity: 0; animation: show-bar 0.1s linear 0s forwards;
-}
-.power-fill { height: 100%; width: 0%; background: var(--neon-yellow); animation: fill-bar 0.6s linear forwards; }
-
-/* Mobile Banner Adjustments */
-@media (max-width: 600px) {
-  .hero-section { min-height: 200px; padding-top: 80px; }
-  .sprite-player { width: 60px; height: 60px; top: 10%; }
-  .sprite-ball { left: 10%; top: 35%; width: 20px; height: 20px; }
-  .glitch { font-size: 24px !important; }
-}
-
-@keyframes player-sequence {
-  0% { background-image: var(--player-idle); }
-  50% { background-image: var(--player-windup); }
-  55% { background-image: var(--player-kick); transform: translateX(5px); }
-  100% { background-image: var(--player-kick); }
-}
-
-@keyframes ball-sequence {
-  0%, 54.9% { background-image: var(--ball-normal); transform: translateX(0); }
-  55% { background-image: var(--ball-super); width: 80px; height: 30px; transform: translateX(0); }
-  100% { background-image: var(--ball-super); width: 80px; height: 30px; transform: translateX(1200px); }
-}
-
-.hero-content {
-  position: relative;
-  z-index: 3;
-  opacity: 0;
-  animation: fadeInText 0.3s ease-in 0.8s forwards;
-  text-align: center;
-}
+.hero-content { z-index: 5; opacity: 0; animation: fadeIn 0.3s ease-out 0.8s forwards; text-align: center; }
 
 .glitch {
-  font-family: "Press Start 2P", cursive;
-  font-size: 64px; /* Desktop Size */
-  color: var(--neon-yellow);
-  text-shadow: 4px 4px 0px var(--neon-pink), -3px -3px 0px var(--neon-cyan);
-  text-transform: uppercase;
-  margin: 0;
-  line-height: 1.1;
-  letter-spacing: -2px;
+  font-family: "Press Start 2P", cursive; font-size: 50px; color: var(--neon-yellow);
+  text-shadow: 4px 4px var(--neon-pink); text-transform: uppercase; margin: 0;
 }
 
 .hero-sub {
-  font-family: "Press Start 2P", cursive;
-  font-size: 14px;
-  color: #fff;
-  margin-top: 15px;
-  letter-spacing: 3px;
-  background: var(--neon-pink);
-  padding: 6px 12px;
-  display: inline-block;
-  box-shadow: 4px 4px 0 #000;
+  font-family: "Press Start 2P", cursive; font-size: 12px; color: #fff;
+  background: var(--neon-pink); padding: 5px 10px; display: inline-block; margin-top: 10px;
 }
 
-/* --- 3. INPUTS (ALWAYS BLACK) --- */
+/* MOBILE BANNER FIX */
+@media (max-width: 600px) {
+  .hero-section { height: 220px; }
+  .sprite-player { width: 60px; height: 60px; left: 5px; bottom: 5px; }
+  .sprite-ball { left: 50px; bottom: 15px; width: 15px; height: 15px; }
+  .glitch { font-size: 22px; }
+  .hero-sub { font-size: 8px; }
+}
+
+/* --- 3. INPUTS (STRICT BLACK FILL) --- */
 input, select {
-  width: 100%; padding: 20px; margin: 10px 0; 
-  background-color: #000 !important; /* Force black background */
-  color: var(--neon-yellow) !important; 
-  border: 2px solid #888;
-  font-family: "VT323", monospace;
-  font-size: 28px;
-  outline: none;
-  text-transform: uppercase;
+  width: 100%; padding: 18px; margin: 10px 0;
+  background-color: #000 !important; color: var(--neon-yellow) !important;
+  border: 2px solid #555; font-family: "VT323", monospace; font-size: 26px; outline: none;
 }
+input:focus { border-color: var(--neon-yellow); }
 
-/* --- 4. CHECKBOXES (YELLOW STYLE) --- */
-.terms-container label { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; color: var(--neon-yellow); cursor: pointer; font-size: 20px; text-align: left; }
-.terms-container input[type="checkbox"] { 
-  width: 24px; height: 24px; 
-  accent-color: var(--neon-yellow); /* Yellow checkboxes */
-  cursor: pointer; 
-}
+/* --- 4. CHECKBOXES (YELLOW) --- */
+.terms-container label { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; color: var(--neon-yellow); cursor: pointer; text-align: left; }
+.terms-container input[type="checkbox"] { width: 22px; height: 22px; accent-color: var(--neon-yellow); cursor: pointer; }
 
-/* --- 5. FOOTER --- */
-.footer-nav {
-  margin-top: 40px;
-  padding: 30px;
-  width: 100%;
-  max-width: 960px;
-  border-top: 1px solid #333;
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-}
-.footer-nav a {
-  color: #666;
-  text-decoration: none;
-  font-family: "Press Start 2P", cursive;
-  font-size: 10px;
-  text-transform: uppercase;
-}
+/* --- 5. FOOTER NAV --- */
+.footer-nav { margin-top: 50px; padding: 20px; width: 100%; max-width: 960px; border-top: 1px solid #333; display: flex; justify-content: center; gap: 25px; }
+.footer-nav a { color: #666; text-decoration: none; font-family: "Press Start 2P", cursive; font-size: 9px; }
 .footer-nav a:hover { color: var(--neon-yellow); }
 
-/* MISC UTILS */
+/* KEYFRAMES */
+@keyframes player-sequence { 0% { background-image: var(--player-idle); } 50% { background-image: var(--player-windup); } 55%, 100% { background-image: var(--player-kick); } }
+@keyframes ball-sequence { 0%, 54% { transform: translateX(0); } 55% { background-image: var(--ball-super); width: 80px; transform: translateX(0); } 100% { background-image: var(--ball-super); width: 80px; transform: translateX(1000px); } }
+@keyframes fadeIn { to { opacity: 1; } }
+
+/* COMMON PANELS */
 .panel { width: 95%; max-width: 960px; background: var(--panel); border: 3px solid var(--neon-cyan); padding: 20px; margin-bottom: 25px; }
-h1 { font-family: "Press Start 2P", cursive; font-size: 24px; margin-bottom: 20px; color: var(--neon-cyan); border-bottom: 4px solid #000; padding-bottom: 10px; text-align: left; }
-.nav { width: 100%; max-width: 960px; display: flex; gap: 10px; padding: 10px; margin-top: 10px; }
-.nav a { flex: 1; font-family: "Press Start 2P", cursive; font-size: 18px; padding: 20px 10px; color: var(--neon-cyan); text-decoration: none; background: #111; border: 2px solid var(--neon-cyan); text-transform: uppercase; display: flex; align-items: center; justify-content: center; }
-.nav a.active { background: var(--neon-pink); color: #fff; }
-button { font-family: "Press Start 2P", cursive; font-size: 18px; padding: 20px 30px; color: #fff; background: var(--neon-pink); border: 2px solid #fff; cursor: pointer; text-transform: uppercase; }
-.sys { margin: 15px 0; font-size: 22px; color: #555; text-transform: uppercase; min-height: 24px; }
-.sys.complete { color: var(--neon-cyan); }
-@keyframes fill-bar { 0% { width: 0%; } 100% { width: 100%; background: var(--neon-pink); } }
-@keyframes show-bar { to { opacity: 1; } }
-@keyframes fadeInText { to { opacity: 1; } }
+h1 { font-family: "Press Start 2P", cursive; font-size: 20px; color: var(--neon-cyan); border-bottom: 3px solid #000; padding-bottom: 10px; text-align: left; margin-bottom: 20px; }
+.nav { width: 100%; max-width: 960px; display: flex; gap: 10px; padding: 10px; }
+.nav a { flex: 1; font-family: "Press Start 2P", cursive; font-size: 12px; padding: 15px; color: var(--neon-cyan); text-decoration: none; border: 2px solid var(--neon-cyan); }
+.nav a.active { background: var(--neon-pink); color: #fff; border-color: var(--neon-pink); }
+button { font-family: "Press Start 2P", cursive; font-size: 16px; padding: 15px 25px; background: var(--neon-pink); color: #fff; border: 2px solid #fff; cursor: pointer; }
