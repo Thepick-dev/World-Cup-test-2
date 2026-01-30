@@ -1,15 +1,39 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>GOALSURGE! — ROUND 3</title>
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>GOALSURGE! — ROUND 2</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Bracket Specific Overrides/Additions to maintain V2 logic visuals */
+        .bracket-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 30px; }
+        @media(max-width:700px) { .bracket-grid { grid-template-columns: 1fr; } }
+        .match { background: #12121c; border: 2px solid #000; padding: 10px; }
+        .team-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid #222; }
+        .team-name { font-size: 22px; flex: 1; text-align: left; color: #eee; }
+        .stage-title { font-family: "Press Start 2P"; font-size: 12px; margin: 25px 0 15px; color: var(--neon-yellow); text-align: left; border-left: 4px solid var(--neon-pink); padding-left: 10px; }
+        .method-btn { font-size: 12px; padding: 8px; width: 40px; background: #222; border: 1px solid #444; color: #666; box-shadow: 2px 2px 0 #000; }
+        .method-btn.selected-N { background: var(--neon-cyan); color: #000; border-color: #fff; box-shadow: 2px 2px 0 var(--neon-cyan); }
+        .method-btn.selected-ET { background: var(--neon-yellow); color: #000; border-color: #fff; box-shadow: 2px 2px 0 var(--neon-yellow); }
+        .method-btn.selected-P { background: var(--neon-pink); color: #fff; border-color: #fff; box-shadow: 2px 2px 0 var(--neon-pink); }
+        
+        /* Card Game Styles */
+        .card-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 15px 0; width: 100%; }
+        .card { aspect-ratio: 3/4; border: 2px solid var(--neon-cyan); background: #111; display: flex; align-items: center; justify-content: center; cursor: pointer; font-family: "Press Start 2P"; font-size: 20px; color: var(--neon-cyan); box-shadow: 2px 2px 0 #000; }
+        .card.revealed { cursor: default; background: #222; border-color: #555; color: #fff; }
+        .multiplier-box { font-family: "Press Start 2P"; font-size: 24px; color: var(--neon-yellow); border: 4px solid var(--neon-yellow); padding: 15px; margin: 15px 0; text-shadow: 2px 2px 0 #000; }
+        
+        .arcade-popup { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #000; border: 4px solid var(--neon-pink); padding: 30px; z-index: 1000; width: 90%; max-width: 500px; display: none; flex-direction: column; align-items: center; justify-content: center; max-height: 90vh; overflow-y: auto; }
+        .overlay-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: none; z-index: 999; }
+        .summary-list { text-align: left; font-size: 14px; width: 100%; max-height: 300px; overflow-y: auto; background: #111; padding: 10px; border: 1px solid #333; }
+        .summary-item { margin-bottom: 5px; border-bottom: 1px solid #222; padding-bottom: 2px; }
+    </style>
 </head>
 <body>
 
-<div class="nav">
+<div class="nav" id="nav">
   <a href="index.html">HOME</a>
   <a href="predict.html" class="active">PLAY</a>
   <a href="scores.html">SCORES</a>
@@ -24,90 +48,192 @@
     </div>
     <div class="hero-content">
         <h1 class="glitch" data-text="GOALSURGE!">GOALSURGE!</h1>
-        <div class="hero-sub">WORLD CUP PREDICTION GAME: ROUND 3</div>
+        <div class="hero-sub">WORLD CUP PREDICTION GAME: ROUND 2</div>
     </div>
 </div>
 
 <div class="panel">
     <h1>PLAYER INFO</h1>
-    <input id="username" placeholder="USERNAME (REQUIRED)" oninput="validate()">
-    <input id="email" placeholder="EMAIL ADDRESS (REQUIRED)" oninput="validate()">
-    
+    <input id="user" placeholder="USERNAME (REQUIRED)" oninput="refresh()">
+    <input id="email" placeholder="EMAIL ADDRESS (REQUIRED)" oninput="refresh()">
+    <input id="leaguePin" placeholder="LEAGUE PIN (OPTIONAL)" maxlength="4" oninput="refresh()">
+
     <div class="terms-container">
-        <label><input type="checkbox" id="privacyCheck" onchange="validate()"> <span>I ACCEPT THE PRIVACY POLICY</span></label>
-        <label><input type="checkbox" id="termsCheck" onchange="validate()"> <span>I ACCEPT THE TERMS OF USE</span></label>
-        <label><input type="checkbox" id="marketingCheck"> <span>FUTURE PROMOTIONS (OPTIONAL)</span></label>
+        <label><input type="checkbox" id="privacyCheck" onchange="refresh()"> <span>ACCEPT <a href="#">PRIVACY POLICY</a> (REQUIRED)</span></label>
+        <label><input type="checkbox" id="termsCheck" onchange="refresh()"> <span>ACCEPT <a href="#">TERMS OF USE</a> (REQUIRED)</span></label>
+        <label><input type="checkbox" id="marketingCheck"> <span>FUTURE COMPETITION UPDATES (OPTIONAL)</span></label>
+    </div>
+    
+    <input id="goals" type="number" placeholder="TIEBREAKER: TOTAL GOALS?" oninput="refresh()">
+    <div class="sys" id="sysMsg">AWAITING CREDENTIALS...</div>
+</div>
+
+<div class="panel">
+    <h1>THE BRACKET</h1>
+    <div class="sys" style="color:#fff; font-size: 16px; margin-bottom:20px;">
+        SELECT WINNERS & METHOD:<br>
+        <span style="color:var(--neon-cyan)">N (NORMAL)</span> | 
+        <span style="color:var(--neon-yellow)">ET (EXTRA TIME)</span> | 
+        <span style="color:var(--neon-pink)">P (PENALTIES)</span>
     </div>
 
-    <input id="tiebreaker" placeholder="TIEBREAKER: TOTAL YELLOW CARDS?" type="number" oninput="validate()">
-    <div class="sys" id="sysMsg">AWAITING INPUT...</div>
+    <div class="stage-title">LAST 32</div>
+    <div id="r32" class="bracket-grid"></div>
+
+    <div class="stage-title">LAST 16</div>
+    <div id="r16" class="bracket-grid"></div>
+
+    <div class="stage-title">QUARTER FINALS</div>
+    <div id="qf" class="bracket-grid"></div>
+
+    <button id="lockBtn" style="width:100%; max-width:600px;" disabled onclick="openPSBP()">LOCK BRACKET & BONUS</button>
 </div>
 
-<div class="panel">
-    <h1>ROUND 3: SEMI FINALS</h1>
-    <div id="sf1-container"></div>
-    <div id="sf2-container"></div>
-</div>
-
-<div class="panel">
-    <h1>3RD PLACE PLAYOFF</h1>
-    <div id="playoff-container"></div>
-</div>
-
-<div class="panel">
-    <h1>WORLD CUP WINNER</h1>
-    <div class="strategy-toggle">
-        <button class="strat-btn" id="btnHedge" onclick="setStrategy('hedge')">HEDGE IT</button>
-        <button class="strat-btn" id="btnRisk" onclick="setStrategy('risk')">RISK IT</button>
-    </div>
-    <div id="hedgeContent" style="display:none;">
-        <select id="rank1" onchange="validate()"><option value="">1ST...</option></select>
-        <select id="rank2" onchange="validate()"><option value="">2ND...</option></select>
-    </div>
-    <div id="riskContent" style="display:none;">
-        <select id="riskSelect" onchange="validate()"><option value="">WINNER...</option></select>
-    </div>
-</div>
-
-<div class="panel">
-    <h1>THE FINAL</h1>
-    <div id="final-container"></div>
-</div>
-
-<div class="panel">
-    <h1>RED CARD CHAOS [10pts]</h1>
-    <div id="redCardOptions"></div>
-</div>
-
-<div class="panel">
-    <h1>PLAYER COMBO [15pts]</h1>
-    <select id="playerCombo" onchange="validate()">
-        <option value="">SELECT DUO...</option>
-        <option>MBAPPE & KANE</option>
-        <option>MESSI & ALVAREZ</option>
-    </select>
-</div>
-
-<div class="panel">
-    <h1>TOTAL GOALS [10pts]</h1>
-    <div id="totalGoalsGrid">
-        <button onclick="selectTotalGoals(this, '0-5')">0-5</button>
-        <button onclick="selectTotalGoals(this, '6-8')">6-8</button>
+<div class="overlay-bg" id="psbpOverlay">
+    <div class="arcade-popup" style="display:flex;">
+        <h1 style="color:var(--neon-pink); border:none; text-align:center;">DANGEROUS DUO</h1>
+        <div class="popup-msg">
+            PICK A DUO, THEN REVEAL CARDS TO BOOST YOUR MULTIPLIER.<br>
+            GET CLOSE TO 2.00 WITHOUT BUSTING.
+        </div>
+        <select id="duoSelect">
+            <option>RICE × HAALAND</option>
+            <option>MESSI × NEYMAR</option>
+            <option>RONALDO × MBAPPÉ</option>
+            <option>LEWANDOWSKI × KANE</option>
+            <option>SALAH × STERLING</option>
+            <option>KDB × BERNARDO</option>
+            <option>poo × wee</option>
+        </select>
+        <div class="multiplier-box" id="multiplierBox">1.00</div>
+        <div class="card-grid" id="cardGrid"></div>
+        <button id="stickBtn" style="width:100%; border-color:var(--neon-yellow); color:var(--neon-yellow);" onclick="finishGame()">STICK & SUBMIT</button>
     </div>
 </div>
 
-<button id="submitBtn" disabled onclick="showSummary()">SUBMIT PICKS</button>
+<div class="overlay-bg" id="finalSummary">
+    <div class="arcade-popup" style="display:flex;">
+        <h1 style="color:var(--neon-yellow); border:none; text-align:center;">ENTRY TICKET</h1>
+        <div id="summaryResults" style="width:100%;"></div>
+        <div style="text-align:center; margin-top:20px; width:100%;">
+            <div style="color:var(--neon-pink); font-family:'Press Start 2P'; font-size: 10px; margin-bottom:10px;">[ CAPTURE SCREENSHOT NOW ]</div>
+            <button onclick="location.reload()" style="font-size:12px; padding:15px; width:100%;">EXIT TERMINAL</button>
+        </div>
+    </div>
+</div>
 
 <script>
-/* Round 3 Logic stays exactly as you had it, calling valid() on inputs */
-const picks = { user: '', email: '', tiebreaker: '', sf1: { winner: null, method: null, time: null }, sf2: { winner: null, method: null, time: null }, p3:  { winner: null, method: null, time: null }, fin: { winner: null, method: null, time: null }, strategy: null, redCard: null, combo: null, totalGoals: null };
-function validate() {
-    picks.user = document.getElementById('username').value;
-    picks.email = document.getElementById('email').value;
-    const sys = document.getElementById('sysMsg');
-    const valid = picks.user && picks.email && document.getElementById('privacyCheck').checked && document.getElementById('termsCheck').checked;
-    if(valid) { sys.textContent = "SYSTEM READY."; sys.className = "sys complete"; document.getElementById('submitBtn').disabled = false; }
+'use strict';
+
+const TEAMS=["UPPER VOLTA","SPAIN","GERMANY","ITALY","BRAZIL","ARGENTINA","ENGLAND","PORTUGAL","SENEGAL","BELGIUM","NETHERLANDS","USA","MEXICO","CANADA","JAPAN","S KOREA","AUSTRALIA","COSTA RICA","MOROCCO","EGYPT","IRAN","QATAR","URUGUAY","CHILE","SWITZERLAND","DENMARK","SWEDEN","POLAND","AUSTRIA","NORWAY","SCOTLAND","WALES"];
+const state={r32:Array(32).fill(null),r16:Array(16).fill(null),qf:Array(8).fill(null)};
+const userSelections = { r32:[], r16:[], qf:[] };
+
+function buildRound(container, teams, stage){
+    container.innerHTML='';
+    teams.forEach((t,i)=>{
+        if(i%2!==0)return;
+        const m=document.createElement('div');
+        m.className='match';
+        [0,1].forEach(offset=>{
+            const idx=i+offset;
+            const r=document.createElement('div');
+            r.className='team-row';
+            const name = document.createElement('span');
+            name.className = 'team-name';
+            name.textContent = teams[idx]||'TBD';
+            r.appendChild(name);
+            ['N','ET','P'].forEach(o=>{
+                const b=document.createElement('button');
+                b.className = 'method-btn';
+                b.textContent=o;
+                b.onclick=()=>{
+                    const base=Math.floor(idx/2)*2;
+                    state[stage][base]=null; state[stage][base+1]=null;
+                    m.querySelectorAll('button').forEach(x => x.classList.remove('selected-N', 'selected-ET', 'selected-P'));
+                    b.classList.add(`selected-${o}`);
+                    state[stage][idx]=o;
+                    userSelections[stage][Math.floor(idx/2)] = `${teams[idx]} (${o})`;
+                    clearDownstream(stage); propagate(stage); refresh();
+                };
+                r.appendChild(b);
+            });
+            m.appendChild(r);
+        });
+        container.appendChild(m);
+    });
 }
+
+function clearDownstream(stage){
+    if(stage==='r32'){state.r16.fill(null);state.qf.fill(null); userSelections.r16=[]; userSelections.qf=[];}
+    if(stage==='r16'){state.qf.fill(null); userSelections.qf=[];}
+}
+
+function propagate(stage){
+    if(stage==='r32'){
+        const adv=[];
+        for(let i=0;i<32;i+=2){ adv.push(state.r32[i]?TEAMS[i]:state.r32[i+1]?TEAMS[i+1]:null); }
+        buildRound(document.getElementById('r16'),adv,'r16');
+    }
+    if(stage==='r16'){
+        const names=[...document.getElementById('r16').querySelectorAll('.team-name')].map(n=>n.textContent);
+        const adv=[];
+        for(let i=0;i<16;i+=2){ adv.push(state.r16[i]?names[i]:state.r16[i+1]?names[i+1]:null); }
+        buildRound(document.getElementById('qf'),adv,'qf');
+    }
+}
+
+function refresh(){
+    const sys = document.getElementById('sysMsg');
+    const isValid = document.getElementById('user').value.trim() !== "" && 
+                    document.getElementById('email').value.includes('@') &&
+                    document.getElementById('privacyCheck').checked && 
+                    document.getElementById('termsCheck').checked &&
+                    document.getElementById('goals').value > 0 &&
+                    state.r32.filter(x=>x!==null).length === 16 &&
+                    state.r16.filter(x=>x!==null).length === 8 &&
+                    state.qf.filter(x=>x!==null).length === 4;
+
+    if(isValid) { sys.textContent = "SYSTEM READY."; sys.className = "sys complete"; }
+    document.getElementById('lockBtn').disabled = !isValid;
+}
+
+let multiplier=1.00, psbpLocked=false;
+function openPSBP() { document.getElementById('psbpOverlay').style.display = 'block'; initPSBP(); }
+function initPSBP(){
+    const grid = document.getElementById('cardGrid'); grid.innerHTML = '';
+    multiplier = 1.00; psbpLocked = false;
+    const bustIndexes = [...Array(20).keys()].sort(()=>Math.random()-0.5).slice(0,4);
+    for(let i=0; i<20; i++){
+        const card = document.createElement('div'); card.className = 'card'; card.textContent = '?';
+        const val = bustIndexes.includes(i) ? 0 : (Math.random() * 0.4 - 0.1).toFixed(2);
+        card.onclick = () => {
+            if(psbpLocked || card.classList.contains('revealed')) return;
+            card.classList.add('revealed');
+            if(val == 0) { card.textContent = "☠"; multiplier = 1.00; psbpLocked = true; setTimeout(finishGame, 1000); }
+            else { 
+                card.textContent = val > 0 ? '+'+val : val;
+                multiplier = Math.max(1, parseFloat((multiplier + parseFloat(val)).toFixed(2)));
+                document.getElementById('multiplierBox').textContent = multiplier.toFixed(2);
+                if(multiplier > 2.0) { multiplier = 1.00; psbpLocked = true; setTimeout(finishGame, 1000); }
+            }
+        };
+        grid.appendChild(card);
+    }
+}
+
+function finishGame() {
+    document.getElementById('psbpOverlay').style.display = 'none';
+    let picksHtml = `<div class="compact-info"><span style="color:var(--neon-cyan)">PLAYER:</span> ${document.getElementById('user').value.toUpperCase()}<br><span>GOALS:</span> ${document.getElementById('goals').value}</div><div class="multiplier-box" style="font-size:16px;">MULTIPLIER: x${multiplier.toFixed(2)}</div><div class="summary-list">`;
+    ['r32', 'r16', 'qf'].forEach(stage => {
+        picksHtml += `<div style="color:var(--neon-pink); font-size:10px; margin-top:10px;">${stage.toUpperCase()}</div>`;
+        userSelections[stage].forEach(pick => { if(pick) picksHtml += `<div class="summary-item">${pick}</div>`; });
+    });
+    document.getElementById('summaryResults').innerHTML = picksHtml + `</div>`;
+    document.getElementById('finalSummary').style.display = 'block';
+}
+
+buildRound(document.getElementById('r32'), TEAMS, 'r32');
 </script>
 </body>
 </html>
