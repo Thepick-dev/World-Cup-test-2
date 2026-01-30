@@ -24,104 +24,107 @@ body {
   background-size: 20px 20px;
 }
 
-/* --- 2. BANNER & STING (FIXED ALIGNMENT) --- */
+/* --- 2. BANNER & STING (CENTERED) --- */
 .hero-section {
   width: 100%; max-width: 960px; height: 280px; background: #000;
   border-bottom: 4px solid var(--neon-cyan); position: relative;
   overflow: hidden; 
-  display: flex; 
-  flex-direction: column;
-  justify-content: center; /* Vertical center */
-  align-items: center;     /* Horizontal center - fixes left push */
+  display: flex; flex-direction: column; 
+  justify-content: center; /* Vertical Center */
+  align-items: center;     /* Horizontal Center - Fixes wording pushed left */
 }
 
-.arena-banner { position: absolute; inset: 0; pointer-events: none; }
+.arena-banner { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
 
 .sprite-player {
-  position: absolute; left: 20px; bottom: 20px; width: 100px; height: 100px;
+  position: absolute; left: 5%; bottom: 20px; width: 120px; height: 120px;
   background: var(--player-idle) no-repeat center/contain;
   animation: player-sequence var(--total-time) step-end forwards;
-  z-index: 2;
 }
 
 .sprite-ball {
-  position: absolute; left: 100px; bottom: 30px; width: 25px; height: 25px;
+  position: absolute; left: 15%; bottom: 35px; width: 30px; height: 30px;
   background: var(--ball-normal) no-repeat center/contain;
   animation: ball-sequence var(--total-time) linear forwards;
-  z-index: 1;
 }
 
-.hero-content { z-index: 5; opacity: 0; animation: fadeIn 0.3s ease-out 0.8s forwards; text-align: center; }
+.hero-content { 
+  position: relative; 
+  z-index: 5; 
+  opacity: 0; 
+  animation: fadeIn 0.3s ease-out 0.8s forwards; 
+  text-align: center;
+  width: 80%;
+}
 
 .glitch {
-  font-family: "Press Start 2P", cursive; font-size: 50px; color: var(--neon-yellow);
-  text-shadow: 4px 4px var(--neon-pink); text-transform: uppercase; margin: 0;
+  font-family: "Press Start 2P", cursive; font-size: 44px; color: var(--neon-yellow);
+  text-shadow: 4px 4px var(--neon-pink), -2px -2px var(--neon-cyan); 
+  text-transform: uppercase; margin: 0; line-height: 1.2;
 }
 
 .hero-sub {
-  font-family: "Press Start 2P", cursive; font-size: 12px; color: #fff;
-  background: var(--neon-pink); padding: 5px 10px; display: inline-block; margin-top: 10px;
+  font-family: "Press Start 2P", cursive; font-size: 10px; color: #fff;
+  background: var(--neon-pink); padding: 6px 12px; display: inline-block; 
+  margin-top: 15px; box-shadow: 4px 4px 0 #000;
 }
 
-/* MOBILE BANNER FIX: STACKING & SCALING */
+/* --- MOBILE BANNER FIX --- */
 @media (max-width: 600px) {
-  .hero-section { height: 240px; padding: 20px; }
+  .hero-section { height: 220px; }
+  /* Reposition sting for mobile so it doesn't collide with text */
+  .sprite-player { width: 60px; height: 60px; left: 5px; bottom: 5px; }
+  .sprite-ball { left: 45px; bottom: 15px; width: 15px; height: 15px; }
   
-  /* Scale sprites down and move them slightly so they don't block text */
-  .sprite-player { width: 60px; height: 60px; left: 10px; bottom: 10px; opacity: 0.6; }
-  .sprite-ball { left: 60px; bottom: 15px; width: 15px; height: 15px; opacity: 0.6; }
-  
-  .glitch { font-size: 26px; line-height: 1.2; }
-  .hero-sub { font-size: 9px; letter-spacing: 1px; }
+  .glitch { font-size: 20px; letter-spacing: -1px; }
+  .hero-sub { font-size: 8px; margin-top: 10px; }
 }
 
 /* --- 3. INPUTS (STRICT BLACK FILL) --- */
-input, select {
+input, select, textarea {
   width: 100%; padding: 18px; margin: 10px 0;
-  background-color: #000 !important; /* Ensure black fill */
-  color: var(--neon-yellow) !important;
-  border: 2px solid #555; font-family: "VT323", monospace; font-size: 26px; outline: none;
-  -webkit-appearance: none; /* Fix for mobile browser styles */
+  background-color: #000 !important; /* Always black */
+  color: var(--neon-yellow) !important; /* Always yellow text */
+  border: 2px solid #555; 
+  font-family: "VT323", monospace; font-size: 26px; outline: none;
+  -webkit-appearance: none; /* Reset mobile styles */
 }
-input:focus { border-color: var(--neon-yellow); background-color: #000 !important; }
+input:focus { border-color: var(--neon-yellow); box-shadow: 0 0 10px rgba(255, 200, 0, 0.2); }
 
-/* --- 4. CHECKBOXES (YELLOW ACCENT) --- */
-.terms-container label { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; color: var(--neon-yellow); cursor: pointer; text-align: left; }
+/* --- 4. CHECKBOXES (YELLOW) --- */
+.terms-container label { display: flex; align-items: center; gap: 15px; margin-bottom: 12px; color: var(--neon-yellow); cursor: pointer; text-align: left; font-size: 18px; }
 .terms-container input[type="checkbox"] { 
-    width: 22px; height: 22px; 
-    accent-color: var(--neon-yellow); /* Yellow fill instead of blue */
-    cursor: pointer; 
+  width: 24px; height: 24px; 
+  accent-color: var(--neon-yellow); /* Blue to Yellow fix */
+  cursor: pointer; 
 }
 
-/* --- 5. FOOTER NAV --- */
+/* --- 5. FOOTER NAVIGATION --- */
 .footer-nav { 
-    margin-top: 50px; 
-    padding: 40px 20px; 
-    width: 100%; 
-    max-width: 960px; 
-    border-top: 1px solid #333; 
-    display: flex; 
-    justify-content: center; 
-    gap: 30px; 
+  margin-top: 60px; padding: 40px 20px; width: 100%; max-width: 960px; 
+  border-top: 1px solid #333; display: flex; justify-content: center; gap: 30px; 
 }
 .footer-nav a { 
-    color: #888; 
-    text-decoration: none; 
-    font-family: "Press Start 2P", cursive; 
-    font-size: 9px; 
-    transition: color 0.2s;
+  color: #666; text-decoration: none; 
+  font-family: "Press Start 2P", cursive; font-size: 9px; 
+  text-transform: uppercase; transition: color 0.2s;
 }
-.footer-nav a:hover { color: var(--neon-yellow); text-decoration: underline; }
+.footer-nav a:hover { color: var(--neon-yellow); }
 
-/* KEYFRAMES */
+/* --- KEYFRAMES --- */
 @keyframes player-sequence { 0% { background-image: var(--player-idle); } 50% { background-image: var(--player-windup); } 55%, 100% { background-image: var(--player-kick); } }
-@keyframes ball-sequence { 0%, 54% { transform: translateX(0); } 55% { background-image: var(--ball-super); width: 80px; transform: translateX(0); } 100% { background-image: var(--ball-super); width: 80px; transform: translateX(1200px); } }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes ball-sequence { 
+  0%, 54% { transform: translateX(0); } 
+  55% { background-image: var(--ball-super); width: 100px; transform: translateX(0); } 
+  100% { background-image: var(--ball-super); width: 100px; transform: translateX(1200px); } 
+}
+@keyframes fadeIn { to { opacity: 1; } }
 
 /* COMMON PANELS */
 .panel { width: 95%; max-width: 960px; background: var(--panel); border: 3px solid var(--neon-cyan); padding: 20px; margin-bottom: 25px; }
-h1 { font-family: "Press Start 2P", cursive; font-size: 20px; color: var(--neon-cyan); border-bottom: 3px solid #000; padding-bottom: 10px; text-align: left; margin-bottom: 20px; }
+h1 { font-family: "Press Start 2P", cursive; font-size: 18px; color: var(--neon-cyan); border-bottom: 3px solid #000; padding-bottom: 10px; text-align: left; margin-bottom: 20px; }
 .nav { width: 100%; max-width: 960px; display: flex; gap: 10px; padding: 10px; }
-.nav a { flex: 1; font-family: "Press Start 2P", cursive; font-size: 12px; padding: 15px; color: var(--neon-cyan); text-decoration: none; border: 2px solid var(--neon-cyan); }
+.nav a { flex: 1; font-family: "Press Start 2P", cursive; font-size: 10px; padding: 15px; color: var(--neon-cyan); text-decoration: none; border: 2px solid var(--neon-cyan); background: #111; }
 .nav a.active { background: var(--neon-pink); color: #fff; border-color: var(--neon-pink); }
-button { font-family: "Press Start 2P", cursive; font-size: 16px; padding: 15px 25px; background: var(--neon-pink); color: #fff; border: 2px solid #fff; cursor: pointer; }
+button { font-family: "Press Start 2P", cursive; font-size: 14px; padding: 15px 25px; background: var(--neon-pink); color: #fff; border: 2px solid #fff; cursor: pointer; transition: 0.1s; }
+button:hover { background: #ff5c8d; }
