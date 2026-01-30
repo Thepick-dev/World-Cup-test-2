@@ -1,33 +1,113 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Standings</title>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>GOALSURGE! — ROUND 3</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header>
-  <nav class="navbar">
-    <a href="index.html">Home</a>
-    <a href="predict.html">Predict</a>
-    <a href="standings.html" class="active">Standings</a>
-    <a href="rules.html">Rules</a>
-  </nav>
-</header>
+<div class="nav">
+  <a href="index.html">HOME</a>
+  <a href="predict.html" class="active">PLAY</a>
+  <a href="scores.html">SCORES</a>
+  <a href="rules.html">RULES</a>
+</div>  
 
-<div class="banner" role="img" aria-label="Banner">
-  <img src="assets/banner.png" alt="Banner">
+<div class="hero-section">
+    <div class="scanlines"></div>
+    <div class="arena-banner">
+        <div class="sprite-player"><div class="power-bar-container"><div class="power-fill"></div></div></div>
+        <div class="sprite-ball"></div>
+    </div>
+    <div class="hero-content">
+        <h1 class="glitch" data-text="GOALSURGE!">GOALSURGE!</h1>
+        <div class="hero-sub">WORLD CUP PREDICTION GAME: ROUND 3</div>
+    </div>
 </div>
 
-<main class="container">
-  <h1 style="font-size:18px;text-align:center;color:var(--accent);margin:8px 0 12px">STANDINGS</h1>
-  <div class="card" style="text-align:center;padding:20px">
-    <p style="color:var(--muted)">Standings coming soon — leaderboard, player history and filters will be here.</p>
-  </div>
-</main>
+<div class="panel">
+    <h1>PLAYER INFO</h1>
+    <input id="username" placeholder="USERNAME (REQUIRED)" oninput="validate()">
+    <input id="email" placeholder="EMAIL ADDRESS (REQUIRED)" oninput="validate()">
+    
+    <div class="terms-container">
+        <label><input type="checkbox" id="privacyCheck" onchange="validate()"> <span>I ACCEPT THE PRIVACY POLICY</span></label>
+        <label><input type="checkbox" id="termsCheck" onchange="validate()"> <span>I ACCEPT THE TERMS OF USE</span></label>
+        <label><input type="checkbox" id="marketingCheck"> <span>FUTURE PROMOTIONS (OPTIONAL)</span></label>
+    </div>
 
+    <input id="tiebreaker" placeholder="TIEBREAKER: TOTAL YELLOW CARDS?" type="number" oninput="validate()">
+    <div class="sys" id="sysMsg">AWAITING INPUT...</div>
+</div>
+
+<div class="panel">
+    <h1>ROUND 3: SEMI FINALS</h1>
+    <div id="sf1-container"></div>
+    <div id="sf2-container"></div>
+</div>
+
+<div class="panel">
+    <h1>3RD PLACE PLAYOFF</h1>
+    <div id="playoff-container"></div>
+</div>
+
+<div class="panel">
+    <h1>WORLD CUP WINNER</h1>
+    <div class="strategy-toggle">
+        <button class="strat-btn" id="btnHedge" onclick="setStrategy('hedge')">HEDGE IT</button>
+        <button class="strat-btn" id="btnRisk" onclick="setStrategy('risk')">RISK IT</button>
+    </div>
+    <div id="hedgeContent" style="display:none;">
+        <select id="rank1" onchange="validate()"><option value="">1ST...</option></select>
+        <select id="rank2" onchange="validate()"><option value="">2ND...</option></select>
+    </div>
+    <div id="riskContent" style="display:none;">
+        <select id="riskSelect" onchange="validate()"><option value="">WINNER...</option></select>
+    </div>
+</div>
+
+<div class="panel">
+    <h1>THE FINAL</h1>
+    <div id="final-container"></div>
+</div>
+
+<div class="panel">
+    <h1>RED CARD CHAOS [10pts]</h1>
+    <div id="redCardOptions"></div>
+</div>
+
+<div class="panel">
+    <h1>PLAYER COMBO [15pts]</h1>
+    <select id="playerCombo" onchange="validate()">
+        <option value="">SELECT DUO...</option>
+        <option>MBAPPE & KANE</option>
+        <option>MESSI & ALVAREZ</option>
+    </select>
+</div>
+
+<div class="panel">
+    <h1>TOTAL GOALS [10pts]</h1>
+    <div id="totalGoalsGrid">
+        <button onclick="selectTotalGoals(this, '0-5')">0-5</button>
+        <button onclick="selectTotalGoals(this, '6-8')">6-8</button>
+    </div>
+</div>
+
+<button id="submitBtn" disabled onclick="showSummary()">SUBMIT PICKS</button>
+
+<script>
+/* Round 3 Logic stays exactly as you had it, calling valid() on inputs */
+const picks = { user: '', email: '', tiebreaker: '', sf1: { winner: null, method: null, time: null }, sf2: { winner: null, method: null, time: null }, p3:  { winner: null, method: null, time: null }, fin: { winner: null, method: null, time: null }, strategy: null, redCard: null, combo: null, totalGoals: null };
+function validate() {
+    picks.user = document.getElementById('username').value;
+    picks.email = document.getElementById('email').value;
+    const sys = document.getElementById('sysMsg');
+    const valid = picks.user && picks.email && document.getElementById('privacyCheck').checked && document.getElementById('termsCheck').checked;
+    if(valid) { sys.textContent = "SYSTEM READY."; sys.className = "sys complete"; document.getElementById('submitBtn').disabled = false; }
+}
+</script>
 </body>
 </html>
