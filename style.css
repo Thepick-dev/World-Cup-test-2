@@ -7,9 +7,12 @@
   --neon-yellow: #ffc800;
   --p1: url('p1.png'); --p2: url('p2.png'); --p3: url('p3.png');
   --b1: url('b1.png'); --b2: url('b2.png');
+  
+  /* Snappier speed: 1.0s total instead of 1.2s */
+  --total-time: 1.0s; 
 }
 
-/* --- THE LOADING SPLASH (THE STING) --- */
+/* --- THE LOADING SPLASH --- */
 #sting-overlay {
   position: fixed; inset: 0; background: #000; z-index: 9999;
   display: flex; justify-content: center; align-items: center;
@@ -21,19 +24,42 @@
 .sprite-player {
   position: absolute; left: 0; bottom: 50px; width: 150px; height: 150px;
   background: var(--p1) no-repeat center/contain;
-  animation: p-kick 1.2s steps(1) forwards;
+  animation: p-kick var(--total-time) steps(1) forwards;
 }
 
 .sprite-ball {
   position: absolute; left: 80px; bottom: 70px; width: 40px; height: 40px;
   background: var(--b1) no-repeat center/contain;
-  animation: b-kick 1.2s linear forwards;
+  animation: b-kick var(--total-time) linear forwards;
 }
 
-@keyframes p-kick { 0% {background-image: var(--p1)} 40% {background-image: var(--p2)} 50%, 100% {background-image: var(--p3)} }
-@keyframes b-kick { 0%, 49% {transform: translateX(0)} 50% {background-image: var(--b2); width:100px} 100% {background-image: var(--b2); width:100px; transform: translateX(1000px)} }
+/* PLAYER SEQUENCE: Snaps to kick at 55% */
+@keyframes p-kick { 
+  0% {background-image: var(--p1)} 
+  45% {background-image: var(--p2)} 
+  55%, 100% {background-image: var(--p3)} 
+}
 
-/* --- FOOTER NAVIGATION --- */
+/* BALL SEQUENCE: Changes to Super Ball ONLY at contact (55%) */
+@keyframes b-kick { 
+  0%, 54.9% {
+    background-image: var(--b1); 
+    transform: translateX(0);
+    width: 40px;
+  } 
+  55% {
+    background-image: var(--b2); 
+    width: 100px;
+    transform: translateX(0);
+  } 
+  100% {
+    background-image: var(--b2); 
+    width: 100px; 
+    transform: translateX(1200px);
+  } 
+}
+
+/* --- FOOTER & NAV --- */
 .footer-nav { margin-top: 50px; padding: 40px; border-top: 1px solid #333; width: 100%; max-width: 960px; display: flex; justify-content: center; gap: 30px; }
 .footer-nav a { color: #666; text-decoration: none; font-family: "Press Start 2P", cursive; font-size: 10px; text-transform: uppercase; }
 .footer-nav a:hover { color: var(--neon-yellow); }
