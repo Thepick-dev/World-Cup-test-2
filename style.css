@@ -35,7 +35,7 @@
   height: 300px; 
 }
 
-/* --- 3. PLAYER: Grounded Positioning --- */
+/* --- 3. PLAYER: Grounded Position --- */
 .sprite-player {
   position: absolute; 
   left: 10px; 
@@ -47,11 +47,11 @@
   animation: p-kick var(--total-time) steps(1) forwards;
 }
 
-/* --- 4. BALL: Grounded & Velocity Locked --- */
+/* --- 4. BALL: Grounded and shifted in front of player --- */
 .sprite-ball {
   position: absolute; 
-  left: 95px; 
-  bottom: 5px; /* Sits on floor */
+  left: 125px; /* Shifted right to sit in front of the player */
+  bottom: 0px;  /* Sat directly on the floor */
   width: 35px; 
   height: 35px;
   background: var(--b1) no-repeat center/contain;
@@ -59,36 +59,36 @@
   animation: b-kick var(--total-time) linear forwards;
 }
 
-/* PLAYER SEQUENCING: Frame swap at impact */
+/* PLAYER KEYFRAMES */
 @keyframes p-kick { 
   0% { background-image: var(--p1); } 
   50% { background-image: var(--p2); } 
   58%, 100% { background-image: var(--p3); } 
 }
 
-/* BALL SEQUENCING: Physics & Image Swap Logic */
+/* BALL KEYFRAMES: The Physics Fix */
 @keyframes b-kick { 
-  /* 0% to 57.9%: NO MOVEMENT. Ball stays at translateX(0) */
+  /* 0% to 57.9%: Ball is visible but MOTIONLESS on the ground */
   0%, 57.9% {
     background-image: var(--b1); 
     transform: translateX(0); 
     width: 35px;
-    bottom: 5px; 
+    bottom: 0px;
     opacity: 1;
   } 
-  /* 58%: THE IMPACT. Swap to Surge Ball, stay at 0 for one frame */
+  /* 58%: THE IMPACT. Swap image at current position */
   58% {
     background-image: var(--b2); 
     width: 110px; 
     transform: translateX(0);
-    bottom: 5px;
+    bottom: 0px;
   } 
-  /* 100%: HIGH SPEED EXIT. Stays low on the ground */
+  /* 100%: EXIT. High speed at ground level */
   100% {
     background-image: var(--b2); 
     width: 110px; 
     transform: translateX(1400px); 
-    bottom: 5px; 
+    bottom: 0px; 
   } 
 }
 
@@ -147,7 +147,7 @@ input[type="checkbox"] {
 
 .footer-nav a:hover { color: var(--neon-yellow); }
 
-/* MOBILE RESPONSIVENESS FOR STING */
+/* MOBILE RESPONSIVENESS */
 @media (max-width: 600px) {
   .sting-container { transform: scale(0.8); }
 }
