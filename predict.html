@@ -7,37 +7,42 @@
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <style>
-    /* --- INLINE FIX FOR EMAIL AUTOFILL --- */
-    input:-webkit-autofill,
-    input:-webkit-autofill:hover, 
-    input:-webkit-autofill:focus {
-        -webkit-text-fill-color: var(--neon-yellow) !important;
-        -webkit-box-shadow: 0 0 0px 1000px #000 inset !important;
-        transition: background-color 5000s ease-in-out 0s;
-    }
+/* --- EMAIL AUTOFILL SHIELD --- */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--neon-yellow) !important;
+    -webkit-box-shadow: 0 0 0px 1000px #000 inset !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
 
-    /* THE SYSTEM MESSAGE BAR STYLE */
-    .system-bar {
-        background: #000; border-left: 4px solid var(--neon-yellow);
-        padding: 15px; margin: 10px 0 20px 0; color: var(--neon-yellow);
-        font-family: "VT323"; font-size: 20px; min-height: 60px; 
-        display: flex; align-items: center; text-transform: uppercase; width: 100%;
-    }
+/* --- SYSTEM TERMINAL STYLES --- */
+.system-terminal {
+    background: #000; border: 2px solid var(--neon-yellow);
+    padding: 12px 15px; margin-bottom: 20px; color: var(--neon-yellow);
+    font-family: "VT323"; font-size: 20px; min-height: 60px; 
+    display: flex; align-items: center; text-transform: uppercase;
+    box-shadow: 5px 5px 0 var(--neon-pink);
+}
 
-    /* OVERLAYS FOR BONUS GAME */
-    .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: none; align-items: center; justify-content: center; z-index: 10000; }
-    .modal { width: 95%; max-width: 600px; text-align: center; }
-    .top-player { border: 4px solid var(--neon-cyan); padding: 20px; color: var(--neon-cyan); font-family: "Press Start 2P"; font-size: 20px; margin-bottom: 20px; background: #000; }
-    .bonus-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; }
-    .player-box { padding: 8px; border: 1px solid #333; color: #444; font-family: "Press Start 2P"; font-size: 10px; }
-    .player-box.active { background: var(--neon-pink); color: #fff; }
-    .player-box.selected { background: var(--neon-yellow); color: #000; }
+/* --- BONUS SELECTOR & TICKET OVERLAYS --- */
+.overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.96); display: none; align-items: center; justify-content: center; z-index: 10000; }
+.modal { width: 95%; max-width: 600px; text-align: center; border: 4px solid var(--neon-cyan); padding: 30px; background: #000; }
+.top-player { border: 4px solid var(--neon-cyan); padding: 20px; color: var(--neon-cyan); font-family: "Press Start 2P"; font-size: 22px; margin-bottom: 20px; background: #05d9e822; }
+.bonus-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 5px; margin-top: 20px; }
+.player-box { padding: 10px 5px; border: 1px solid #333; color: #444; font-family: "Press Start 2P"; font-size: 8px; text-transform: uppercase; }
+.player-box.active { background: var(--neon-pink); color: #fff; border-color: #fff; }
+.player-box.selected { background: var(--neon-yellow); color: #000; border-color: #fff; }
 
-    /* SUMMARY SCREEN */
-    .submit-overlay { position: fixed; inset: 0; background: #000; display: none; align-items: center; justify-content: center; z-index: 20000; }
-    .submit-box { width: 95%; max-width: 450px; border: 2px solid var(--neon-yellow); background: #0b0b0f; }
-    .compact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; padding: 15px; }
-    .compact-row { border: 1px solid #222; padding: 5px; font-size: 14px; display: flex; justify-content: space-between; }
+.submit-overlay { position: fixed; inset: 0; background: #000; display: none; align-items: center; justify-content: center; z-index: 20000; }
+.submit-box { width: 95%; max-width: 450px; border: 4px solid var(--neon-yellow); background: #0f0e17; box-shadow: 0 0 40px rgba(255, 200, 0, 0.2); }
+.compact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 15px; background: #000; }
+.compact-row { border: 1px solid #222; padding: 6px; font-size: 14px; display: flex; justify-content: space-between; color: #fff; }
+.compact-row strong { color: var(--neon-cyan); font-family: "Press Start 2P"; font-size: 8px; }
+
+/* REPAIRING PANEL PERSONALITY */
+.panel { border: 4px solid var(--neon-cyan) !important; box-shadow: 10px 10px 0 #000 !important; }
+.panel h1 { font-size: 18px !important; letter-spacing: 2px; }
 </style>
 </head> 
 <body> 
@@ -55,72 +60,91 @@
   <a href="scores.html">SCORES</a>
 </div>  
 
+<div class="hero-section">
+    <div class="scanlines"></div>
+    <h1 class="glitch">GOALSURGE!</h1>
+    <div class="hero-sub">ROUND 1 - GROUP STAGE</div>
+</div>
+
 <div class="panel">
     <h1>1. IDENTITY</h1>
-    <div class="system-bar" id="sys-msg">TERMINAL READY. AWAITING INPUT...</div>
+    <div class="system-terminal" id="id-msg">AUTHENTICATION REQUIRED...</div>
 
-    <input id="username" placeholder="USERNAME" onfocus="updateMsg('ENTER YOUR PUBLIC DISPLAY NAME (MIN 3 CHARS)')">
-    <input id="email" placeholder="EMAIL ADDRESS" onfocus="updateMsg('REQUIRED FOR VALIDATION AND PRIZE NOTIFICATION')">
-    <input id="leaguePin" placeholder="LEAGUE PIN (OPTIONAL)" maxlength="4" onfocus="updateMsg('JOIN A PRIVATE LEAGUE OR LEAVE BLANK FOR GLOBAL ONLY')">
+    <input id="username" placeholder="USERNAME" onfocus="termMsg('id-msg', 'DISPLAY NAME FOR GLOBAL LEADERBOARDS')">
+    <input id="email" placeholder="EMAIL ADDRESS" onfocus="termMsg('id-msg', 'VALID EMAIL REQUIRED FOR PRIZE NOTIFICATION')">
+    <input id="leaguePin" placeholder="LEAGUE PIN (OPTIONAL)" maxlength="4" onfocus="termMsg('id-msg', 'JOIN A PRIVATE LEAGUE OR LEAVE BLANK')">
 
-    <div style="margin-top:20px; text-align:left; font-family:'VT323'; font-size:18px;">
-        <label><input type="checkbox" id="privacyCheck" onchange="updateTerminalState()"> ACCEPT PRIVACY POLICY</label><br>
-        <label><input type="checkbox" id="termsCheck" onchange="updateTerminalState()"> ACCEPT TERMS OF USE</label>
+    <div style="margin-top:20px; text-align:left; font-family:'VT323'; font-size:20px; color:var(--neon-yellow);">
+        <label style="display:block; margin-bottom:10px;"><input type="checkbox" id="privacyCheck" onchange="updateTerminalState()"> ACCEPT PRIVACY POLICY (REQUIRED)</label>
+        <label><input type="checkbox" id="termsCheck" onchange="updateTerminalState()"> ACCEPT TERMS OF USE (REQUIRED)</label>
     </div>
 </div>
 
 <div class="panel">
     <h1>2. STRATEGY</h1>
-    <button id="comboTrigger" style="width:100%; padding:15px; background:#111; color:var(--neon-cyan); border:1px solid #333;" onclick="showCombo()">SELECT SCORER DUO</button>
-    <select id="combo" style="display:none;" onchange="updateTerminalState()" onfocus="updateMsg('CHOOSE TWO PLAYERS WHO WILL EARN POINTS VIA GOALS/ASSISTS')">
-        <option value="">SELECT SCORER DUO</option>
+    <div class="system-terminal" id="strat-msg">BONUS SELECTION STANDBY...</div>
+
+    <button id="comboTrigger" style="width:100%; padding:20px; background:#000; color:var(--neon-cyan); border:2px solid var(--neon-cyan); font-family:'Press Start 2P'; cursor:pointer;" onclick="showCombo()">SELECT DEADLY DUO</button>
+    
+    <select id="combo" style="display:none;" onchange="updateTerminalState()" onfocus="termMsg('strat-msg', 'THIS DUO EARNS POINTS FOR EVERY GOAL AND ASSIST')">
+        <option value="">-- SELECT YOUR DUO --</option>
         <option>MESSI & RONALDO</option>
         <option>NEYMAR & MBAPPÉ</option>
         <option>LEWANDOWSKI & HAALAND</option>
         <option>SALAH & MANÉ</option>
         <option>KANE & STERLING</option>
+        <option>VINÍCIUS & PEDRI</option>
     </select>
 
-    <input id="goals" placeholder="TOTAL GOALS" type="number" onfocus="updateMsg('PREDICT TOTAL GOALS SCORED IN ALL GROUP MATCHES (TIEBREAKER)')" oninput="updateTerminalState()">
+    <input id="goals" placeholder="TOTAL GROUP GOALS" type="number" onfocus="termMsg('strat-msg', 'TIEBREAKER: PREDICT TOTAL GOALS ACROSS ALL GROUP GAMES')" oninput="updateTerminalState()">
 </div>
 
 <div class="panel">
     <h1>3. THE BOARD</h1>
-    <div class="groups-grid" id="groupsGrid"></div>
+    <div id="round1Container" class="dimmed">
+        <div class="groups-grid" id="groupsGrid"></div>
+    </div>
 </div> 
 
-<button id="lockBtn" style="width: 100%; max-width: 800px; padding:20px; background:var(--neon-pink); color:#fff; font-family:'Press Start 2P'; border:none;" disabled onclick="startBonus()">LOCK PICKS & BONUS</button>
+<button id="lockBtn" style="width: 100%; max-width: 800px; padding:25px; background:var(--neon-pink); color:#fff; font-family:'Press Start 2P'; border:4px solid #fff; box-shadow:10px 10px 0 #000; margin-bottom:60px;" disabled onclick="startBonus()">LOCK PICKS & BONUS ROUND</button>
 
 <div class="overlay" id="bonusOverlay">
   <div class="modal">
-    <div style="color:#fff; margin-bottom:15px; font-family:'Press Start 2P'; font-size:12px;">BONUS PLAYER SELECTOR</div>
+    <div style="color:#fff; margin-bottom:15px; font-family:'Press Start 2P'; font-size:12px; letter-spacing:2px;">BONUS PLAYER SELECTOR</div>
     <div class="top-player" id="topPlayer">???</div>
-    <div id="twistSub" style="margin-bottom:20px; color:#888;">STICK OR TWIST?</div>
-    <button id="stickBtn" onclick="showFinalSummary()">STICK</button>
-    <button id="twistBtn" onclick="twistLogic()">TWIST (2)</button>
+    <div id="twistSub" style="margin-bottom:25px; color:#888; font-family:'VT323'; font-size:24px;">STICK OR TWIST?</div>
+    <div style="display:flex; gap:10px; justify-content:center; margin-bottom:20px;">
+        <button id="stickBtn" style="flex:1;" onclick="showFinalSummary()">STICK</button>
+        <button id="twistBtn" style="flex:1;" onclick="twistLogic()">TWIST (2)</button>
+    </div>
     <div class="bonus-grid" id="bonusGrid"></div>
   </div>
 </div>
 
 <div class="submit-overlay" id="submitOverlay">
   <div class="submit-box">
-    <div style="background:var(--neon-yellow); color:#000; padding:10px; font-family:'Press Start 2P'; text-align:center;">ENTRY TICKET</div>
-    <div style="padding:15px; font-family:'VT323'; color:#fff; border-bottom:1px dashed #444;">
-        USER: <span id="sumUser" style="color:var(--neon-cyan)"></span><br>
-        DUO: <span id="sumScorers" style="color:var(--neon-pink)"></span>
+    <div style="background:var(--neon-yellow); color:#000; padding:15px; font-family:'Press Start 2P'; text-align:center; font-size:14px;">GOALSURGE ENTRY TICKET</div>
+    <div style="padding:20px; font-family:'VT323'; color:#fff; border-bottom:1px dashed #333; line-height:1.2;">
+        <span style="color:#888;">PLAYER:</span> <span id="sumUser" style="color:var(--neon-cyan); font-size:24px;"></span><br>
+        <span style="color:#888;">DUO + BONUS:</span> <br><span id="sumScorers" style="color:var(--neon-pink); font-size:20px;"></span>
     </div>
     <div class="compact-grid" id="sumGrid"></div>
-    <div style="text-align:center; padding:15px;">
-        <div style="color:var(--neon-pink); font-family:'Press Start 2P'; font-size:10px; margin-bottom:10px;">[ SCREENSHOT FOR ENTRY ]</div>
-        <button onclick="location.reload()">EXIT GAME</button>
+    <div style="text-align:center; padding:25px; background:#000;">
+        <div style="color:var(--neon-pink); font-family:'Press Start 2P'; font-size:10px; margin-bottom:15px; animate: pulse 1s infinite;">[ CAPTURE SCREENSHOT NOW ]</div>
+        <button onclick="location.reload()" style="font-size:10px; padding:10px 20px;">EXIT TERMINAL</button>
     </div>
   </div>
 </div>
 
+<footer class="footer-nav">
+    <a href="privacy.html">PRIVACY POLICY</a>
+    <a href="terms.html">TERMS OF USE</a>
+</footer>
+
 <script>
 'use strict';
 
-// 1. SPLASH
+// 1. SPLASH ENGINE
 window.addEventListener('load', () => {
     setTimeout(() => {
         const overlay = document.getElementById('sting-overlay');
@@ -129,14 +153,14 @@ window.addEventListener('load', () => {
     }, 1200); 
 });
 
-// 2. UI HELPERS
-function updateMsg(text) { document.getElementById('sys-msg').textContent = text; }
+// 2. TERMINAL INTERFACE
+function termMsg(id, text) { document.getElementById(id).textContent = text; }
 function showCombo() { 
     document.getElementById('comboTrigger').style.display = 'none';
     document.getElementById('combo').style.display = 'block';
 }
 
-// 3. DATA & RENDERING
+// 3. GAME DATA & BOARD
 const GROUPS=[ 
     ["MEXICO 🇲🇽","S.AFRICA 🇿🇦","S.KOREA 🇰🇷","DEN/IRL 🇩🇰"],
     ["CANADA 🇨🇦","ITALY 🇮🇹","QATAR 🇶🇦","SWITZ 🇨🇭"],
@@ -200,10 +224,12 @@ function updateTerminalState(){
     const vG = document.getElementById('goals').value > 0;
     const vC = document.getElementById('combo').value !== "";
     const vP = state.secondPicks.every(x=>x!==null) && state.thirdPicks.filter(x=>x!==null).length===8;
+    
     document.getElementById('lockBtn').disabled = !(vN && vE && vT && vG && vC && vP);
+    if(vN && vE && vT) document.getElementById('round1Container').classList.remove('dimmed');
 }
 
-// 4. BONUS GAME LOGIC
+// 4. BONUS WHEEL LOGIC
 const PLAYERS=['MESSI','RONALDO','MBAPPÉ','HAALAND','SALAH','KANE','NEYMAR','VINÍCIUS','PEDRI','GRIEZMANN','BELLINGHAM','LEWANDOWSKI','SON','OSIMHEN','SAKA','RASHFORD','FODEN','MUSIALA'];
 let finalBonus=null, twists=2;
 
@@ -216,23 +242,37 @@ function startBonus(){
 
 function spin(isFinal=false){
     const boxes=document.querySelectorAll('.player-box');
-    let s=0, max=20, int=setInterval(()=>{
+    let s=0, max=25, int=setInterval(()=>{
         boxes.forEach(b=>b.classList.remove('active'));
         const r=Math.floor(Math.random()*boxes.length);
         boxes[r].classList.add('active');
         document.getElementById('topPlayer').textContent=boxes[r].textContent;
-        if(++s>max){ clearInterval(int); finalBonus=boxes[r].textContent; boxes[r].classList.add('selected'); if(isFinal) setTimeout(showFinalSummary,1000); }
-    },80);
+        if(++s>max){ 
+            clearInterval(int); 
+            finalBonus=boxes[r].textContent; 
+            boxes[r].classList.add('selected'); 
+            if(isFinal) setTimeout(showFinalSummary,1200); 
+        }
+    },70);
 }
 
 function twistLogic(){
     if(twists>0){ 
-        twists--; document.getElementById('twistBtn').textContent=`TWIST (${twists})`; 
+        twists--; 
+        document.getElementById('twistBtn').textContent=`TWIST (${twists})`; 
         document.querySelectorAll('.player-box').forEach(b=>b.classList.remove('selected'));
-        spin(twists===0); 
+        if(twists===0) {
+            document.getElementById('twistBtn').disabled = true;
+            document.getElementById('stickBtn').disabled = true;
+            document.getElementById('twistSub').textContent = "FINAL SPIN...";
+            spin(true);
+        } else {
+            spin(false);
+        }
     }
 }
 
+// 5. SUMMARY TICKET LOGIC
 function showFinalSummary(){
     document.getElementById('bonusOverlay').style.display='none';
     document.getElementById('sumUser').textContent=document.getElementById('username').value.toUpperCase();
@@ -240,12 +280,18 @@ function showFinalSummary(){
     const grid=document.getElementById('sumGrid'); grid.innerHTML='';
     GROUPS.forEach((teams, i)=>{
         const div=document.createElement('div'); div.className='compact-row';
-        div.innerHTML=`<span>${letters[i]}</span><span>${teams[state.secondPicks[i]]} / ${state.thirdPicks[i]!==null?teams[state.thirdPicks[i]]:''}</span>`;
+        const p2 = teams[state.secondPicks[i]];
+        const p3 = state.thirdPicks[i] !== null ? teams[state.thirdPicks[i]] : '';
+        div.innerHTML=`<strong>${letters[i]}</strong> <span>${p2} ${p3?' / '+p3:''}</span>`;
         grid.appendChild(div);
     });
     document.getElementById('submitOverlay').style.display='flex';
 }
 
+// 6. INITIALIZE
+[document.getElementById('username'), document.getElementById('email'), document.getElementById('goals')].forEach(el => {
+    el.addEventListener('input', updateTerminalState);
+});
 renderGroups();
 </script> 
 </body>
