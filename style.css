@@ -6,14 +6,14 @@
   --neon-cyan: #05d9e8;
   --neon-yellow: #ffc800;
 
-  /* STING ASSETS */
+  /* SPRITE ASSETS */
   --p1: url('p1.png'); /* Idle */
   --p2: url('p2.png'); /* Wind up */
   --p3: url('p3.png'); /* Kick */
   --b1: url('b1.png'); /* Normal Ball */
   --b2: url('b2.png'); /* Surge Ball */
   
-  /* Snappy speed: 0.9s total animation duration */
+  /* Snappy Speed Logic */
   --total-time: 0.9s; 
 }
 
@@ -26,7 +26,7 @@
   display: flex; 
   justify-content: center; 
   align-items: center;
-  transition: opacity 0.4s ease-out; /* Slightly faster fade-out */
+  transition: opacity 0.4s ease-out;
 }
 
 .sting-container { 
@@ -35,59 +35,64 @@
   height: 300px; 
 }
 
-/* --- 3. PLAYER ANIMATION (STAYS IN PLACE) --- */
+/* --- 3. PLAYER: Grounded Positioning --- */
 .sprite-player {
   position: absolute; 
   left: 10px; 
-  bottom: 50px; 
+  bottom: 0px; 
   width: 150px; 
   height: 150px;
   background: var(--p1) no-repeat center/contain;
+  background-position: bottom;
   animation: p-kick var(--total-time) steps(1) forwards;
 }
 
-/* --- 4. BALL ANIMATION (LOCKED UNTIL IMPACT) --- */
+/* --- 4. BALL: Grounded & Velocity Locked --- */
 .sprite-ball {
   position: absolute; 
   left: 95px; 
-  bottom: 75px; 
+  bottom: 5px; /* Sits on floor */
   width: 35px; 
   height: 35px;
   background: var(--b1) no-repeat center/contain;
+  background-position: bottom;
   animation: b-kick var(--total-time) linear forwards;
 }
 
-/* PLAYER KEYFRAMES: Snaps to kick at 58% */
+/* PLAYER SEQUENCING: Frame swap at impact */
 @keyframes p-kick { 
   0% { background-image: var(--p1); } 
   50% { background-image: var(--p2); } 
   58%, 100% { background-image: var(--p3); } 
 }
 
-/* BALL KEYFRAMES: The Physics Fix */
+/* BALL SEQUENCING: Physics & Image Swap Logic */
 @keyframes b-kick { 
-  /* 0% to 57.9%: Ball is visible but MOVEMENT IS LOCKED (translateX 0) */
+  /* 0% to 57.9%: NO MOVEMENT. Ball stays at translateX(0) */
   0%, 57.9% {
     background-image: var(--b1); 
     transform: translateX(0); 
     width: 35px;
+    bottom: 5px; 
     opacity: 1;
   } 
-  /* 58%: Impact! Swap image and start travel immediately */
+  /* 58%: THE IMPACT. Swap to Surge Ball, stay at 0 for one frame */
   58% {
     background-image: var(--b2); 
-    width: 110px; /* Stretch the surge ball */
-    transform: translateX(0); 
+    width: 110px; 
+    transform: translateX(0);
+    bottom: 5px;
   } 
-  /* 100%: High-velocity exit */
+  /* 100%: HIGH SPEED EXIT. Stays low on the ground */
   100% {
     background-image: var(--b2); 
     width: 110px; 
     transform: translateX(1400px); 
+    bottom: 5px; 
   } 
 }
 
-/* --- 5. GLOBAL UI & SHARED STYLES --- */
+/* --- 5. SHARED GLOBAL UI --- */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body { 
@@ -98,6 +103,26 @@ body {
   display: flex; 
   flex-direction: column; 
   align-items: center;
+}
+
+/* SHARED INPUTS (Strict Black/Yellow) */
+input { 
+  width: 100%; 
+  padding: 15px; 
+  margin: 10px 0; 
+  background: #000 !important; 
+  color: var(--neon-yellow) !important; 
+  border: 2px solid #444; 
+  font-family: "VT323"; 
+  font-size: 24px; 
+  outline: none;
+}
+
+input[type="checkbox"] { 
+  accent-color: var(--neon-yellow); 
+  width: 20px; 
+  height: 20px; 
+  cursor: pointer;
 }
 
 /* FOOTER NAVIGATION */
@@ -122,20 +147,7 @@ body {
 
 .footer-nav a:hover { color: var(--neon-yellow); }
 
-/* SHARED INPUTS (STRICT BLACK) */
-input { 
-  width: 100%; 
-  padding: 15px; 
-  margin: 10px 0; 
-  background: #000 !important; 
-  color: var(--neon-yellow) !important; 
-  border: 2px solid #444; 
-  font-family: "VT323"; 
-  font-size: 24px; 
-}
-
-input[type="checkbox"] { 
-  accent-color: var(--neon-yellow); 
-  width: 20px; 
-  height: 20px; 
+/* MOBILE RESPONSIVENESS FOR STING */
+@media (max-width: 600px) {
+  .sting-container { transform: scale(0.8); }
 }
