@@ -1,381 +1,158 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>GOALSURGE! — ROUND 1</title>
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
-<style>
-/* --- 1. CORE PALETTE (STRICT UNIFORMITY) --- */
-:root {
-  --bg: #0f0e17;          
-  --panel: #1a1a2e;       
-  --neon-pink: #ff2a6d;   
-  --neon-cyan: #05d9e8;   
-  --neon-yellow: #ffc800; 
-  --text-main: #d1d1d1;
-  --player-idle:    url('p1.png');
-  --player-windup:  url('p2.png');
-  --player-kick:    url('p3.png');
-  --ball-normal:    url('b1.png');
-  --ball-super:     url('b2.png');
-  --total-time: 1.2s;
-}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GOALSURGE! — ROUND 1</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+    <div class="nav" id="nav">
+        <a href="index.html">HOME</a>
+        <a href="predict.html" class="active">PLAY</a>
+        <a href="scores.html">SCORES</a>
+        <a href="rules.html">RULES</a>
+    </div>  
 
-body {
-    margin: 0;
-    background-color: var(--bg);
-    background-image: 
-        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-    background-size: 20px 20px;
-    color: var(--text-main);
-    font-family: "VT323", monospace;
-    font-size: 20px; 
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-    padding-bottom: 60px;
-}
-
-/* --- 2. HERO SECTION (VERSION 3 ANIMATION) --- */
-.hero-section {
-    width: 100%; max-width: 960px; padding: 60px 0; margin-bottom: 20px;
-    border-bottom: 4px solid var(--neon-cyan);
-    background: #000; 
-    position: relative; overflow: hidden;
-    text-align: center;
-    min-height: 220px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.arena-banner {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 1;
-}
-
-.sprite-player {
-    position: absolute; 
-    left: 2%; 
-    top: 25%; 
-    width: 120px; 
-    height: 120px; 
-    background-image: var(--player-idle);
-    background-size: contain; 
-    background-repeat: no-repeat; 
-    background-position: bottom center;
-    animation: player-sequence var(--total-time) step-end forwards;
-}
-
-.sprite-ball {
-    position: absolute; 
-    left: 15%; 
-    top: 53%; 
-    width: 30px; 
-    height: 30px; 
-    background-image: var(--ball-normal);
-    background-size: contain; 
-    background-repeat: no-repeat;
-    animation: ball-sequence var(--total-time) linear forwards;
-}
-
-.power-bar-container {
-    position: absolute;
-    top: -15px; 
-    left: 0; 
-    width: 100%; 
-    height: 8px;
-    background: #222; 
-    border: 1px solid #fff;
-    opacity: 0; 
-    animation: show-bar 0.1s linear 0s forwards;
-}
-
-.power-fill {
-    height: 100%; width: 0%; background: var(--neon-yellow); 
-    animation: fill-bar 0.6s linear forwards; 
-}
-
-@keyframes player-sequence {
-    0%   { background-image: var(--player-idle); }
-    50%  { background-image: var(--player-windup); }
-    55%  { background-image: var(--player-kick); transform: translateX(10px); } 
-    100% { background-image: var(--player-kick); transform: translateX(10px); }
-}
-
-@keyframes ball-sequence {
-    0%, 54.9% { background-image: var(--ball-normal); transform: translateX(0); width: 30px; height: 30px; }
-    55%  { background-image: var(--ball-super); width: 120px; height: 40px; transform: translateX(0); }
-    100% { background-image: var(--ball-super); width: 120px; height: 40px; transform: translateX(1200px); }
-}
-
-@keyframes fill-bar { 0% { width: 0%; } 100% { width: 100%; background: var(--neon-pink); } }
-@keyframes show-bar { to { opacity: 1; } }
-
-.scanlines {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1));
-    background-size: 100% 4px; pointer-events: none; z-index: 2;
-}
-
-.hero-content {
-    position: relative; z-index: 3;
-    opacity: 0;
-    animation: fadeInText 0.3s ease-in 0.8s forwards; 
-}
-@keyframes fadeInText { to { opacity: 1; transform: scale(1); } }
-
-.glitch {
-    font-family: "Press Start 2P", cursive; font-size: 40px; 
-    color: var(--neon-yellow);
-    text-shadow: 4px 4px 0px var(--neon-pink), -3px -3px 0px var(--neon-cyan);
-    text-transform: uppercase; margin: 0; line-height: 1; letter-spacing: -2px;
-}
-
-.hero-sub {
-    font-family: "Press Start 2P", cursive; font-size: 10px; color: #fff;
-    margin-top: 15px; letter-spacing: 3px; background: var(--neon-pink);
-    padding: 6px 12px; display: inline-block; box-shadow: 4px 4px 0 #000;
-}
-
-/* --- 3. NAV & BUTTONS --- */
-.nav { width: 100%; max-width: 960px; display: flex; gap: 10px; padding: 10px; margin-top: 10px; }
-.nav a {
-  flex: 1; font-family: "Press Start 2P", cursive; font-size: 10px; padding: 12px 5px;
-  color: var(--neon-cyan); text-decoration: none; background: #111;
-  border: 2px solid var(--neon-cyan); box-shadow: 4px 4px 0px 0px rgba(5, 217, 232, 0.4);
-  text-transform: uppercase; transition: all 0.1s; display: flex; align-items: center; justify-content: center;
-}
-.nav a.active { background: var(--neon-pink); border-color: var(--neon-pink); color: #fff; }
-
-button {
-    font-family: "Press Start 2P", cursive; font-size: 14px; padding: 15px 20px; margin: 10px 0;
-    color: #fff; background: var(--neon-pink); border: 2px solid #fff;
-    box-shadow: 4px 4px 0px #000; cursor: pointer; transition: all 0.05s; text-transform: uppercase;
-}
-button:hover { background: #ff5c8d; transform: translate(-2px, -2px); box-shadow: 6px 6px 0px #000; }
-button:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px #000; }
-button:disabled { opacity: 0.5; cursor: not-allowed; background: #333; border-color: #555; box-shadow: none; transform: none; }
-
-.team-btn {
-    font-size: 12px; padding: 8px; width: 50px;
-    background: #222; border: 1px solid #444; color: #666; box-shadow: 2px 2px 0 #000;
-}
-.team-btn.selected-2 { background: var(--neon-cyan); color: #000; border-color: #fff; }
-.team-btn.selected-3 { background: var(--neon-pink); color: #fff; border-color: #fff; }
-
-/* --- 4. PANELS & UNIFIED INPUTS --- */
-.panel {
-    width: 95%; max-width: 960px; background: var(--panel);
-    border: 3px solid var(--neon-cyan); padding: 20px; margin-bottom: 25px;
-    box-shadow: 0 0 20px rgba(5, 217, 232, 0.1);
-}
-h1 {
-    font-family: "Press Start 2P", cursive; font-size: 16px; margin-bottom: 20px;
-    color: var(--neon-cyan); border-bottom: 4px solid #000; padding-bottom: 10px; text-align: left;
-}
-
-input, select {
-    width: 100%; padding: 15px; margin: 10px 0; 
-    background: #000; color: var(--neon-yellow); border: 2px solid #888;
-    font-family: "VT323", monospace; font-size: 24px; outline: none; text-transform: uppercase;
-    transition: all 0.3s;
-}
-::placeholder { color: var(--neon-yellow); opacity: 1; }
-input:focus::placeholder { color: transparent; }
-input:focus, select:focus { border-color: var(--neon-yellow); }
-
-/* --- 5. GRID LAYOUTS --- */
-.groups-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; margin-top: 15px; }
-.group { background: #12121c; border: 2px solid #000; padding: 10px; }
-.group h4 { font-family: "Press Start 2P"; font-size: 12px; margin-bottom: 15px; color: var(--neon-yellow); text-align: left; }
-.team-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid #222; }
-.team-name { font-size: 22px; flex: 1; text-align: left; color: #eee; }
-
-/* --- 6. POPUPS & CHECKBOXES --- */
-.arcade-popup {
-    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    background: #000; border: 4px solid var(--neon-pink); padding: 30px;
-    z-index: 1000; width: 90%; max-width: 450px;
-    box-shadow: 10px 10px 0 rgba(0,0,0,0.5); display: none;
-    flex-direction: column; align-items: center; justify-content: center;
-}
-.popup-msg { font-size: 18px; line-height: 1.5; margin-bottom: 20px; color: #fff; font-family: "VT323", monospace; }
-
-.terms-container { margin: 15px 0; text-align: left; border-top: 1px solid #333; padding-top: 15px; }
-.terms-container label { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; color: var(--neon-yellow); cursor: pointer; font-size: 18px;}
-.terms-container input { width: 20px; height: 20px; margin: 0; cursor: pointer; accent-color: var(--neon-cyan); }
-
-.sys { margin: 15px 0; font-size: 18px; color: #555; text-transform: uppercase; min-height: 24px; transition: color 0.3s; }
-.sys.complete { color: var(--neon-cyan); text-shadow: 0 0 5px var(--neon-cyan); }
-
-/* --- SUMMARY SCREEN --- */
-.submit-overlay {
-    position: fixed; inset: 0; background: rgba(10, 10, 15, 0.98);
-    display: none; align-items: center; justify-content: center; z-index: 20;
-}
-.submit-box {
-    width: 96%; max-width: 450px; max-height: 95vh; overflow-y: auto;
-    background: #000; border: 4px solid var(--neon-yellow); padding: 0;
-}
-.submit-header {
-    background: var(--neon-yellow); color: #000; padding: 15px;
-    font-family: "Press Start 2P"; font-size: 14px; text-align: center;
-}
-.submit-body { padding: 15px; }
-.compact-info { border-bottom: 2px dashed #333; padding-bottom: 10px; margin-bottom: 10px; text-align: left; font-size: 16px; color: #fff; }
-.sc-box { background: #111; border: 2px solid var(--neon-pink); padding: 10px; margin-bottom: 10px; text-align: center; }
-.sc-title { font-family:"Press Start 2P"; font-size:10px; color: var(--neon-pink); margin-bottom: 5px; }
-.sc-val { font-family:"Press Start 2P"; font-size:12px; color: #fff; }
-.compact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; text-align: left; }
-.compact-row { padding: 6px; border: 1px solid #222; background: #080808; font-size: 14px; display: flex; align-items: center; justify-content: space-between; }
-.compact-row strong { color: var(--neon-cyan); font-family: "Press Start 2P"; font-size: 8px; margin-right: 5px; }
-
-/* Locked State */
-.dimmed { opacity: 0.2; pointer-events: none; filter: grayscale(100%); transition: all 0.5s ease; }
-
-/* Desktop Scaling */
-@media (min-width: 768px) {
-    .nav a { font-size: 18px; padding: 20px 10px; }
-    .glitch { font-size: 64px; }
-    .hero-sub { font-size: 14px; letter-spacing: 5px; }
-    h1 { font-size: 24px; }
-    input, select { font-size: 28px; padding: 20px; }
-}
-
-/* Tooltip & Overlay */
-.info-tooltip { position: fixed; top: 40%; left: 50%; transform: translate(-50%, -50%); background: #000; border: 2px solid var(--neon-cyan); padding: 15px; z-index: 1001; width: 85%; max-width: 400px; text-align: center; display: none; }
-.overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: none; align-items: center; justify-content: center; z-index: 10; }
-.modal { width: 95%; max-width: 600px; text-align: center; }
-.top-player { border: 4px solid var(--neon-cyan); padding: 20px; color: var(--neon-cyan); font-family: "Press Start 2P"; font-size: 20px; margin-bottom: 20px; background: #000; }
-.grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; }
-.player-box { padding: 8px; border: 1px solid #333; color: #444; font-family: "Press Start 2P"; font-size: 10px; }
-.player-box.active { background: var(--neon-pink); color: #fff; border-color: #fff; }
-.player-box.selected { background: var(--neon-yellow); color: #000; border-color: #fff; }
-</style>
-</head> 
-<body> 
-
-<div class="nav" id="nav">
-  <a href="index.html">HOME</a>
-  <a href="predict.html" class="active">PLAY</a>
-  <a href="scores.html">SCORES</a>
-  <a href="rules.html">RULES</a>
-</div>  
-
-<div class="hero-section">
-    <div class="scanlines"></div>
-    <div class="arena-banner">
-        <div class="sprite-player"><div class="power-bar-container"><div class="power-fill"></div></div></div>
-        <div class="sprite-ball"></div>
-    </div>
-    <div class="hero-content">
-        <h1 class="glitch" data-text="GOALSURGE!">GOALSURGE!</h1>
-        <div class="hero-sub">WORLD CUP PREDICTION GAME: ROUND 1</div>
-    </div>
-</div>
-
-<div id="startupPopup" class="arcade-popup" style="display:flex;">
-    <div class="popup-msg">
-        <strong style="color:var(--neon-yellow)">READY PLAYER ONE?</strong><br><br>
-        SUBMISSION WINDOW OPENS SOON. SELECTIONS WILL NOT BE SAVED YET.
-    </div>
-    <button id="startupBtn">INSERT COIN</button>
-</div>
-
-<div class="panel">
-    <h1>PLAYER INFO</h1>
-    <input id="username" placeholder="USERNAME (REQUIRED)">
-    <input id="email" placeholder="EMAIL ADDRESS (REQUIRED)">
-    <input id="leaguePin" placeholder="LEAGUE PIN (OPTIONAL)" maxlength="4">
-
-    <div class="terms-container">
-        <label><input type="checkbox" id="privacyCheck"> <span>ACCEPT <a href="#">PRIVACY POLICY</a> (REQUIRED)</span></label>
-        <label><input type="checkbox" id="termsCheck"> <span>ACCEPT <a href="#">TERMS OF USE</a> (REQUIRED)</span></label>
-        <label><input type="checkbox" id="marketingCheck"> <span>FUTURE COMPETITION UPDATES (OPTIONAL)</span></label>
-    </div>
-    
-    <input id="goals" placeholder="TOTAL GOALS (TIEBREAKER)" type="number">
-    <div class="sys" id="s1msg">AWAITING CREDENTIALS...</div>
-</div>  
-
-<div class="panel">
-    <h1>ROUND 1: GROUP STAGE</h1>
-    <div id="round1Container" class="dimmed">
-        <button id="comboTrigger" style="width:100%;">CHOOSE SCORER DUO</button>
-        <select id="combo" style="display:none;">
-            <option value="">SELECT SCORER DUO</option>
-            <option>Messi & Ronaldo</option>
-            <option>Neymar & Mbappé</option>
-            <option>Lewandowski & Haaland</option>
-            <option>Salah & Mané</option>
-            <option>Kane & Sterling</option>
-            <option>Vinícius & Pedri</option>
-        </select>
-        <div style="font-family:'VT323'; font-size:22px; color:var(--text-main); margin: 20px 0; text-transform:uppercase;">
-            SELECT 2ND PLACE & 8 THIRD-PLACE QUALIFIERS
+    <div class="hero-section">
+        <div class="arena-banner">
+            <div class="sprite-player"></div>
+            <div class="sprite-ball"></div>
         </div>
-        <div class="groups-grid" id="groupsGrid"></div>
-    </div>
-</div> 
-
-<button id="lockBtn" style="width: 100%; max-width: 600px;" disabled>LOCK PICKS & BONUS ROUND</button>
-
-<div id="arcadePopup" class="arcade-popup">
-    <div class="popup-msg" id="popupMsg"></div>
-    <button id="popupBtn">OK</button>
-</div>
-
-<div id="infoTooltip" class="info-tooltip">
-    <div class="tooltip-text" id="tooltipText"></div>
-</div>
-
-<div class="overlay" id="overlay">
-  <div class="modal">
-    <div style="font-family:'Press Start 2P'; color:#fff; margin-bottom:15px; font-size:12px;">BONUS PLAYER SELECTOR</div>
-    <div class="top-player" id="topPlayer">???</div>
-    <div class="actions">
-      <button id="stickBtn">STICK</button>
-      <button id="twistBtn">TWIST (2)</button>
-    </div>
-    <div class="grid" id="grid"></div>
-  </div>
-</div>  
-
-<div class="submit-overlay" id="submitOverlay">
-  <div class="submit-box">
-    <div class="submit-header">GOALSURGE ENTRY TICKET</div>
-    <div class="submit-body">
-        <div class="compact-info">
-            <span style="color:var(--neon-cyan)">PLAYER:</span> <span id="sumUser"></span><br>
-            <span style="color:#aaa">PIN:</span> <span id="sumPin"></span>
-        </div>
-        <div class="sc-box">
-            <div class="sc-title">OFFICIAL SCORER TRIO</div>
-            <div id="sumScorers" class="sc-val"></div>
-        </div>
-        <div class="compact-grid" id="sumGrid"></div>
-        <div style="text-align:center; margin-top:20px;">
-            <button onclick="location.reload()">EXIT GAME</button>
+        <div class="hero-content">
+            <h1 class="glitch">GOALSURGE!</h1>
+            <div class="hero-sub">ROUND 1 - GROUP STAGE</div>
         </div>
     </div>
-  </div>
-</div> 
+
+    <div id="startupPopup" class="arcade-popup" style="display:flex;">
+        <div class="popup-msg">
+            <strong style="color:var(--neon-yellow)">READY PLAYER ONE?</strong><br><br>
+            THE SUBMISSION WINDOW WILL OPEN NEAR TO THE START OF THE TOURNAMENT.<br><br>
+            YOU CAN CLICK THROUGH TO UNDERSTAND THE GAME BUT YOUR SELECTIONS WILL NOT BE SAVED.
+        </div>
+        <button id="startupBtn">INSERT COIN (IT'S FREE)</button>
+    </div>
+
+    <div id="rulesPopup" class="arcade-popup">
+        <div class="popup-msg" style="text-align: justify; font-size: 16px;">
+            THERE WILL BE 48 TEAMS PLAYING AT WORLD CUP 2026. TOP 2 TEAMS FROM EACH OF THE 12 GROUPS QUALIFY.<br><br>
+            THE 8 BEST THIRD-PLACED TEAMS ALSO QUALIFY. LONG LIVE INFANTINO! :D $$$
+        </div>
+        <button id="rulesBtn">OK</button>
+    </div>
+
+    <div class="panel">
+        <h1>PLAYER INFO</h1>
+        
+        <input id="username" placeholder="USERNAME (REQUIRED)">
+        <input id="email" placeholder="EMAIL ADDRESS (REQUIRED)">
+        <input id="leaguePin" placeholder="LEAGUE PIN (OPTIONAL)" maxlength="4">
+
+        <div class="terms-container">
+            <label><input type="checkbox" id="privacyCheck"> <span>I ACCEPT THE <a href="#">PRIVACY POLICY</a> (REQUIRED)</span></label>
+            <label><input type="checkbox" id="termsCheck"> <span>I ACCEPT THE <a href="#">TERMS OF USE</a> (REQUIRED)</span></label>
+            <label><input type="checkbox" id="marketingCheck"> <span>TELL ME ABOUT FUTURE GOALSURGE! COMPETITIONS (OPTIONAL).</span></label>
+        </div>
+        <div class="sys" id="s1msg">AWAITING CREDENTIALS...</div>
+    </div>  
+
+    <div class="panel">
+        <h1>ROUND 1: GROUP STAGE</h1>
+        
+        <div id="round1Container" class="dimmed">
+            <button id="comboTrigger" style="width:100%;">CHOOSE SCORER DUO</button>
+            <select id="combo" style="display:none;">
+                <option value="">SELECT SCORER DUO</option>
+                <option>Messi & Ronaldo</option>
+                <option>Neymar & Mbappé</option>
+                <option>Lewandowski & Haaland</option>
+                <option>Salah & Mané</option>
+                <option>Kane & Sterling</option>
+                <option>Vinícius & Pedri</option>
+            </select>
+
+            <input id="goals" placeholder="TOTAL GOALS (TIEBREAKER)" type="number">
+            
+            <div style="font-family:'VT323'; font-size:22px; color:var(--text-main); margin: 20px 0; text-transform:uppercase;">
+                PICKING 1ST PLACE IS TOO EASY. SELECT 2ND PLACE & 8 THIRD-PLACE QUALIFIERS
+            </div>
+
+            <div class="groups-grid" id="groupsGrid"></div>
+        </div>
+    </div> 
+
+    <button id="lockBtn" style="width: 100%; max-width: 600px; font-size: 18px;" disabled>LOCK PICKS & BONUS ROUND</button>
+
+    <div id="arcadePopup" class="arcade-popup">
+        <div class="popup-msg" id="popupMsg"></div>
+        <div id="progressBarContainer" style="display:none; width:100%;">
+            <div class="progress-track">
+                <div id="progressFill" class="progress-fill"></div>
+            </div>
+        </div>
+        <button id="popupBtn">OK</button>
+    </div>
+
+    <div id="infoTooltip" class="info-tooltip">
+        <div class="tooltip-text" id="tooltipText"></div>
+    </div>
+
+    <div class="overlay" id="overlay">
+      <div class="modal">
+        <div style="font-family:'Press Start 2P'; color:#fff; margin-bottom:15px; font-size:12px;">BONUS PLAYER SELECTOR</div>
+        <div class="top-player" id="topPlayer">???</div>
+        <div class="subtitle" id="twistSub" style="margin-bottom:20px; color:#888;">STICK OR TWIST?</div>
+        <div class="actions">
+          <button id="stickBtn">STICK</button>
+          <button id="twistBtn">TWIST (2)</button>
+        </div>
+        <div class="grid" id="grid"></div>
+      </div>
+    </div>  
+
+    <div class="submit-overlay" id="submitOverlay">
+      <div class="submit-box">
+        <div class="submit-header">GOALSURGE ENTRY TICKET</div>
+        
+        <div class="submit-body">
+            <div class="compact-info">
+                <span style="color:var(--neon-cyan)">PLAYER:</span> <span id="sumUser"></span><br>
+                <span style="color:#aaa">EMAIL:</span> <span id="sumEmail"></span><br>
+                <span style="color:#aaa">PIN:</span> <span id="sumPin"></span>
+            </div>
+            
+            <div class="sc-box">
+                <div class="sc-title">OFFICIAL SCORER TRIO</div>
+                <div id="sumScorers" class="sc-val"></div>
+            </div>
+
+            <div class="compact-grid" id="sumGrid"></div>
+
+            <div style="text-align:center; margin-top:20px; border-top: 2px dashed #333; padding-top:15px;">
+                <div style="color:var(--neon-pink); font-family:'Press Start 2P'; font-size: 10px; margin-bottom:10px;">[ CAPTURE SCREENSHOT NOW ]</div>
+                <button onclick="location.reload()" style="font-size:10px; padding:10px;">EXIT GAME</button>
+            </div>
+        </div>
+      </div>
+    </div> 
+    <footer class="footer-nav">
+        <a href="privacy.html">PRIVACY POLICY</a>
+        <a href="terms.html">TERMS OF USE</a>
+    </footer>
 
 <script>
 'use strict';
+/* ---------- POPUP LOGIC ---------- */
 const startupPopup = document.getElementById('startupPopup');
 document.getElementById('startupBtn').onclick = () => { startupPopup.style.display = 'none'; };
 
+const rulesPopup = document.getElementById('rulesPopup');
+document.getElementById('rulesBtn').onclick = () => { rulesPopup.style.display = 'none'; };
+
+/* ---------- STATE VARIABLES ---------- */
 const usernameInput=document.getElementById('username'),
 emailInput=document.getElementById('email'),
 leaguePinInput=document.getElementById('leaguePin'),
@@ -388,10 +165,31 @@ s1msg=document.getElementById('s1msg'),
 lockBtn=document.getElementById('lockBtn'),
 round1Container=document.getElementById('round1Container');
 
+/* ---------- TOOLTIPS ---------- */
+const infoTooltip = document.getElementById('infoTooltip');
+const tooltipText = document.getElementById('tooltipText');
+let tooltipTimeout;
+
+function showTooltip(msg, duration = 3000) {
+    tooltipText.textContent = msg;
+    infoTooltip.style.display = 'block';
+    clearTimeout(tooltipTimeout);
+    tooltipTimeout = setTimeout(() => {
+        infoTooltip.style.display = 'none';
+    }, duration);
+}
+
+usernameInput.addEventListener('focus', () => showTooltip('DISPLAY NAME FOR LEADERBOARD'));
+emailInput.addEventListener('focus', () => showTooltip('INSERT VALID EMAIL ADDRESS, REQUIRED'));
+leaguePinInput.addEventListener('focus', () => showTooltip('ENTER AN EXISTING PIN OR CREATE A NEW ONE AND SHARE IT WITH YOUR FRIENDS.'));
+goalsInput.addEventListener('focus', () => showTooltip('TOTAL GOALS IN GROUP STAGE (TIEBREAKER)'));
+
+/* ---------- FLOW CONTROLLER ---------- */
 function updateTerminalState() {
-    const isIdentityComplete = usernameInput.value.trim().length > 2 && 
-                               emailInput.value.includes('@') && 
-                               privacyCheck.checked && termsCheck.checked;
+    const isNameValid = usernameInput.value.trim().length > 2;
+    const isEmailValid = emailInput.value.includes('@') && emailInput.value.includes('.');
+    const areTermsChecked = privacyCheck.checked && termsCheck.checked;
+    const isIdentityComplete = isNameValid && isEmailValid && areTermsChecked;
 
     if (!isIdentityComplete) {
         s1msg.textContent = "AWAITING CREDENTIALS...";
@@ -403,9 +201,12 @@ function updateTerminalState() {
         round1Container.classList.remove('dimmed');
     }
 
+    const isGoalsValid = goalsInput.value > 0;
+    const isComboSelected = comboSelect.value !== "";
     const secondComplete = state.secondPicks.every(x => x !== null);
     const thirdComplete = state.thirdPicks.filter(x => x !== null).length === MAX_THIRD;
-    lockBtn.disabled = !(isIdentityComplete && comboSelect.value !== "" && goalsInput.value > 0 && secondComplete && thirdComplete);
+    
+    lockBtn.disabled = !(isIdentityComplete && isComboSelected && isGoalsValid && secondComplete && thirdComplete);
 }
 
 [usernameInput, emailInput, comboSelect, goalsInput, privacyCheck, termsCheck].forEach(el => {
@@ -414,10 +215,18 @@ function updateTerminalState() {
 });
 
 comboTrigger.onclick = () => {
-    comboTrigger.style.display = 'none';
-    comboSelect.style.display = 'block';
+    showPopup("These two players and your Bonus Player (chosen at the end) will earn points for you with goals and assists in the Group Stage.");
+    const btn = document.getElementById('popupBtn');
+    btn.onclick = () => {
+        document.getElementById('arcadePopup').style.display = 'none';
+        comboTrigger.style.display = 'none';
+        comboSelect.style.display = 'block';
+        updateTerminalState();
+        btn.onclick = () => { document.getElementById('arcadePopup').style.display = 'none'; };
+    };
 };
 
+/* ---------- GROUP PICKS LOGIC ---------- */
 const GROUPS=[ 
 ["MEXICO 🇲🇽","S.AFRICA 🇿🇦","S.KOREA 🇰🇷","DEN/IRL 🇩🇰"],
 ["CANADA 🇨🇦","ITALY 🇮🇹","QATAR 🇶🇦","SWITZ 🇨🇭"],
@@ -437,6 +246,27 @@ const MAX_THIRD=8;
 const state={ secondPicks:Array(GROUPS.length).fill(null), thirdPicks:Array(GROUPS.length).fill(null) };
 const groupsGrid=document.getElementById('groupsGrid');
 
+const popup = document.getElementById('arcadePopup');
+const popupMsg = document.getElementById('popupMsg');
+const popupBtn = document.getElementById('popupBtn');
+const progressBarContainer = document.getElementById('progressBarContainer');
+const progressFill = document.getElementById('progressFill');
+
+function showPopup(msg, isProgress=false, count=0) {
+    popupMsg.textContent = msg;
+    popup.style.display = 'flex';
+    if(isProgress) {
+        popupBtn.style.display = 'none';
+        progressBarContainer.style.display = 'block';
+        const pct = (count / MAX_THIRD) * 100;
+        progressFill.style.width = pct + '%';
+        setTimeout(() => { popup.style.display = 'none'; }, 1500);
+    } else {
+        popupBtn.style.display = 'block';
+        progressBarContainer.style.display = 'none';
+    }
+}
+
 function renderGroups(){ 
     groupsGrid.innerHTML='';
     GROUPS.forEach((teams, i) => {
@@ -455,42 +285,110 @@ function renderGroups(){
 }
 
 function togglePick(groupIndex, teamIndex, type, btn) {
+    if (type === 'second' && state.thirdPicks[groupIndex] === teamIndex) { showPopup("ALREADY PICKED AS 3RD"); return; }
+    if (type === 'third' && state.secondPicks[groupIndex] === teamIndex) { showPopup("ALREADY PICKED AS 2ND"); return; }
+
     if (type === 'second') {
-        const groupDiv = groupsGrid.children[groupIndex];
-        groupDiv.querySelectorAll('.selected-2').forEach(b => b.classList.remove('selected-2'));
-        state.secondPicks[groupIndex] = teamIndex;
-        btn.classList.add('selected-2');
+        const current = state.secondPicks[groupIndex];
+        if (current === teamIndex) {
+            state.secondPicks[groupIndex] = null;
+            btn.classList.remove('selected-2');
+        } else {
+            const groupDiv = groupsGrid.children[groupIndex];
+            const oldBtn = groupDiv.querySelector('.selected-2');
+            if(oldBtn) oldBtn.classList.remove('selected-2');
+            state.secondPicks[groupIndex] = teamIndex;
+            btn.classList.add('selected-2');
+        }
     } else {
-        const currentCount = state.thirdPicks.filter(x => x !== null).length;
-        if (!btn.classList.contains('selected-3') && currentCount >= MAX_THIRD) return;
-        btn.classList.toggle('selected-3');
-        state.thirdPicks[groupIndex] = btn.classList.contains('selected-3') ? teamIndex : null;
+        if (state.thirdPicks[groupIndex] === teamIndex) {
+            state.thirdPicks[groupIndex] = null;
+            btn.classList.remove('selected-3');
+            showPopup(`${state.thirdPicks.filter(x=>x!==null).length}/8 THIRD PLACE TEAMS`, true, state.thirdPicks.filter(x=>x!==null).length);
+        } else {
+            if (state.thirdPicks.filter(x=>x!==null).length >= MAX_THIRD) { showPopup("MAX 8 REACHED"); return; }
+            const groupDiv = groupsGrid.children[groupIndex];
+            const oldBtn = groupDiv.querySelector('.selected-3');
+            if(oldBtn) oldBtn.classList.remove('selected-3');
+            state.thirdPicks[groupIndex] = teamIndex;
+            btn.classList.add('selected-3');
+            showPopup(`${state.thirdPicks.filter(x=>x!==null).length}/8 THIRD PLACE TEAMS`, true, state.thirdPicks.filter(x=>x!==null).length);
+        }
     }
     updateTerminalState();
 }
 
-const PLAYERS=['MESSI','RONALDO','MBAPPÉ','HAALAND','SALAH','KANE','NEYMAR'];
-let finalPlayer = "KANE";
+/* ---------- BONUS ROUND ---------- */
+const PLAYERS=['MESSI','RONALDO','MBAPPÉ','HAALAND','SALAH','KANE','NEYMAR','VINÍCIUS','PEDRI','GRIEZMANN','BELLINGHAM','LEWANDOWSKI','SON','OSIMHEN','SAKA','RASHFORD','FODEN','MUSIALA'];
+let finalPlayer = null;
+let twists = 2;
+
 lockBtn.onclick = () => {
     document.getElementById('overlay').style.display = 'flex';
+    initBonusGame();
+};
+
+function initBonusGame() {
     const grid = document.getElementById('grid');
+    grid.innerHTML = '';
     PLAYERS.forEach(p => {
         const div = document.createElement('div');
         div.className = 'player-box';
         div.textContent = p;
         grid.appendChild(div);
     });
+    spinWheel();
+}
+
+function spinWheel(isFinal = false) {
+    const boxes = document.querySelectorAll('.player-box');
+    let spins = 0;
+    const interval = setInterval(() => {
+        boxes.forEach(b => b.classList.remove('active'));
+        const r = Math.floor(Math.random() * boxes.length);
+        boxes[r].classList.add('active');
+        document.getElementById('topPlayer').textContent = boxes[r].textContent;
+        spins++;
+        if(spins > 20) {
+            clearInterval(interval);
+            finalPlayer = boxes[r].textContent;
+            boxes[r].classList.add('selected');
+            if(isFinal) setTimeout(showFinalSummary, 1500);
+        }
+    }, 80);
+}
+
+document.getElementById('twistBtn').onclick = () => {
+    if(twists > 0) {
+        twists--;
+        document.getElementById('twistBtn').textContent = `TWIST (${twists})`;
+        document.querySelectorAll('.player-box').forEach(b => b.classList.remove('selected'));
+        spinWheel(twists === 0);
+    }
 };
 
-document.getElementById('stickBtn').onclick = () => {
+document.getElementById('stickBtn').onclick = showFinalSummary;
+
+function showFinalSummary() {
     document.getElementById('overlay').style.display = 'none';
-    document.getElementById('sumUser').textContent = usernameInput.value;
+    document.getElementById('sumUser').textContent = usernameInput.value.toUpperCase();
+    document.getElementById('sumEmail').textContent = emailInput.value.toUpperCase();
     document.getElementById('sumPin').textContent = leaguePinInput.value || "N/A";
-    document.getElementById('sumScorers').textContent = comboSelect.value + " + " + finalPlayer;
+    document.getElementById('sumScorers').textContent = comboSelect.value.toUpperCase() + " + " + finalPlayer;
+    const grid = document.getElementById('sumGrid');
+    grid.innerHTML = ''; 
+    GROUPS.forEach((teams, i) => {
+        const div = document.createElement('div'); div.className = 'compact-row';
+        const p2 = state.secondPicks[i] !== null ? teams[state.secondPicks[i]] : '-';
+        const p3 = state.thirdPicks[i] !== null ? teams[state.thirdPicks[i]] : '';
+        div.innerHTML = `<div><strong>${letters[i]}</strong> ${p2}</div>` + (p3 ? `<div class="p3">/ ${p3}</div>` : '');
+        grid.appendChild(div);
+    });
     document.getElementById('submitOverlay').style.display = 'flex';
-};
+}
 
 renderGroups();
+updateTerminalState();
 </script> 
 </body>
 </html>
