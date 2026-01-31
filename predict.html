@@ -52,7 +52,7 @@ input:focus, select:focus { border-color: var(--neon-yellow); }
 .group h4 { font-family: "Press Start 2P"; font-size: 12px; margin-bottom: 15px; color: var(--neon-yellow); text-align: left; }
 .team-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid #222; }
 .team-name { font-size: 22px; flex: 1; text-align: left; color: #eee; }
-.arcade-popup { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #000; border: 4px solid var(--neon-pink); padding: 30px; z-index: 1000; width: 90%; max-width: 450px; box-shadow: 10px 10px 0 rgba(0,0,0,0.5); display: none; flex-direction: column; align-items: center; justify-content: center; }
+.arcade-popup { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #000; border: 4px solid var(--neon-pink); padding: 30px; z-index: 10000; width: 90%; max-width: 450px; box-shadow: 10px 10px 0 rgba(0,0,0,0.5); display: none; flex-direction: column; align-items: center; justify-content: center; }
 .popup-msg { font-size: 18px; line-height: 1.5; margin-bottom: 20px; color: #fff; font-family: "VT323", monospace; }
 .progress-track { width: 100%; height: 20px; background: #222; border: 2px solid #555; margin-top: 10px; position: relative; }
 .progress-fill { height: 100%; background: var(--neon-cyan); width: 0%; transition: width 0.3s ease; }
@@ -62,7 +62,7 @@ input:focus, select:focus { border-color: var(--neon-yellow); }
 .sys.active { color: var(--neon-yellow); border-left-color: var(--neon-yellow); }
 .sys.complete { color: var(--neon-cyan); border-left-color: var(--neon-cyan); text-shadow: 0 0 5px var(--neon-cyan); }
 
-.overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: none; align-items: center; justify-content: center; z-index: 10000; }
+.overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: none; align-items: center; justify-content: center; z-index: 1000; }
 .modal { width: 95%; max-width: 600px; text-align: center; border: 4px solid var(--neon-cyan); background: #000; padding: 30px; }
 .top-player { border: 4px solid var(--neon-cyan); padding: 20px; color: var(--neon-cyan); font-family: "Press Start 2P"; font-size: 20px; margin-bottom: 20px; background: #000; word-wrap: break-word;}
 .grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 5px; }
@@ -112,18 +112,19 @@ input:focus, select:focus { border-color: var(--neon-yellow); }
     <div class="sys active" id="id-msg">TERMINAL READY: AWAITING CREDENTIALS...</div>
 
     <input id="username" placeholder="USERNAME" onfocus="termHelp('id-msg', 'DISPLAY NAME FOR GLOBAL LEADERBOARDS')">
-    <input id="email" placeholder="EMAIL ADDRESS" onfocus="termHelp('id-msg', 'VALID EMAIL REQUIRED FOR PRIZES')">
+    <input id="email" placeholder="EMAIL ADDRESS" onfocus="termHelp('id-msg', 'VALID EMAIL REQUIRED FOR PRIZE NOTIFICATION')">
     <input id="leaguePin" placeholder="LEAGUE PIN (OPTIONAL)" maxlength="4" onfocus="termHelp('id-msg', 'JOIN A PRIVATE LEAGUE OR LEAVE BLANK')">
 
-    <div style="text-align:left; margin-top:15px; color:var(--neon-yellow); font-family:'VT323'; font-size:22px;">
-        <label><input type="checkbox" id="privacyCheck" onchange="updateTerminalState()"> <span>ACCEPT PRIVACY POLICY</span></label><br>
-        <label><input type="checkbox" id="termsCheck" onchange="updateTerminalState()"> <span>ACCEPT TERMS OF USE</span></label>
+    <div style="text-align:left; margin-top:20px; color:var(--neon-yellow); font-family:'VT323'; font-size:24px; line-height:1.4;">
+        <label style="display:flex; align-items:center; gap:10px; cursor:pointer;"><input type="checkbox" id="privacyCheck" onchange="updateTerminalState()" style="width:25px; height:25px;"> <span>ACCEPT PRIVACY POLICY (REQUIRED)</span></label>
+        <label style="display:flex; align-items:center; gap:10px; cursor:pointer; margin-top:10px;"><input type="checkbox" id="termsCheck" onchange="updateTerminalState()" style="width:25px; height:25px;"> <span>ACCEPT TERMS OF USE (REQUIRED)</span></label>
+        <label style="display:flex; align-items:center; gap:10px; cursor:pointer; margin-top:10px;"><input type="checkbox" id="marketingCheck" style="width:25px; height:25px;"> <span>SEND ME FUTURE COMPETITION UPDATES</span></label>
     </div>
 </div>
 
 <div class="panel">
     <h1>2. STRATEGY</h1>
-    <div class="sys" id="strat-msg">BONUS SELECTION STANDBY...</div>
+    <div class="sys active" id="strat-msg" style="color:var(--neon-yellow); border-left-color:var(--neon-yellow);">BONUS SELECTION STANDBY...</div>
 
     <button id="comboTrigger" style="width:100%; border:2px solid var(--neon-cyan); background:#111; color:var(--neon-cyan); padding:15px; font-family:'Press Start 2P'; font-size:12px;" onclick="showCombo()">SELECT DEADLY DUO</button>
     <select id="combo" style="display:none;" onchange="updateTerminalState()" onfocus="termHelp('strat-msg', 'THESE TWO EARN POINTS FOR EVERY GOAL/ASSIST')">
@@ -136,17 +137,28 @@ input:focus, select:focus { border-color: var(--neon-yellow); }
         <option>Vinícius & Pedri</option>
     </select>
 
-    <input id="goals" placeholder="TOTAL GOALS" type="number" onfocus="termHelp('strat-msg', 'TIEBREAKER: PREDICT TOTAL GOALS ACROSS ALL GROUP GAMES')" oninput="updateTerminalState()">
+    <input id="goals" placeholder="TIEBREAKER: PREDICT TOTAL GOALS" type="number" onfocus="termHelp('strat-msg', 'PREDICT TOTAL GOALS SCORED IN ALL 36 GROUP MATCHES')" oninput="updateTerminalState()">
 </div>
 
 <div class="panel">
-    <h1>3. GROUP STAGE PICKS</h1>
+    <h1>3. TEAM PICKS</h1>
+    <div class="sys active" id="picks-msg" style="color:var(--neon-yellow); border-left-color:var(--neon-yellow);">SELECT 2ND PLACE IN ALL GROUPS + 8 BEST 3RD PLACES</div>
     <div id="round1Container" class="dimmed">
         <div class="groups-grid" id="groupsGrid"></div>
     </div>
 </div> 
 
 <button id="lockBtn" style="width: 100%; max-width: 800px; padding:25px; background:var(--neon-pink); color:#fff; font-family:'Press Start 2P'; border:4px solid #fff; box-shadow:10px 10px 0 #000; margin-bottom:60px;" disabled onclick="startBonus()">LOCK PICKS & BONUS ROUND</button>
+
+<div id="arcadePopup" class="arcade-popup">
+    <div class="popup-msg" id="popupMsg"></div>
+    <div id="progressBarContainer" style="display:none; width:100%;">
+        <div class="progress-track">
+            <div id="progressFill" class="progress-fill"></div>
+        </div>
+    </div>
+    <button id="popupBtn" style="background:var(--neon-pink); padding:10px 20px; border:none; color:#fff; font-family:'Press Start 2P'; margin-top:15px; cursor:pointer;">OK</button>
+</div>
 
 <div class="overlay" id="bonusOverlay"><div class="modal"><div class="top-player" id="topPlayer">???</div><div id="twistSub" style="margin-bottom:20px; color:#888;">STICK OR TWIST?</div><button id="stickBtn" onclick="showFinalSummary()">STICK</button><button id="twistBtn" onclick="twistLogic()">TWIST (2)</button><div class="grid" id="grid"></div></div></div>
 <div class="submit-overlay" id="submitOverlay"><div class="submit-box"><div class="submit-header">ENTRY TICKET</div><div class="submit-body" id="sumGridArea"></div><button onclick="location.reload()" style="width:100%; margin-top:15px;">EXIT</button></div></div>
@@ -170,7 +182,7 @@ window.addEventListener('load', () => {
 function termHelp(id, msg) { document.getElementById(id).textContent = msg; }
 function showCombo() { document.getElementById('comboTrigger').style.display='none'; document.getElementById('combo').style.display='block'; }
 
-// 2. THE CORRECT WORLD CUP 2026 GROUPS
+// 2. GROUPS DATA
 const GROUPS=[ 
     ["MEXICO 🇲🇽","S.AFRICA 🇿🇦","S.KOREA 🇰🇷","DEN/IRL 🇩🇰"],
     ["CANADA 🇨🇦","ITALY 🇮🇹","QATAR 🇶🇦","SWITZ 🇨🇭"],
@@ -186,8 +198,32 @@ const GROUPS=[
     ["ENGLAND 🏴󠁧󠁢󠁥󠁮󠁧󠁿","CROATIA 🇭🇷","GHANA 🇬🇭","PANAMA 🇵🇦"]
 ];
 const letters="ABCDEFGHIJKL".split('');
+const MAX_THIRD=8;
 const state={ secondPicks:Array(12).fill(null), thirdPicks:Array(12).fill(null) };
 const groupsGrid=document.getElementById('groupsGrid');
+
+// POPUP HANDLER
+const popup = document.getElementById('arcadePopup');
+const popupMsg = document.getElementById('popupMsg');
+const popupBtn = document.getElementById('popupBtn');
+const progressBarContainer = document.getElementById('progressBarContainer');
+const progressFill = document.getElementById('progressFill');
+popupBtn.onclick = () => { popup.style.display = 'none'; };
+
+function showPopup(msg, isProgress=false, count=0) {
+    popupMsg.textContent = msg;
+    popup.style.display = 'flex';
+    if(isProgress) {
+        popupBtn.style.display = 'none';
+        progressBarContainer.style.display = 'block';
+        const pct = (count / MAX_THIRD) * 100;
+        progressFill.style.width = pct + '%';
+        setTimeout(() => { popup.style.display = 'none'; }, 1000);
+    } else {
+        popupBtn.style.display = 'block';
+        progressBarContainer.style.display = 'none';
+    }
+}
 
 function renderGroups(){ 
     groupsGrid.innerHTML='';
@@ -208,8 +244,9 @@ function renderGroups(){
 }
 
 function togglePick(gi, ti, type, btn){
-    if(type==='second' && state.thirdPicks[gi]===ti) return;
-    if(type==='third' && state.secondPicks[gi]===ti) return;
+    if(type==='second' && state.thirdPicks[gi]===ti) { showPopup("ALREADY PICKED AS 3RD"); return; }
+    if(type==='third' && state.secondPicks[gi]===ti) { showPopup("ALREADY PICKED AS 2ND"); return; }
+    
     if(type==='second'){
         if(state.secondPicks[gi]===ti){ state.secondPicks[gi]=null; btn.classList.remove('selected-2'); }
         else {
@@ -217,11 +254,17 @@ function togglePick(gi, ti, type, btn){
             state.secondPicks[gi]=ti; btn.classList.add('selected-2');
         }
     } else {
-        if(state.thirdPicks[gi]===ti){ state.thirdPicks[gi]=null; btn.classList.remove('selected-3'); }
+        if(state.thirdPicks[gi]===ti){ 
+            state.thirdPicks[gi]=null; btn.classList.remove('selected-3'); 
+            const count = state.thirdPicks.filter(x => x !== null).length;
+            showPopup(`${count}/8 THIRD PLACE TEAMS`, true, count);
+        }
         else {
-            if(state.thirdPicks.filter(x=>x!==null).length >= 8) return;
+            const count = state.thirdPicks.filter(x => x !== null).length;
+            if(count >= 8) { showPopup("MAX 8 THIRD-PLACE TEAMS REACHED"); return; }
             const old=groupsGrid.children[gi].querySelector('.selected-3'); if(old) old.classList.remove('selected-3');
             state.thirdPicks[gi]=ti; btn.classList.add('selected-3');
+            showPopup(`${count + 1}/8 THIRD PLACE TEAMS`, true, count + 1);
         }
     }
     updateTerminalState();
@@ -243,7 +286,7 @@ function updateTerminalState(){
     }
 }
 
-// BONUS SELECTOR (PRESERVED)
+// BONUS SELECTOR
 const PLAYERS=['MESSI','RONALDO','MBAPPÉ','HAALAND','SALAH','KANE','NEYMAR','VINÍCIUS','PEDRI','GRIEZMANN','BELLINGHAM','LEWANDOWSKI','SON','OSIMHEN','SAKA','RASHFORD','FODEN','MUSIALA'];
 let finalBonus=null, twists=2;
 function startBonus(){ document.getElementById('bonusOverlay').style.display='flex'; const grid=document.getElementById('grid'); grid.innerHTML=''; PLAYERS.forEach(p=>{ const d=document.createElement('div'); d.className='player-box'; d.textContent=p; grid.appendChild(d); }); spin(); }
