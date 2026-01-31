@@ -1,17 +1,17 @@
 /* --- 1. GLOBAL CORE CONFIG --- */
 :root {
-  --bg: #0b0b0f;          /* Darker for better contrast */
-  --panel: #121217;       /* Subtle depth */
-  --border-dim: #2d2d3a;  /* "Standby" border color */
-  --neon-pink: #ff2a6d;   
-  --neon-cyan: #05d9e8;   
+  --bg: #0b0b0f;
+  --panel: #121217;
+  --border-dim: #2d2d3a;
+  --neon-pink: #ff2a6d;
+  --neon-cyan: #05d9e8;
   --neon-yellow: #ffc800;
   --p1: url('p1.png'); --p2: url('p2.png'); --p3: url('p3.png');
   --b1: url('b1.png'); --b2: url('b2.png');
   --total-time: 0.9s; 
 }
 
-/* --- 2. STING OVERLAY (KEEPING YOUR PERFECT PHYSICS) --- */
+/* --- 2. STING OVERLAY (UNCHANGED PHYSICS) --- */
 #sting-overlay {
   position: fixed; inset: 0; background: #000; z-index: 9999;
   display: flex; justify-content: center; align-items: center;
@@ -31,54 +31,69 @@
 @keyframes p-kick { 0% { background-image: var(--p1); } 50% { background-image: var(--p2); } 58%, 100% { background-image: var(--p3); } }
 @keyframes b-kick { 0%, 57.9% { background-image: var(--b1); transform: translateX(0); width: 35px; bottom: 0px; opacity: 1; } 58% { background-image: var(--b2); width: 110px; transform: translateX(0); bottom: 0px; } 100% { background-image: var(--b2); width: 110px; transform: translateX(1400px); bottom: 0px; } }
 
-/* --- 3. THE "CLEAN ARCADE" UI --- */
+/* --- 3. CLEAN ARCADE UI --- */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { 
   margin: 0; background: var(--bg); color: #a0a0b0; 
   font-family: "VT323", monospace; display: flex; flex-direction: column; align-items: center;
-  line-height: 1.4;
 }
 
-/* NAVIGATION: Minimal but clear */
 .nav { width: 100%; max-width: 900px; display: flex; gap: 5px; padding: 20px 10px; }
 .nav a { 
   flex: 1; font-family: "Press Start 2P"; font-size: 9px; padding: 12px; 
-  color: #555; text-decoration: none; border: 1px solid #222; text-align: center;
-  transition: 0.2s;
+  color: #444; text-decoration: none; border: 1px solid #222; text-align: center;
 }
 .nav a.active { color: var(--neon-cyan); border-color: var(--neon-cyan); background: rgba(5, 217, 232, 0.05); }
 
-/* PANELS: Removing the "Shouting" neon */
 .panel {
   width: 95%; max-width: 800px; background: var(--panel);
   border: 1px solid var(--border-dim); padding: 30px; margin-bottom: 20px;
-  transition: border-color 0.3s;
 }
-.panel:focus-within { border-color: var(--neon-cyan); }
-
-h1 { 
+.panel h1 { 
   font-family: "Press Start 2P"; font-size: 14px; color: #444; 
-  margin-bottom: 25px; text-transform: uppercase; letter-spacing: 1px;
+  margin-bottom: 25px; text-transform: uppercase;
 }
 
-/* INPUTS: Black Fill, Glow on Focus */
+/* INPUTS: Fixing the "White Box" Email Issue */
 input, select { 
   width: 100%; padding: 18px; margin: 10px 0; 
   background: #000 !important; color: #fff !important; 
   border: 1px solid var(--border-dim); font-family: "VT323"; font-size: 24px; 
   outline: none; transition: 0.2s;
 }
-input:focus { border-color: var(--neon-cyan); color: var(--neon-cyan) !important; box-shadow: 0 0 15px rgba(5, 217, 232, 0.2); }
 
-/* SYSTEM BAR: The dynamic pop-up text area */
-.system-msg {
-  background: #000; border-left: 4px solid var(--neon-yellow);
-  padding: 15px; margin: 10px 0 20px 0; color: var(--neon-yellow);
-  font-size: 18px; min-height: 54px; display: flex; align-items: center;
-  text-transform: uppercase;
+/* Force black background on Autofill/Chrome validation */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--neon-yellow);
+  -webkit-box-shadow: 0 0 0px 1000px #000 inset;
+  transition: background-color 5000s ease-in-out 0s;
 }
 
-/* FOOTER */
+input:focus { border-color: var(--neon-cyan); color: var(--neon-cyan) !important; }
+
+/* SYSTEM BAR: Explained below */
+.system-bar {
+  background: #000; border-left: 4px solid var(--neon-yellow);
+  padding: 15px; margin: 10px 0 20px 0; color: var(--neon-yellow);
+  font-size: 18px; min-height: 60px; display: flex; align-items: center;
+  text-transform: uppercase; width: 100%;
+}
+
+.groups-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; width: 100%; }
+.group { background: #08080a; border: 1px solid #222; padding: 15px; }
+.group h4 { font-family: "Press Start 2P"; font-size: 10px; color: var(--neon-yellow); margin-bottom: 10px; }
+.team-row { display: flex; align-items: center; padding: 5px 0; border-bottom: 1px solid #111; }
+.team-name { flex: 1; font-size: 20px; }
+
+.team-btn { 
+  background: #111; border: 1px solid #333; color: #555; padding: 5px; 
+  width: 45px; margin-left: 5px; cursor: pointer; font-family: "VT323";
+}
+.team-btn.selected-2 { border-color: var(--neon-cyan); color: var(--neon-cyan); }
+.team-btn.selected-3 { border-color: var(--neon-pink); color: var(--neon-pink); }
+
 .footer-nav { margin-top: 50px; padding: 40px; border-top: 1px solid #222; width: 100%; max-width: 800px; display: flex; justify-content: center; gap: 30px; }
 .footer-nav a { color: #444; text-decoration: none; font-family: "Press Start 2P"; font-size: 8px; }
 
