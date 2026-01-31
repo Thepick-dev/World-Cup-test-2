@@ -3,49 +3,89 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>GOALSURGE! — ROUND 1</title>
+<title>WORLD CUP 2026: ROUND 1 - GROUP STAGE</title>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <style>
-/* --- EMAIL AUTOFILL SHIELD --- */
-input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus {
-    -webkit-text-fill-color: var(--neon-yellow) !important;
-    -webkit-box-shadow: 0 0 0px 1000px #000 inset !important;
-    transition: background-color 5000s ease-in-out 0s;
+/* --- YOUR ORIGINAL INTERNAL STYLES (UNTOUCHED) --- */
+:root{
+  --bg: #0f0e17;          
+  --panel: #1a1a2e;       
+  --neon-pink: #ff2a6d;   
+  --neon-cyan: #05d9e8;   
+  --neon-yellow: #ffc800; 
+  --text-main: #d1d1d1;
 }
-
-/* --- SYSTEM TERMINAL STYLES --- */
-.system-terminal {
-    background: #000; border: 2px solid var(--neon-yellow);
-    padding: 12px 15px; margin-bottom: 20px; color: var(--neon-yellow);
-    font-family: "VT323"; font-size: 20px; min-height: 60px; 
-    display: flex; align-items: center; text-transform: uppercase;
-    box-shadow: 5px 5px 0 var(--neon-pink);
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+    margin:0; background-color: var(--bg);
+    background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 20px 20px; color: var(--text-main); font-family:"VT323", monospace; font-size: 20px; 
+    text-align:center; display:flex; flex-direction:column; align-items:center; min-height: 100vh; padding-bottom: 60px;
 }
+.hero-section { width: 100%; max-width: 960px; padding: 30px 0; margin-bottom: 20px; border-bottom: 4px solid var(--neon-cyan); background: linear-gradient(180deg, rgba(5, 217, 232, 0) 0%, rgba(5, 217, 232, 0.1) 100%); position: relative; overflow: hidden; text-align: center; }
+.scanlines { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1)); background-size: 100% 4px; pointer-events: none; z-index: 2; }
+.glitch { font-family: "Press Start 2P", cursive; font-size: 40px; color: var(--neon-yellow); text-shadow: 4px 4px 0px var(--neon-pink), -3px -3px 0px var(--neon-cyan); text-transform: uppercase; margin: 0; line-height: 1; letter-spacing: -2px; text-align: center; }
+.hero-sub { font-family: "Press Start 2P", cursive; font-size: 10px; color: #fff; margin-top: 15px; letter-spacing: 3px; background: var(--neon-pink); padding: 6px 12px; display: inline-block; box-shadow: 4px 4px 0 #000; }
+.nav { width: 100%; max-width: 960px; display: flex; gap: 10px; padding: 10px; margin-top: 10px; }
+.nav a { flex: 1; font-family: "Press Start 2P", cursive; font-size: 10px; padding: 12px 5px; color: var(--neon-cyan); text-decoration: none; background: #111; border: 2px solid var(--neon-cyan); box-shadow: 4px 4px 0px 0px rgba(5, 217, 232, 0.4); text-transform: uppercase; transition: all 0.1s; display: flex; align-items: center; justify-content: center; }
+.nav a.active { background: var(--neon-pink); border-color: var(--neon-pink); color: #fff; }
+button { font-family: "Press Start 2P", cursive; font-size: 14px; padding: 15px 20px; margin: 10px 0; color: #fff; background: var(--neon-pink); border: 2px solid #fff; box-shadow: 4px 4px 0px #000; cursor: pointer; transition: all 0.05s; text-transform: uppercase; }
+button:hover { background: #ff5c8d; transform: translate(-2px, -2px); box-shadow: 6px 6px 0px #000; }
+button:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px #000; }
+button:disabled { opacity: 0.5; cursor: not-allowed; background: #333; border-color: #555; box-shadow: none; transform: none; }
+.team-btn { font-size: 12px; padding: 8px; width: 50px; background: #222; border: 1px solid #444; color: #666; box-shadow: 2px 2px 0 #000; }
+.team-btn.selected-2 { background: var(--neon-cyan); color: #000; border-color: #fff; }
+.team-btn.selected-3 { background: var(--neon-pink); color: #fff; border-color: #fff; }
+.panel { width: 95%; max-width: 960px; background: var(--panel); border: 4px solid var(--neon-cyan); padding: 25px; margin-bottom: 30px; box-shadow: 10px 10px 0 #000; }
+h1 { font-family: "Press Start 2P", cursive; font-size: 18px; margin-bottom: 20px; color: var(--neon-cyan); border-bottom: 4px solid #000; padding-bottom: 10px; text-align: left; }
 
-/* --- BONUS SELECTOR & TICKET OVERLAYS --- */
-.overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.96); display: none; align-items: center; justify-content: center; z-index: 10000; }
-.modal { width: 95%; max-width: 600px; text-align: center; border: 4px solid var(--neon-cyan); padding: 30px; background: #000; }
-.top-player { border: 4px solid var(--neon-cyan); padding: 20px; color: var(--neon-cyan); font-family: "Press Start 2P"; font-size: 22px; margin-bottom: 20px; background: #05d9e822; }
-.bonus-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 5px; margin-top: 20px; }
-.player-box { padding: 10px 5px; border: 1px solid #333; color: #444; font-family: "Press Start 2P"; font-size: 8px; text-transform: uppercase; }
+/* REPAIRED INPUTS WITH EMAIL AUTOFILL SHIELD */
+input, select { width: 100%; padding: 15px; margin: 10px 0; background: #000 !important; color: var(--neon-yellow) !important; border: 2px solid #888; font-family: "VT323", monospace; font-size: 24px; outline: none; text-transform: uppercase; transition: all 0.3s; }
+input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus { -webkit-text-fill-color: var(--neon-yellow) !important; -webkit-box-shadow: 0 0 0px 1000px #000 inset !important; transition: background-color 5000s ease-in-out 0s; }
+::placeholder { color: var(--neon-yellow); opacity: 1; }
+input:focus::placeholder { color: transparent; }
+input:focus, select:focus { border-color: var(--neon-yellow); }
+
+.groups-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; margin-top: 15px; }
+.group { background: #12121c; border: 2px solid #000; padding: 10px; }
+.group h4 { font-family: "Press Start 2P"; font-size: 12px; margin-bottom: 15px; color: var(--neon-yellow); text-align: left; }
+.team-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid #222; }
+.team-name { font-size: 22px; flex: 1; text-align: left; color: #eee; }
+.arcade-popup { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #000; border: 4px solid var(--neon-pink); padding: 30px; z-index: 1000; width: 90%; max-width: 450px; box-shadow: 10px 10px 0 rgba(0,0,0,0.5); display: none; flex-direction: column; align-items: center; justify-content: center; }
+.popup-msg { font-size: 18px; line-height: 1.5; margin-bottom: 20px; color: #fff; font-family: "VT323", monospace; }
+.progress-track { width: 100%; height: 20px; background: #222; border: 2px solid #555; margin-top: 10px; position: relative; }
+.progress-fill { height: 100%; background: var(--neon-cyan); width: 0%; transition: width 0.3s ease; }
+
+/* THE DYNAMIC TERMINAL BAR */
+.sys { margin: 15px 0; font-size: 18px; color: #555; text-transform: uppercase; min-height: 24px; transition: color 0.3s; padding: 15px; background: rgba(0,0,0,0.3); border-left: 4px solid var(--neon-pink); font-family: "VT323"; }
+.sys.active { color: var(--neon-yellow); border-left-color: var(--neon-yellow); }
+.sys.complete { color: var(--neon-cyan); border-left-color: var(--neon-cyan); text-shadow: 0 0 5px var(--neon-cyan); }
+
+.overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: none; align-items: center; justify-content: center; z-index: 10000; }
+.modal { width: 95%; max-width: 600px; text-align: center; border: 4px solid var(--neon-cyan); background: #000; padding: 30px; }
+.top-player { border: 4px solid var(--neon-cyan); padding: 20px; color: var(--neon-cyan); font-family: "Press Start 2P"; font-size: 20px; margin-bottom: 20px; background: #000; word-wrap: break-word;}
+.grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 5px; }
+.player-box { padding: 8px; border: 1px solid #333; color: #444; font-family: "Press Start 2P"; font-size: 10px; }
 .player-box.active { background: var(--neon-pink); color: #fff; border-color: #fff; }
 .player-box.selected { background: var(--neon-yellow); color: #000; border-color: #fff; }
+.dimmed { opacity: 0.2; pointer-events: none; filter: grayscale(100%); transition: all 0.5s ease; }
 
 .submit-overlay { position: fixed; inset: 0; background: #000; display: none; align-items: center; justify-content: center; z-index: 20000; }
-.submit-box { width: 95%; max-width: 450px; border: 4px solid var(--neon-yellow); background: #0f0e17; box-shadow: 0 0 40px rgba(255, 200, 0, 0.2); }
-.compact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 15px; background: #000; }
-.compact-row { border: 1px solid #222; padding: 6px; font-size: 14px; display: flex; justify-content: space-between; color: #fff; }
+.submit-box { width: 95%; max-width: 450px; border: 4px solid var(--neon-yellow); background: #0f0e17; }
+.submit-header { background: var(--neon-yellow); color: #000; padding: 15px; font-family: "Press Start 2P"; font-size: 14px; text-align: center; }
+.submit-body { padding: 15px; }
+.compact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; text-align: left; }
+.compact-row { padding: 6px; border: 1px solid #222; background: #000; font-size: 14px; display: flex; align-items: center; justify-content: space-between; }
 .compact-row strong { color: var(--neon-cyan); font-family: "Press Start 2P"; font-size: 8px; }
 
-/* REPAIRING PANEL PERSONALITY */
-.panel { border: 4px solid var(--neon-cyan) !important; box-shadow: 10px 10px 0 #000 !important; }
-.panel h1 { font-size: 18px !important; letter-spacing: 2px; }
+@media (min-width: 768px) {
+    .glitch { font-size: 64px; }
+    .nav a { font-size: 18px; padding: 20px 10px; }
+    input, select { font-size: 28px; padding: 20px; }
+}
 </style>
-</head> 
-<body> 
+</head> <body> 
 
 <div id="sting-overlay">
     <div class="sting-container">
@@ -54,53 +94,53 @@ input:-webkit-autofill:focus {
     </div>
 </div>
 
-<div class="nav">
+<div class="nav" id="nav">
   <a href="index.html">HOME</a>
   <a href="predict.html" class="active">PLAY</a>
   <a href="scores.html">SCORES</a>
+  <a href="rules.html">RULES</a>
 </div>  
 
 <div class="hero-section">
     <div class="scanlines"></div>
-    <h1 class="glitch">GOALSURGE!</h1>
+    <h1 class="glitch" data-text="GOALSURGE!">GOALSURGE!</h1>
     <div class="hero-sub">ROUND 1 - GROUP STAGE</div>
 </div>
 
 <div class="panel">
-    <h1>1. IDENTITY</h1>
-    <div class="system-terminal" id="id-msg">AUTHENTICATION REQUIRED...</div>
+    <h1>1. PLAYER IDENTITY</h1>
+    <div class="sys active" id="id-msg">TERMINAL READY: AWAITING CREDENTIALS...</div>
 
-    <input id="username" placeholder="USERNAME" onfocus="termMsg('id-msg', 'DISPLAY NAME FOR GLOBAL LEADERBOARDS')">
-    <input id="email" placeholder="EMAIL ADDRESS" onfocus="termMsg('id-msg', 'VALID EMAIL REQUIRED FOR PRIZE NOTIFICATION')">
-    <input id="leaguePin" placeholder="LEAGUE PIN (OPTIONAL)" maxlength="4" onfocus="termMsg('id-msg', 'JOIN A PRIVATE LEAGUE OR LEAVE BLANK')">
+    <input id="username" placeholder="USERNAME" onfocus="termHelp('id-msg', 'DISPLAY NAME FOR GLOBAL LEADERBOARDS')">
+    <input id="email" placeholder="EMAIL ADDRESS" onfocus="termHelp('id-msg', 'VALID EMAIL REQUIRED FOR PRIZES')">
+    <input id="leaguePin" placeholder="LEAGUE PIN (OPTIONAL)" maxlength="4" onfocus="termHelp('id-msg', 'JOIN A PRIVATE LEAGUE OR LEAVE BLANK')">
 
-    <div style="margin-top:20px; text-align:left; font-family:'VT323'; font-size:20px; color:var(--neon-yellow);">
-        <label style="display:block; margin-bottom:10px;"><input type="checkbox" id="privacyCheck" onchange="updateTerminalState()"> ACCEPT PRIVACY POLICY (REQUIRED)</label>
-        <label><input type="checkbox" id="termsCheck" onchange="updateTerminalState()"> ACCEPT TERMS OF USE (REQUIRED)</label>
+    <div style="text-align:left; margin-top:15px; color:var(--neon-yellow); font-family:'VT323'; font-size:22px;">
+        <label><input type="checkbox" id="privacyCheck" onchange="updateTerminalState()"> <span>ACCEPT PRIVACY POLICY</span></label><br>
+        <label><input type="checkbox" id="termsCheck" onchange="updateTerminalState()"> <span>ACCEPT TERMS OF USE</span></label>
     </div>
 </div>
 
 <div class="panel">
     <h1>2. STRATEGY</h1>
-    <div class="system-terminal" id="strat-msg">BONUS SELECTION STANDBY...</div>
+    <div class="sys" id="strat-msg">BONUS SELECTION STANDBY...</div>
 
-    <button id="comboTrigger" style="width:100%; padding:20px; background:#000; color:var(--neon-cyan); border:2px solid var(--neon-cyan); font-family:'Press Start 2P'; cursor:pointer;" onclick="showCombo()">SELECT DEADLY DUO</button>
-    
-    <select id="combo" style="display:none;" onchange="updateTerminalState()" onfocus="termMsg('strat-msg', 'THIS DUO EARNS POINTS FOR EVERY GOAL AND ASSIST')">
-        <option value="">-- SELECT YOUR DUO --</option>
-        <option>MESSI & RONALDO</option>
-        <option>NEYMAR & MBAPPÉ</option>
-        <option>LEWANDOWSKI & HAALAND</option>
-        <option>SALAH & MANÉ</option>
-        <option>KANE & STERLING</option>
-        <option>VINÍCIUS & PEDRI</option>
+    <button id="comboTrigger" style="width:100%; border:2px solid var(--neon-cyan); background:#111; color:var(--neon-cyan); padding:15px; font-family:'Press Start 2P'; font-size:12px;" onclick="showCombo()">SELECT DEADLY DUO</button>
+    <select id="combo" style="display:none;" onchange="updateTerminalState()" onfocus="termHelp('strat-msg', 'THESE TWO EARN POINTS FOR EVERY GOAL/ASSIST')">
+        <option value="">SELECT SCORER DUO</option>
+        <option>Messi & Ronaldo</option>
+        <option>Neymar & Mbappé</option>
+        <option>Lewandowski & Haaland</option>
+        <option>Salah & Mané</option>
+        <option>Kane & Sterling</option>
+        <option>Vinícius & Pedri</option>
     </select>
 
-    <input id="goals" placeholder="TOTAL GROUP GOALS" type="number" onfocus="termMsg('strat-msg', 'TIEBREAKER: PREDICT TOTAL GOALS ACROSS ALL GROUP GAMES')" oninput="updateTerminalState()">
+    <input id="goals" placeholder="TOTAL GOALS" type="number" onfocus="termHelp('strat-msg', 'TIEBREAKER: PREDICT TOTAL GOALS ACROSS ALL GROUP GAMES')" oninput="updateTerminalState()">
 </div>
 
 <div class="panel">
-    <h1>3. THE BOARD</h1>
+    <h1>3. GROUP STAGE PICKS</h1>
     <div id="round1Container" class="dimmed">
         <div class="groups-grid" id="groupsGrid"></div>
     </div>
@@ -108,33 +148,8 @@ input:-webkit-autofill:focus {
 
 <button id="lockBtn" style="width: 100%; max-width: 800px; padding:25px; background:var(--neon-pink); color:#fff; font-family:'Press Start 2P'; border:4px solid #fff; box-shadow:10px 10px 0 #000; margin-bottom:60px;" disabled onclick="startBonus()">LOCK PICKS & BONUS ROUND</button>
 
-<div class="overlay" id="bonusOverlay">
-  <div class="modal">
-    <div style="color:#fff; margin-bottom:15px; font-family:'Press Start 2P'; font-size:12px; letter-spacing:2px;">BONUS PLAYER SELECTOR</div>
-    <div class="top-player" id="topPlayer">???</div>
-    <div id="twistSub" style="margin-bottom:25px; color:#888; font-family:'VT323'; font-size:24px;">STICK OR TWIST?</div>
-    <div style="display:flex; gap:10px; justify-content:center; margin-bottom:20px;">
-        <button id="stickBtn" style="flex:1;" onclick="showFinalSummary()">STICK</button>
-        <button id="twistBtn" style="flex:1;" onclick="twistLogic()">TWIST (2)</button>
-    </div>
-    <div class="bonus-grid" id="bonusGrid"></div>
-  </div>
-</div>
-
-<div class="submit-overlay" id="submitOverlay">
-  <div class="submit-box">
-    <div style="background:var(--neon-yellow); color:#000; padding:15px; font-family:'Press Start 2P'; text-align:center; font-size:14px;">GOALSURGE ENTRY TICKET</div>
-    <div style="padding:20px; font-family:'VT323'; color:#fff; border-bottom:1px dashed #333; line-height:1.2;">
-        <span style="color:#888;">PLAYER:</span> <span id="sumUser" style="color:var(--neon-cyan); font-size:24px;"></span><br>
-        <span style="color:#888;">DUO + BONUS:</span> <br><span id="sumScorers" style="color:var(--neon-pink); font-size:20px;"></span>
-    </div>
-    <div class="compact-grid" id="sumGrid"></div>
-    <div style="text-align:center; padding:25px; background:#000;">
-        <div style="color:var(--neon-pink); font-family:'Press Start 2P'; font-size:10px; margin-bottom:15px; animate: pulse 1s infinite;">[ CAPTURE SCREENSHOT NOW ]</div>
-        <button onclick="location.reload()" style="font-size:10px; padding:10px 20px;">EXIT TERMINAL</button>
-    </div>
-  </div>
-</div>
+<div class="overlay" id="bonusOverlay"><div class="modal"><div class="top-player" id="topPlayer">???</div><div id="twistSub" style="margin-bottom:20px; color:#888;">STICK OR TWIST?</div><button id="stickBtn" onclick="showFinalSummary()">STICK</button><button id="twistBtn" onclick="twistLogic()">TWIST (2)</button><div class="grid" id="grid"></div></div></div>
+<div class="submit-overlay" id="submitOverlay"><div class="submit-box"><div class="submit-header">ENTRY TICKET</div><div class="submit-body" id="sumGridArea"></div><button onclick="location.reload()" style="width:100%; margin-top:15px;">EXIT</button></div></div>
 
 <footer class="footer-nav">
     <a href="privacy.html">PRIVACY POLICY</a>
@@ -143,7 +158,6 @@ input:-webkit-autofill:focus {
 
 <script>
 'use strict';
-
 // 1. SPLASH ENGINE
 window.addEventListener('load', () => {
     setTimeout(() => {
@@ -153,14 +167,10 @@ window.addEventListener('load', () => {
     }, 1200); 
 });
 
-// 2. TERMINAL INTERFACE
-function termMsg(id, text) { document.getElementById(id).textContent = text; }
-function showCombo() { 
-    document.getElementById('comboTrigger').style.display = 'none';
-    document.getElementById('combo').style.display = 'block';
-}
+function termHelp(id, msg) { document.getElementById(id).textContent = msg; }
+function showCombo() { document.getElementById('comboTrigger').style.display='none'; document.getElementById('combo').style.display='block'; }
 
-// 3. GAME DATA & BOARD
+// 2. THE CORRECT WORLD CUP 2026 GROUPS
 const GROUPS=[ 
     ["MEXICO 🇲🇽","S.AFRICA 🇿🇦","S.KOREA 🇰🇷","DEN/IRL 🇩🇰"],
     ["CANADA 🇨🇦","ITALY 🇮🇹","QATAR 🇶🇦","SWITZ 🇨🇭"],
@@ -177,23 +187,23 @@ const GROUPS=[
 ];
 const letters="ABCDEFGHIJKL".split('');
 const state={ secondPicks:Array(12).fill(null), thirdPicks:Array(12).fill(null) };
+const groupsGrid=document.getElementById('groupsGrid');
 
-function renderGroups(){
-    const container = document.getElementById('groupsGrid');
-    container.innerHTML='';
+function renderGroups(){ 
+    groupsGrid.innerHTML='';
     GROUPS.forEach((teams, i) => {
         const g=document.createElement('div'); g.className='group';
         g.innerHTML = `<h4>GROUP ${letters[i]}</h4>`;
         teams.forEach((team, idx) => {
             const row=document.createElement('div'); row.className='team-row';
             row.innerHTML = `<span class="team-name">${team}</span>`;
-            const b2=document.createElement('button'); b2.className='team-btn'; b2.textContent='2nd';
-            b2.onclick=()=>togglePick(i,idx,'second',b2);
-            const b3=document.createElement('button'); b3.className='team-btn'; b3.textContent='3rd';
-            b3.onclick=()=>togglePick(i,idx,'third',b3);
+            const b2=document.createElement('button'); b2.className='team-btn'; b2.textContent='2ND';
+            b2.onclick = () => togglePick(i, idx, 'second', b2);
+            const b3=document.createElement('button'); b3.className='team-btn'; b3.textContent='3RD';
+            b3.onclick = () => togglePick(i, idx, 'third', b3);
             row.append(b2, b3); g.appendChild(row);
         });
-        container.appendChild(g);
+        groupsGrid.appendChild(g);
     });
 }
 
@@ -226,58 +236,23 @@ function updateTerminalState(){
     const vP = state.secondPicks.every(x=>x!==null) && state.thirdPicks.filter(x=>x!==null).length===8;
     
     document.getElementById('lockBtn').disabled = !(vN && vE && vT && vG && vC && vP);
-    if(vN && vE && vT) document.getElementById('round1Container').classList.remove('dimmed');
-}
-
-// 4. BONUS WHEEL LOGIC
-const PLAYERS=['MESSI','RONALDO','MBAPPÉ','HAALAND','SALAH','KANE','NEYMAR','VINÍCIUS','PEDRI','GRIEZMANN','BELLINGHAM','LEWANDOWSKI','SON','OSIMHEN','SAKA','RASHFORD','FODEN','MUSIALA'];
-let finalBonus=null, twists=2;
-
-function startBonus(){
-    document.getElementById('bonusOverlay').style.display='flex';
-    const grid=document.getElementById('bonusGrid'); grid.innerHTML='';
-    PLAYERS.forEach(p=>{ const d=document.createElement('div'); d.className='player-box'; d.textContent=p; grid.appendChild(d); });
-    spin();
-}
-
-function spin(isFinal=false){
-    const boxes=document.querySelectorAll('.player-box');
-    let s=0, max=25, int=setInterval(()=>{
-        boxes.forEach(b=>b.classList.remove('active'));
-        const r=Math.floor(Math.random()*boxes.length);
-        boxes[r].classList.add('active');
-        document.getElementById('topPlayer').textContent=boxes[r].textContent;
-        if(++s>max){ 
-            clearInterval(int); 
-            finalBonus=boxes[r].textContent; 
-            boxes[r].classList.add('selected'); 
-            if(isFinal) setTimeout(showFinalSummary,1200); 
-        }
-    },70);
-}
-
-function twistLogic(){
-    if(twists>0){ 
-        twists--; 
-        document.getElementById('twistBtn').textContent=`TWIST (${twists})`; 
-        document.querySelectorAll('.player-box').forEach(b=>b.classList.remove('selected'));
-        if(twists===0) {
-            document.getElementById('twistBtn').disabled = true;
-            document.getElementById('stickBtn').disabled = true;
-            document.getElementById('twistSub').textContent = "FINAL SPIN...";
-            spin(true);
-        } else {
-            spin(false);
-        }
+    if(vN && vE && vT) {
+        document.getElementById('round1Container').classList.remove('dimmed');
+        document.getElementById('id-msg').textContent = "ACCESS GRANTED. SYSTEM UNLOCKED.";
+        document.getElementById('id-msg').className = "sys complete";
     }
 }
 
-// 5. SUMMARY TICKET LOGIC
+// BONUS SELECTOR (PRESERVED)
+const PLAYERS=['MESSI','RONALDO','MBAPPÉ','HAALAND','SALAH','KANE','NEYMAR','VINÍCIUS','PEDRI','GRIEZMANN','BELLINGHAM','LEWANDOWSKI','SON','OSIMHEN','SAKA','RASHFORD','FODEN','MUSIALA'];
+let finalBonus=null, twists=2;
+function startBonus(){ document.getElementById('bonusOverlay').style.display='flex'; const grid=document.getElementById('grid'); grid.innerHTML=''; PLAYERS.forEach(p=>{ const d=document.createElement('div'); d.className='player-box'; d.textContent=p; grid.appendChild(d); }); spin(); }
+function spin(isFinal=false){ const boxes=document.querySelectorAll('.player-box'); let s=0, max=25, int=setInterval(()=>{ boxes.forEach(b=>b.classList.remove('active')); const r=Math.floor(Math.random()*boxes.length); boxes[r].classList.add('active'); document.getElementById('topPlayer').textContent=boxes[r].textContent; if(++s>max){ clearInterval(int); finalBonus=boxes[r].textContent; boxes[r].classList.add('selected'); if(isFinal) setTimeout(showFinalSummary,1200); } },70); }
+function twistLogic(){ if(twists>0){ twists--; document.getElementById('twistBtn').textContent=`TWIST (${twists})`; document.querySelectorAll('.player-box').forEach(b=>b.classList.remove('selected')); if(twists===0){ document.getElementById('twistBtn').disabled=true; document.getElementById('stickBtn').disabled=true; spin(true); } else { spin(false); } } }
+
 function showFinalSummary(){
     document.getElementById('bonusOverlay').style.display='none';
-    document.getElementById('sumUser').textContent=document.getElementById('username').value.toUpperCase();
-    document.getElementById('sumScorers').textContent=document.getElementById('combo').value + " + " + finalBonus;
-    const grid=document.getElementById('sumGrid'); grid.innerHTML='';
+    const grid=document.getElementById('sumGridArea'); grid.innerHTML='';
     GROUPS.forEach((teams, i)=>{
         const div=document.createElement('div'); div.className='compact-row';
         const p2 = teams[state.secondPicks[i]];
@@ -288,10 +263,7 @@ function showFinalSummary(){
     document.getElementById('submitOverlay').style.display='flex';
 }
 
-// 6. INITIALIZE
-[document.getElementById('username'), document.getElementById('email'), document.getElementById('goals')].forEach(el => {
-    el.addEventListener('input', updateTerminalState);
-});
+[document.getElementById('username'), document.getElementById('email'), document.getElementById('goals')].forEach(el => { el.addEventListener('input', updateTerminalState); });
 renderGroups();
 </script> 
 </body>
