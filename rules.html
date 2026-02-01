@@ -3,48 +3,235 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>GOALSURGE! — THE FINALS</title>
+<title>GOALSTORM! — ROUND 3</title>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <style>
-/* --- VERSION 3 SPECIFIC: THE FINALS --- */
-.finals-container { display: flex; flex-direction: column; gap: 30px; align-items: center; width: 100%; }
-.match-card { background: #12121c; border: 2px solid var(--neon-cyan); padding: 20px; width: 100%; max-width: 600px; position: relative; }
-.match-card::after { content: 'LIVE TERMINAL'; position: absolute; top: -10px; right: 10px; background: var(--neon-pink); color: #fff; font-family: 'Press Start 2P'; font-size: 8px; padding: 2px 5px; }
+/* --- 1. CORE PALETTE & THEME (MATCHING VERSION 2) --- */
+:root{
+  --bg: #0f0e17;          
+  --panel: #1a1a2e;       
+  --neon-pink: #ff2a6d;   /* ACTION */
+  --neon-cyan: #05d9e8;   /* STRUCTURE */
+  --neon-yellow: #ffc800; /* DATA */
+  --text-main: #d1d1d1;
 
-.team-row { display: flex; align-items: center; justify-content: space-between; margin: 10px 0; padding: 10px; border-bottom: 1px solid #222; }
-.team-name { font-size: 28px; color: #eee; font-family: 'VT323'; }
+  /* STING ASSETS */
+  --player-idle:    url('p1.png');
+  --player-windup:  url('p2.png');
+  --player-kick:    url('p3.png');
+  --ball-normal:    url('b1.png');
+  --ball-super:     url('b2.png');
+  --total-time: 1.2s;
+}
 
-.method-btn { font-size: 12px; padding: 8px; width: 45px; background: #222; border: 1px solid #444; color: #666; font-family: 'VT323'; cursor: pointer; transition: 0.2s; }
-.method-btn.selected-N { background: var(--neon-cyan); color: #000; border-color: #fff; box-shadow: 0 0 10px var(--neon-cyan); }
-.method-btn.selected-ET { background: var(--neon-yellow); color: #000; border-color: #fff; box-shadow: 0 0 10px var(--neon-yellow); }
-.method-btn.selected-P { background: var(--neon-pink); color: #fff; border-color: #fff; box-shadow: 0 0 10px var(--neon-pink); }
+*{box-sizing:border-box;margin:0;padding:0;}
 
-.sys { margin: 15px 0; font-size: 18px; color: #555; text-transform: uppercase; min-height: 24px; transition: color 0.3s; padding: 15px; background: rgba(0,0,0,0.3); border-left: 4px solid var(--neon-pink); font-family: "VT323"; }
-.sys.active { color: var(--neon-yellow); border-left-color: var(--neon-yellow); }
+body{
+    margin:0;
+    background-color: var(--bg);
+    background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 20px 20px;
+    color: var(--text-main);
+    font-family:"VT323", monospace;
+    font-size: 20px; 
+    text-align:center;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    min-height: 100vh;
+    padding-bottom: 60px;
+}
+
+/* --- 2. HEADER & INTEGRATED STING --- */
+.hero-section {
+    width: 100%; max-width: 960px; padding: 60px 0; margin-bottom: 20px;
+    border-bottom: 4px solid var(--neon-cyan);
+    background: #000; 
+    position: relative; overflow: hidden;
+    text-align: center;
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.arena-banner {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.sprite-player {
+    position: absolute; 
+    left: 2%; 
+    top: 25%; 
+    width: 120px; 
+    height: 120px; 
+    background-image: var(--player-idle);
+    background-size: contain; 
+    background-repeat: no-repeat; 
+    background-position: bottom center;
+    animation: player-sequence var(--total-time) step-end forwards;
+}
+
+.sprite-ball {
+    position: absolute; 
+    left: 15%; 
+    top: 53%; 
+    width: 30px; 
+    height: 30px; 
+    background-image: var(--ball-normal);
+    background-size: contain; 
+    background-repeat: no-repeat;
+    animation: ball-sequence var(--total-time) linear forwards;
+}
+
+.power-bar-container {
+    position: absolute;
+    top: -15px;
+    left: 0; 
+    width: 100%; 
+    height: 8px;
+    background: #222; 
+    border: 1px solid #fff;
+    opacity: 0; 
+    animation: show-bar 0.1s linear 0s forwards;
+}
+
+.power-fill {
+    height: 100%; width: 0%; background: var(--neon-yellow); 
+    animation: fill-bar 0.6s linear forwards; 
+}
+
+@keyframes player-sequence {
+    0%   { background-image: var(--player-idle); }
+    50%  { background-image: var(--player-windup); }
+    55%  { background-image: var(--player-kick); transform: translateX(10px); } 
+    100% { background-image: var(--player-kick); transform: translateX(10px); }
+}
+
+@keyframes ball-sequence {
+    0%, 54.9% { background-image: var(--ball-normal); transform: translateX(0); width: 30px; height: 30px; }
+    55%  { background-image: var(--ball-super); width: 120px; height: 40px; transform: translateX(0); animation-timing-function: cubic-bezier(0.1, 1, 0.2, 1); }
+    100% { background-image: var(--ball-super); width: 120px; height: 40px; transform: translateX(1200px); }
+}
+
+@keyframes fill-bar { 0% { width: 0%; } 100% { width: 100%; background: var(--neon-pink); } }
+@keyframes show-bar { to { opacity: 1; } }
+
+.scanlines {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1));
+    background-size: 100% 4px; pointer-events: none; z-index: 2;
+}
+
+.hero-content {
+    position: relative; z-index: 3;
+    opacity: 0;
+    animation: fadeInText 0.3s ease-in 0.8s forwards; 
+}
+
+@keyframes fadeInText { to { opacity: 1; transform: scale(1); } }
+
+.glitch {
+    font-family: "Press Start 2P", cursive; font-size: 40px; 
+    color: var(--neon-yellow);
+    text-shadow: 4px 4px 0px var(--neon-pink), -3px -3px 0px var(--neon-cyan);
+    text-transform: uppercase; margin: 0; line-height: 1; letter-spacing: -2px;
+}
+
+.hero-sub {
+    font-family: "Press Start 2P", cursive; font-size: 10px; color: #fff;
+    margin-top: 15px; letter-spacing: 3px; background: var(--neon-pink);
+    padding: 6px 12px; display: inline-block; box-shadow: 4px 4px 0 #000;
+}
+
+/* --- 3. NAV & BUTTONS --- */
+.nav { width: 100%; max-width: 960px; display: flex; gap: 10px; padding: 10px; margin-top: 10px; }
+.nav a {
+  flex: 1; font-family: "Press Start 2P", cursive; font-size: 10px; padding: 12px 5px;
+  color: var(--neon-cyan); text-decoration: none; background: #111;
+  border: 2px solid var(--neon-cyan); box-shadow: 4px 4px 0px 0px rgba(5, 217, 232, 0.4);
+  text-transform: uppercase; transition: all 0.1s; display: flex; align-items: center; justify-content: center;
+}
+.nav a.active { background: var(--neon-pink); border-color: var(--neon-pink); color: #fff; }
+
+/* --- 4. PANELS & INPUTS (WITH VERSION 2 SHIELD) --- */
+.panel {
+    width: 95%; max-width: 960px; background: var(--panel);
+    border: 4px solid var(--neon-cyan); padding: 25px; margin-bottom: 30px;
+    box-shadow: 10px 10px 0 #000; text-align: left;
+}
+
+h1 {
+    font-family: "Press Start 2P", cursive; font-size: 18px; margin-bottom: 20px;
+    color: var(--neon-cyan); border-bottom: 4px solid #000; padding-bottom: 10px;
+}
+
+input, select {
+    width: 100%; padding: 15px; margin: 10px 0; 
+    background: #000 !important; color: var(--neon-yellow) !important;
+    border: 2px solid #888;
+    font-family: "VT323", monospace; font-size: 24px; outline: none; text-transform: uppercase;
+    transition: all 0.3s;
+}
+
+input:-webkit-autofill { -webkit-text-fill-color: var(--neon-yellow) !important; -webkit-box-shadow: 0 0 0px 1000px #000 inset !important; }
+
+.sys { 
+    margin: 15px 0; font-size: 18px; color: #555; text-transform: uppercase; min-height: 24px; 
+    padding: 15px; background: rgba(0,0,0,0.3); border-left: 4px solid var(--neon-pink); font-family: "VT323";
+}
 .sys.complete { color: var(--neon-cyan); border-left-color: var(--neon-cyan); text-shadow: 0 0 5px var(--neon-cyan); }
 
-/* SUMMARY OVERLAY */
-.submit-overlay { position: fixed; inset: 0; background: #000; display: none; align-items: center; justify-content: center; z-index: 20000; }
-.submit-box { width: 95%; max-width: 450px; border: 4px solid var(--neon-yellow); background: #0f0e17; padding: 20px; }
-.summary-item { border-bottom: 1px solid #333; padding: 10px 0; display: flex; justify-content: space-between; font-size: 18px; }
+/* MATCH BOXES */
+.match-box { border: 2px solid #333; background: #12121c; padding: 15px; margin-bottom: 25px; }
+.match-title { font-family: "Press Start 2P"; font-size: 12px; color: var(--neon-pink); margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px; }
+.section-label { font-family: "Press Start 2P"; font-size: 10px; color: var(--neon-cyan); margin: 15px 0 10px; }
+
+.method-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.team-header { font-family: "Press Start 2P"; font-size: 10px; color: #fff; margin-bottom: 8px; }
+
+.arcade-btn {
+    font-family: "VT323"; font-size: 18px; padding: 10px; 
+    background: #000; border: 1px solid #444; color: #666; 
+    cursor: pointer; text-transform: uppercase; transition: all 0.2s; margin-bottom: 5px;
+}
+.arcade-btn.selected { background: var(--neon-cyan); color: #000; border-color: #fff; box-shadow: 0 0 10px var(--neon-cyan); }
+
+.time-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
+.time-btn { font-family: "VT323"; font-size: 16px; padding: 8px 2px; background: #000; border: 1px solid #444; color: #666; cursor: pointer; }
+.time-btn.selected { background: var(--neon-pink); color: #fff; border-color: #fff; box-shadow: 0 0 10px var(--neon-pink); }
+
+.strat-btn { 
+    flex: 1; padding: 20px 10px; background: #000; border: 2px solid #444; color: #666; 
+    font-family: "Press Start 2P"; font-size: 12px; cursor: pointer; transition: all 0.3s; 
+}
+.strat-btn.active-hedge { border-color: var(--neon-cyan); color: var(--neon-cyan); box-shadow: inset 0 0 15px rgba(5, 217, 232, 0.3); }
+.strat-btn.active-risk { border-color: var(--neon-pink); color: var(--neon-pink); box-shadow: inset 0 0 15px rgba(255, 42, 109, 0.3); }
+
+.option-row { display: flex; align-items: center; gap: 15px; padding: 15px; border: 1px solid #333; background: #000; margin-bottom: 8px; cursor: pointer; font-family: "VT323"; font-size: 20px; color: #888; }
+.option-row.selected { border-color: var(--neon-pink); color: #fff; background: rgba(255, 42, 109, 0.1); }
+
+/* FOOTER */
+.footer-nav { margin-top: 50px; padding: 40px; border-top: 1px solid #333; width: 100%; max-width: 960px; display: flex; justify-content: center; gap: 30px; }
+.footer-nav a { color: #666; text-decoration: none; font-family: 'Press Start 2P', cursive; font-size: 9px; }
 
 @media (min-width: 768px) {
-    .glitch { font-size: 64px; }
     .nav a { font-size: 18px; padding: 20px 10px; }
+    .glitch { font-size: 64px; }
+    h1 { font-size: 24px; }
 }
 </style>
 </head>
 <body>
 
-<div id="sting-overlay">
-    <div class="sting-container">
-        <div class="sprite-player"></div>
-        <div class="sprite-ball"></div>
-    </div>
-</div>
-
-<div class="nav" id="nav">
+<div class="nav">
   <a href="index.html">HOME</a>
   <a href="predict.html" class="active">PLAY</a>
   <a href="scores.html">SCORES</a>
@@ -53,170 +240,178 @@
 
 <div class="hero-section">
     <div class="scanlines"></div>
+    <div class="arena-banner">
+        <div class="sprite-player">
+            <div class="power-bar-container"><div class="power-fill"></div></div>
+        </div>
+        <div class="sprite-ball"></div>
+    </div>
     <div class="hero-content">
-        <h1 class="glitch" data-text="GOALSURGE!">GOALSURGE!</h1>
-        <div class="hero-sub">SEMI-FINALS & FINAL</div>
+        <h1 class="glitch" data-text="GOALSTORM!">GOALSTORM!</h1>
+        <div class="hero-sub">ROUND 3: SEMI FINALS</div>
     </div>
 </div>
 
 <div class="panel">
-    <h1>1. PLAYER IDENTITY</h1>
-    <div class="sys active" id="id-msg">TERMINAL READY: AWAITING CREDENTIALS...</div>
+    <h1>PLAYER TERMINAL</h1>
+    <input id="username" placeholder="USERNAME (REQUIRED)" oninput="validate()">
+    <input id="email" placeholder="EMAIL ADDRESS" oninput="validate()">
+    <input id="tiebreaker" placeholder="TIEBREAKER: TOTAL YEL CARDS?" type="number" oninput="validate()">
+    <div class="sys" id="sysMsg">AWAITING INPUT...</div>
+</div>
 
-    <input id="user" placeholder="USERNAME" oninput="refresh()" onfocus="termHelp('id-msg', 'DISPLAY NAME FOR GLOBAL LEADERBOARDS')">
-    <input id="email" placeholder="EMAIL ADDRESS" oninput="refresh()" onfocus="termHelp('id-msg', 'VALID EMAIL REQUIRED FOR PRIZE NOTIFICATION')">
+<div class="panel">
+    <h1>ROUND 3: SEMI FINALS</h1>
+    <div id="sf1-container"></div>
+    <div id="sf2-container"></div>
+</div>
 
-    <div style="text-align:left; margin-top:20px; color:var(--neon-yellow); font-family:'VT323'; font-size:24px; line-height:1.4;">
-        <label style="display:flex; align-items:center; gap:10px; cursor:pointer;"><input type="checkbox" id="privacyCheck" onchange="refresh()" style="width:25px; height:25px;"> <span>ACCEPT PRIVACY POLICY (REQUIRED)</span></label>
-        <label style="display:flex; align-items:center; gap:10px; cursor:pointer; margin-top:10px;"><input type="checkbox" id="termsCheck" onchange="refresh()" style="width:25px; height:25px;"> <span>ACCEPT TERMS OF USE (REQUIRED)</span></label>
+<div class="panel">
+    <h1>3RD PLACE PLAYOFF</h1>
+    <div id="playoff-container"></div>
+</div>
+
+<div class="panel">
+    <h1>WORLD CUP WINNER</h1>
+    <div class="strategy-toggle" style="display:flex; gap:10px; margin-bottom:15px;">
+        <button class="strat-btn" id="btnHedge" onclick="setStrategy('hedge')">HEDGE IT<br>(RANK 1-4)</button>
+        <button class="strat-btn" id="btnRisk" onclick="setStrategy('risk')">RISK IT<br>(PICK 1)</button>
+    </div>
+    <div id="hedgeContent" style="display:none;">
+        <select id="rank1" onchange="validate()"><option value="">1ST PLACE...</option></select>
+        <select id="rank2" onchange="validate()"><option value="">2ND PLACE...</option></select>
+        <select id="rank3" onchange="validate()"><option value="">3RD PLACE...</option></select>
+        <select id="rank4" onchange="validate()"><option value="">4TH PLACE...</option></select>
+    </div>
+    <div id="riskContent" style="display:none;">
+        <select id="riskSelect" onchange="validate()"><option value="">SELECT CHAMPION...</option></select>
     </div>
 </div>
 
 <div class="panel">
-    <h1>2. FINAL PREDICTIONS</h1>
-    <div class="sys active" id="picks-msg" style="color:var(--neon-yellow); border-left-color:var(--neon-yellow);">CHOOSE YOUR CHAMPIONS AND WIN METHOD</div>
-    
-    <div id="finalsContainer" class="dimmed finals-container">
-        <div class="match-card" id="semi1">
-            <div style="color:var(--neon-yellow); font-family:'Press Start 2P'; font-size:10px; margin-bottom:10px;">SEMI-FINAL 1</div>
-            <div class="team-row">
-                <span class="team-name">SPAIN</span>
-                <div class="methods">
-                    <button class="method-btn" onclick="setWinner('semi1', 'SPAIN', 'N', this)">N</button>
-                    <button class="method-btn" onclick="setWinner('semi1', 'SPAIN', 'ET', this)">ET</button>
-                    <button class="method-btn" onclick="setWinner('semi1', 'SPAIN', 'P', this)">P</button>
-                </div>
-            </div>
-            <div class="team-row">
-                <span class="team-name">GERMANY</span>
-                <div class="methods">
-                    <button class="method-btn" onclick="setWinner('semi1', 'GERMANY', 'N', this)">N</button>
-                    <button class="method-btn" onclick="setWinner('semi1', 'GERMANY', 'ET', this)">ET</button>
-                    <button class="method-btn" onclick="setWinner('semi1', 'GERMANY', 'P', this)">P</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="match-card" id="semi2">
-            <div style="color:var(--neon-yellow); font-family:'Press Start 2P'; font-size:10px; margin-bottom:10px;">SEMI-FINAL 2</div>
-            <div class="team-row">
-                <span class="team-name">BRAZIL</span>
-                <div class="methods">
-                    <button class="method-btn" onclick="setWinner('semi2', 'BRAZIL', 'N', this)">N</button>
-                    <button class="method-btn" onclick="setWinner('semi2', 'BRAZIL', 'ET', this)">ET</button>
-                    <button class="method-btn" onclick="setWinner('semi2', 'BRAZIL', 'P', this)">P</button>
-                </div>
-            </div>
-            <div class="team-row">
-                <span class="team-name">ARGENTINA</span>
-                <div class="methods">
-                    <button class="method-btn" onclick="setWinner('semi2', 'ARGENTINA', 'N', this)">N</button>
-                    <button class="method-btn" onclick="setWinner('semi2', 'ARGENTINA', 'ET', this)">ET</button>
-                    <button class="method-btn" onclick="setWinner('semi2', 'ARGENTINA', 'P', this)">P</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="match-card" style="border-color:var(--neon-pink); border-width:4px;">
-            <div style="color:var(--neon-pink); font-family:'Press Start 2P'; font-size:14px; margin-bottom:15px; text-align:center;">WORLD CUP FINAL</div>
-            <div class="team-row">
-                <span class="team-name" id="finalist1">TBD</span>
-                <div class="methods">
-                    <button class="method-btn" onclick="setWinner('final', 'F1', 'N', this)">N</button>
-                    <button class="method-btn" onclick="setWinner('final', 'F1', 'ET', this)">ET</button>
-                    <button class="method-btn" onclick="setWinner('final', 'F1', 'P', this)">P</button>
-                </div>
-            </div>
-            <div style="font-family:'Press Start 2P'; font-size:12px; margin:10px 0;">VS</div>
-            <div class="team-row">
-                <span class="team-name" id="finalist2">TBD</span>
-                <div class="methods">
-                    <button class="method-btn" onclick="setWinner('final', 'F2', 'N', this)">N</button>
-                    <button class="method-btn" onclick="setWinner('final', 'F2', 'ET', this)">ET</button>
-                    <button class="method-btn" onclick="setWinner('final', 'F2', 'P', this)">P</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <h1>THE FINAL</h1>
+    <div id="final-container"></div>
 </div>
 
-<button id="lockBtn" style="width: 100%; max-width: 800px; padding:25px; background:var(--neon-pink); color:#fff; font-family:'Press Start 2P'; border:4px solid #fff; box-shadow:10px 10px 0 #000; margin-bottom:60px;" disabled onclick="showSummary()">LOCK FINAL PICKS</button>
-
-<div class="submit-overlay" id="submitOverlay">
-  <div class="submit-box">
-    <div style="background:var(--neon-yellow); color:#000; padding:15px; font-family:'Press Start 2P'; text-align:center; font-size:14px;">FINAL ENTRY TICKET</div>
-    <div id="summaryContent" style="padding:20px; color:#fff; font-family:'VT323';"></div>
-    <div style="text-align:center; padding:15px;">
-        <div style="color:var(--neon-pink); font-family:'Press Start 2P'; font-size:10px; margin-bottom:15px;">[ CAPTURE SCREENSHOT NOW ]</div>
-        <button onclick="location.reload()" style="font-size:10px; padding:10px 20px;">EXIT TERMINAL</button>
-    </div>
-  </div>
+<div class="panel">
+    <h1>RED CARD CHAOS</h1>
+    <div id="redCardOptions"></div>
 </div>
+
+<div class="panel">
+    <h1>PLAYER COMBO</h1>
+    <select id="playerCombo" onchange="validate()">
+        <option value="">SELECT DUO...</option>
+        <option>Mbappe & Kane</option>
+        <option>Messi & Alvarez</option>
+        <option>Yamal & Williams</option>
+        <option>Bellingham & Saka</option>
+    </select>
+</div>
+
+<button id="submitBtn" style="width:100%; max-width:800px; padding:25px; background:var(--neon-pink); color:#fff; font-family:'Press Start 2P'; border:4px solid #fff; box-shadow:10px 10px 0 #000; margin-bottom:40px;" disabled onclick="alert('SUBMITTED!')">SUBMIT PICKS</button>
+
+<footer class="footer-nav">
+    <a href="privacy.html">PRIVACY POLICY</a>
+    <a href="terms.html">TERMS OF USE</a>
+</footer>
 
 <script>
-'use strict';
+const CONFIG = { sf1_home: "ENGLAND", sf1_away: "FRANCE", sf2_home: "SPAIN", sf2_away: "ARGENTINA" };
+const TEAMS = [CONFIG.sf1_home, CONFIG.sf1_away, CONFIG.sf2_home, CONFIG.sf2_away];
+const picks = { sf1:{}, sf2:{}, p3:{}, fin:{}, strategy:null, redCard:null };
 
-const state = {
-    semi1: null, semi2: null, final: null,
-    semi1Method: '', semi2Method: '', finalMethod: ''
+window.onload = function() {
+    renderMatch('sf1-container', 'sf1', CONFIG.sf1_home, CONFIG.sf1_away, 'SEMI FINAL 1');
+    renderMatch('sf2-container', 'sf2', CONFIG.sf2_home, CONFIG.sf2_away, 'SEMI FINAL 2');
+    renderMatch('playoff-container', 'p3', 'SF1 LOSER', 'SF2 LOSER', '3RD PLACE PLAYOFF');
+    renderMatch('final-container', 'fin', 'SF1 WINNER', 'SF2 WINNER', 'THE FINAL');
+    renderRedCardOptions();
+    populateTeamDropdowns();
 };
 
-window.addEventListener('load', () => {
-    setTimeout(() => {
-        const overlay = document.getElementById('sting-overlay');
-        overlay.style.opacity = '0';
-        setTimeout(() => overlay.style.display = 'none', 500);
-    }, 1200); 
-});
-
-function termHelp(id, msg) { document.getElementById(id).textContent = msg; }
-
-function setWinner(match, team, method, btn) {
-    const parent = btn.closest('.match-card');
-    parent.querySelectorAll('.method-btn').forEach(b => b.className = 'method-btn');
-    btn.classList.add(`selected-${method}`);
-    
-    if(match === 'semi1') { state.semi1 = team; state.semi1Method = method; document.getElementById('finalist1').textContent = team; }
-    if(match === 'semi2') { state.semi2 = team; state.semi2Method = method; document.getElementById('finalist2').textContent = team; }
-    if(match === 'final') { state.final = (team === 'F1' ? state.semi1 : state.semi2); state.finalMethod = method; }
-    
-    refresh();
+function renderMatch(containerId, matchKey, home, away, title) {
+    document.getElementById(containerId).innerHTML = `
+    <div class="match-box">
+        <div class="match-title">${title}</div>
+        <div class="method-grid" id="grid-${matchKey}">
+            <div class="team-col">
+                <div class="team-header">${home}</div>
+                <button class="arcade-btn" onclick="selectMatchResult('${matchKey}', '${home}', 'Normal', this)">Normal</button>
+                <button class="arcade-btn" onclick="selectMatchResult('${matchKey}', '${home}', 'Ex.Time', this)">Ex.Time</button>
+                <button class="arcade-btn" onclick="selectMatchResult('${matchKey}', '${home}', 'Pens', this)">Pens</button>
+            </div>
+            <div class="team-col">
+                <div class="team-header">${away}</div>
+                <button class="arcade-btn" onclick="selectMatchResult('${matchKey}', '${away}', 'Normal', this)">Normal</button>
+                <button class="arcade-btn" onclick="selectMatchResult('${matchKey}', '${away}', 'Ex.Time', this)">Ex.Time</button>
+                <button class="arcade-btn" onclick="selectMatchResult('${matchKey}', '${away}', 'Pens', this)">Pens</button>
+            </div>
+        </div>
+        <div class="section-label">TIME OF 1ST GOAL</div>
+        <div class="time-grid" id="time-${matchKey}">
+            ${['0-10','11-20','21-30','31-40','41-50','51-60','61-70','71-80','81-90','90+','ET1','ET2'].map(t => `<button class="time-btn" onclick="selectMatchTime('${matchKey}', '${t}', this)">${t}</button>`).join('')}
+        </div>
+    </div>`;
 }
 
-function refresh() {
-    const userV = document.getElementById('user').value.trim();
-    const emailV = document.getElementById('email').value.trim();
-    const privacyV = document.getElementById('privacyCheck').checked;
-    const termsV = document.getElementById('termsCheck').checked;
+function renderRedCardOptions() {
+    const opts = [{id:'A', text: "No red cards."}, {id:'B', text: "Exactly 1 red card."}, {id:'C', text: "More than 1 red card."}];
+    const container = document.getElementById('redCardOptions');
+    opts.forEach(opt => {
+        const div = document.createElement('div');
+        div.className = 'option-row';
+        div.innerHTML = `<div style="color:var(--neon-yellow); font-family:'Press Start 2P'; font-size:12px; width:30px;">${opt.id}</div> <div>${opt.text}</div>`;
+        div.onclick = () => {
+            document.querySelectorAll('.option-row').forEach(r => r.classList.remove('selected'));
+            div.classList.add('selected'); picks.redCard = opt.id; validate();
+        };
+        container.appendChild(div);
+    });
+}
 
-    const isIdentityComplete = userV.length > 2 && emailV.includes('@') && privacyV && termsV;
-    const isBracketComplete = state.semi1 && state.semi2 && state.final;
+function populateTeamDropdowns() {
+    ['rank1', 'rank2', 'rank3', 'rank4', 'riskSelect'].forEach(id => {
+        const sel = document.getElementById(id);
+        TEAMS.forEach(t => { const o = document.createElement('option'); o.value = t; o.text = t; sel.add(o); });
+    });
+}
 
-    document.getElementById('lockBtn').disabled = !(isIdentityComplete && isBracketComplete);
+function selectMatchResult(key, winner, method, btn) {
+    document.getElementById(`grid-${key}`).querySelectorAll('.arcade-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected'); picks[key].winner = winner; validate();
+}
+
+function selectMatchTime(key, time, btn) {
+    document.getElementById(`time-${key}`).querySelectorAll('.time-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected'); picks[key].time = time; validate();
+}
+
+function setStrategy(strat) {
+    picks.strategy = strat;
+    document.getElementById('btnHedge').className = strat === 'hedge' ? 'strat-btn active-hedge' : 'strat-btn';
+    document.getElementById('btnRisk').className = strat === 'risk' ? 'strat-btn active-risk' : 'strat-btn';
+    document.getElementById('hedgeContent').style.display = strat === 'hedge' ? 'block' : 'none';
+    document.getElementById('riskContent').style.display = strat === 'risk' ? 'block' : 'none';
+    validate();
+}
+
+function validate() {
+    const user = document.getElementById('username').value;
+    const email = document.getElementById('email').value;
+    const sys = document.getElementById('sysMsg');
+    const btn = document.getElementById('submitBtn');
     
-    if(isIdentityComplete) {
-        document.getElementById('finalsContainer').classList.remove('dimmed');
-        document.getElementById('id-msg').textContent = "ACCESS GRANTED. TERMINAL UNLOCKED.";
-        document.getElementById('id-msg').className = "sys complete";
+    if(user && email.includes('@') && picks.strategy) {
+        sys.textContent = "SYSTEM READY. PROCEED TO SUBMISSION.";
+        sys.className = "sys complete";
+        btn.disabled = false;
     } else {
-        document.getElementById('finalsContainer').classList.add('dimmed');
+        sys.textContent = "AWAITING CREDENTIALS & SELECTIONS...";
+        sys.className = "sys";
+        btn.disabled = true;
     }
 }
-
-function showSummary() {
-    let html = `
-        <div class="summary-item"><span>PLAYER:</span> <span style="color:var(--neon-cyan)">${document.getElementById('user').value.toUpperCase()}</span></div>
-        <div class="summary-item"><span>SEMI 1:</span> <span>${state.semi1} (${state.semi1Method})</span></div>
-        <div class="summary-item"><span>SEMI 2:</span> <span>${state.semi2} (${state.semi2Method})</span></div>
-        <div class="summary-item" style="color:var(--neon-pink); font-size:24px;"><span>CHAMPION:</span> <span>${state.final} (${state.finalMethod})</span></div>
-    `;
-    document.getElementById('summaryContent').innerHTML = html;
-    document.getElementById('submitOverlay').style.display = 'flex';
-}
-
-[document.getElementById('user'), document.getElementById('email')].forEach(el => {
-    el.addEventListener('input', refresh);
-});
-</script> 
+</script>
 </body>
 </html>
