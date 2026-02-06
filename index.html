@@ -6,7 +6,7 @@
 <title>GOALSURGE! - PRESS START</title>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
 <style>
-/* --- CORE STYLES (MATCHING YOUR SHELL) --- */
+/* --- CORE STYLES --- */
 :root{
   --bg: #0f0e17;          
   --panel: #1a1a2e;       
@@ -22,7 +22,7 @@ body{
     background-size: 20px 20px; color: var(--text-main); font-family:"VT323", monospace; font-size: 20px; 
     text-align:center; display:flex; flex-direction:column; align-items:center; min-height: 100vh; padding-bottom: 60px;
 }
-.hero-section { width: 100%; max-width: 960px; padding: 30px 0; margin-bottom: 20px; border-bottom: 4px solid var(--neon-cyan); background: linear-gradient(180deg, rgba(5, 217, 232, 0) 0%, rgba(5, 217, 232, 0.1) 100%); position: relative; overflow: hidden; text-align: center; }
+.hero-section { width: 100%; max-width: 960px; padding: 30px 0; margin-bottom: 10px; border-bottom: 4px solid var(--neon-cyan); background: linear-gradient(180deg, rgba(5, 217, 232, 0) 0%, rgba(5, 217, 232, 0.1) 100%); position: relative; overflow: hidden; text-align: center; }
 .scanlines { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1)); background-size: 100% 4px; pointer-events: none; z-index: 2; }
 .glitch { font-family: "Press Start 2P", cursive; font-size: 40px; color: var(--neon-yellow); text-shadow: 4px 4px 0px var(--neon-pink), -3px -3px 0px var(--neon-cyan); text-transform: uppercase; margin: 0; line-height: 1; letter-spacing: -2px; text-align: center; }
 .hero-sub { font-family: "Press Start 2P", cursive; font-size: 10px; color: #fff; margin-top: 15px; letter-spacing: 3px; background: var(--neon-pink); padding: 6px 12px; display: inline-block; box-shadow: 4px 4px 0 #000; }
@@ -42,8 +42,8 @@ body{
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    cursor: pointer; /* Indicates clickable */
-    transition: opacity 0.8s ease-out;
+    cursor: pointer;
+    transition: opacity 0.5s ease-out; /* Faster transition */
 }
 
 .intro-img-container {
@@ -60,7 +60,7 @@ body{
     image-rendering: pixelated;
 }
 
-.blink-text {
+.blink-start {
     font-family: "Press Start 2P";
     font-size: 24px;
     color: var(--neon-yellow);
@@ -68,20 +68,33 @@ body{
     text-shadow: 4px 4px 0 #ff2a6d;
 }
 
+/* --- MAIN MENU STYLES --- */
+.blink-option {
+    font-family: "Press Start 2P";
+    font-size: 14px;
+    color: #fff;
+    margin-top: 20px;
+    animation: blinker 1s step-end infinite;
+}
+
 @keyframes blinker { 50% { opacity: 0; } }
 
-/* --- MAIN MENU BUTTONS --- */
 .menu-container {
     width: 95%; max-width: 800px;
-    margin-top: 40px;
+    margin-top: 20px;
     display: flex; flex-direction: column; gap: 25px;
 }
+
 .big-btn {
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
     width: 100%;
-    padding: 30px;
+    height: 120px; /* FIXED HEIGHT FOR UNIFORMITY */
+    padding: 0 20px; /* Horizontal padding only */
     font-family: "Press Start 2P";
-    font-size: 18px; line-height: 1.5;
+    font-size: 16px; 
+    line-height: 1.5;
     text-decoration: none;
     text-transform: uppercase;
     text-align: center;
@@ -107,18 +120,21 @@ body{
 @media (min-width: 768px) {
     .glitch { font-size: 64px; }
     .nav a { font-size: 18px; padding: 20px 10px; }
-    .big-btn { font-size: 24px; padding: 40px; }
-    .blink-text { font-size: 32px; }
+    .big-btn { font-size: 24px; height: 160px; } /* Larger fixed height on desktop */
+    .blink-start { font-size: 32px; }
+    .blink-option { font-size: 18px; }
 }
 </style>
 </head>
 <body>
 
+<audio id="bgm" src="go.mp3" preload="auto"></audio>
+
 <div id="start-screen" onclick="enterSite()">
     <div class="intro-img-container">
         <img src="pic1.png" alt="Retro Intro Art">
     </div>
-    <div class="blink-text">PRESS START</div>
+    <div class="blink-start">PRESS START</div>
 </div>
 
 <div class="nav" id="nav">
@@ -130,4 +146,47 @@ body{
 
 <div class="hero-section">
     <div class="scanlines"></div>
-    <h1 class="glitch" data-text="GOALSUR
+    <h1 class="glitch" data-text="GOALSURGE!">GOALSURGE!</h1>
+    <div class="hero-sub">FOOTBALL PREDICTION BUT DIFFERENT...</div>
+</div>
+
+<div class="blink-option">SELECT OPTION</div>
+
+<div class="menu-container">
+    <a href="predict.html" class="big-btn btn-play">
+        PLAY WORLD CUP<br>PREDICTION GAME
+    </a>
+    
+    <a href="hall.html" class="big-btn btn-hall">
+        HALL OF FAME
+    </a>
+</div>
+
+<footer class="footer-nav">
+    <a href="privacy.html">PRIVACY POLICY</a>
+    <a href="terms.html">TERMS OF USE</a>
+</footer>
+
+<script>
+'use strict';
+// Function to handle the "Press Start" click
+function enterSite() {
+    const screen = document.getElementById('start-screen');
+    const audio = document.getElementById('bgm');
+    
+    // Play Music
+    audio.volume = 0.5; // Set volume to 50%
+    audio.play().catch(error => {
+        console.log("Audio play failed (browser policy or file missing):", error);
+    });
+
+    // Visual Transition
+    screen.style.opacity = '0';
+    setTimeout(() => {
+        screen.style.display = 'none';
+    }, 500);
+}
+</script>
+
+</body>
+</html>
