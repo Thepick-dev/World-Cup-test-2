@@ -28,25 +28,26 @@ body{ margin:0; background-color: var(--bg); background-image: linear-gradient(r
     display: flex;
     background: #111;
     border: 2px solid #333;
-    padding: 10px; /* Reduced padding slightly for mobile */
+    padding: 15px 10px; /* Vert padding 15, side 10 */
     align-items: center;
     position: relative;
     box-shadow: 4px 4px 0 #000;
 }
 
-/* Rank Number - SMALLER ON MOBILE */
+/* Rank Number */
 .rank-num {
     font-family: "Press Start 2P";
-    font-size: 14px; /* Reduced font size */
+    font-size: 14px;
     color: #444;
-    width: 30px;
+    width: 35px;
     text-align: center;
     margin-right: 10px;
-    flex-shrink: 0; /* Prevents squashing */
+    flex-shrink: 0;
 }
-.rank-1 { color: var(--neon-yellow); text-shadow: 1px 1px 0 #000; }
-.rank-2 { color: #C0C0C0; }
-.rank-3 { color: #CD7F32; }
+.rank-gold { color: var(--neon-yellow); text-shadow: 2px 2px 0 #000; font-size: 18px; }
+.rank-silver { color: #C0C0C0; }
+.rank-bronze { color: #CD7F32; }
+.rank-std { color: #666; } /* Standard rank color */
 
 /* Main Content Area */
 .details {
@@ -55,14 +56,13 @@ body{ margin:0; background-color: var(--bg); background-image: linear-gradient(r
     display: flex;
     flex-direction: column;
     justify-content: center;
-    overflow-x: auto; /* Allows scrolling if too many stickers on tiny screens */
 }
 
 .player-name {
     font-family: "Press Start 2P";
     font-size: 14px;
     color: var(--neon-cyan);
-    margin-bottom: 8px;
+    margin-bottom: 12px;
     text-transform: uppercase;
     letter-spacing: 1px;
     white-space: nowrap;
@@ -71,43 +71,50 @@ body{ margin:0; background-color: var(--bg); background-image: linear-gradient(r
 /* Trophy/Sticker Container */
 .trophy-case {
     display: flex;
-    gap: 8px; /* Spacing between stickers */
+    gap: 10px; /* Spacing between stickers */
     align-items: center;
-    flex-wrap: wrap; /* Allows stickers to wrap to next line if needed */
-    padding-bottom: 5px;
+    flex-wrap: wrap; 
 }
 
-/* The Actual Sticker Image - BIGGER ON MOBILE */
+/* The Actual Sticker Image - LARGER */
 .trophy-img {
-    width: 50px; /* Increased size */
+    width: 60px; /* Mobile Size */
     height: auto;
     display: block;
-    filter: drop-shadow(2px 2px 0px #000); /* Adds definition */
+    filter: drop-shadow(3px 3px 0px rgba(0,0,0,0.8));
     transition: transform 0.1s;
+    border: 1px solid rgba(255,255,255,0.1); /* Subtle definition border */
 }
-.trophy-img:hover { transform: scale(1.1); z-index: 2; }
+.trophy-img:hover { transform: scale(1.1); z-index: 2; border-color: #fff; }
 
-/* The Empty Slot Placeholder */
+/* The Empty Slot Placeholder - PROMINENT */
 .empty-slot {
-    width: 50px; /* Match sticker width */
-    aspect-ratio: 2 / 3; /* Match sticker aspect ratio */
-    background: rgba(255,255,255,0.05);
-    border: 2px dashed #333;
-    border-radius: 4px;
+    width: 60px; /* Matches trophy size */
+    aspect-ratio: 2 / 2.9; /* Matches sticker ratio roughly */
+    background: rgba(255,255,255,0.03);
+    border: 2px dashed #444;
+    box-shadow: inset 2px 2px 5px rgba(0,0,0,0.5);
+    display: flex; align-items: center; justify-content: center;
+}
+.empty-slot::after {
+    content: '?';
+    font-family: "Press Start 2P";
+    color: #222;
+    font-size: 12px;
 }
 
 
-/* Score Section - SMALLER ON MOBILE */
+/* Score Section */
 .score-area {
     font-family: "Press Start 2P";
     text-align: right;
     padding-left: 10px;
     border-left: 2px solid #333;
-    min-width: 80px; /* Reduced min-width */
+    min-width: 80px;
     flex-shrink: 0;
 }
-.points { font-size: 16px; color: var(--neon-yellow); display: block; } /* Reduced size */
-.pts-label { font-size: 7px; color: #666; display: block; margin-top: 5px; } /* Reduced size */
+.points { font-size: 16px; color: var(--neon-yellow); display: block; }
+.pts-label { font-size: 7px; color: #666; display: block; margin-top: 5px; }
 
 
 .footer-nav { margin-top: auto; padding-top: 40px; font-family: "Press Start 2P"; font-size: 10px; display: flex; gap: 20px; }
@@ -117,21 +124,39 @@ body{ margin:0; background-color: var(--bg); background-image: linear-gradient(r
 @media (min-width: 768px) { 
     .glitch { font-size: 64px; } 
     .nav a { font-size: 18px; padding: 20px 10px; } 
-    .player-card { padding: 20px; }
+    .player-card { padding: 25px; }
     
     /* Desktop Sizing Adjustments */
-    .rank-num { font-size: 20px; width: 40px; margin-right: 15px; }
-    .player-name { font-size: 20px; }
-    .trophy-img { width: 70px; } /* Much bigger on desktop */
-    .empty-slot { width: 70px; border-width: 3px;}
+    .rank-num { font-size: 24px; width: 50px; margin-right: 20px; }
+    .player-name { font-size: 22px; margin-bottom: 15px; }
+    
+    /* BIGGER STICKERS ON DESKTOP */
+    .trophy-img { width: 90px; } 
+    .empty-slot { width: 90px; border-width: 3px; }
+    .empty-slot::after { font-size: 20px; }
+
     .trophy-case { gap: 15px; }
-    .score-area { min-width: 120px; padding-left: 20px; }
-    .points { font-size: 22px; }
+    .score-area { min-width: 140px; padding-left: 30px; }
+    .points { font-size: 26px; }
     .pts-label { font-size: 10px; }
 }
 </style>
 </head>
 <body>
+
+<audio id="bgm" src="hof.mp3" autoplay loop></audio>
+<script>
+    window.addEventListener('load', function() {
+        var audio = document.getElementById("bgm");
+        audio.volume = 0.5;
+        var playPromise = audio.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(error => {
+                console.log("Autoplay prevented by browser.");
+            });
+        }
+    });
+</script>
 
 <div class="nav" id="nav">
   <a href="index.html">HOME</a>
@@ -142,20 +167,20 @@ body{ margin:0; background-color: var(--bg); background-image: linear-gradient(r
 
 <div class="hero-section">
     <div class="scanlines"></div>
-    <h1 class="glitch">HALL OF FAME</h1>
-    <div class="hero-sub">GOALSURGE</div>
+    <h1 class="glitch">GOALSURGE!</h1>
+    <div class="hero-sub">HALL OF FAME</div>
 </div>
 
 <div class="hall-container">
 
     <div class="player-card">
-        <div class="rank-num rank-1">1</div>
+        <div class="rank-num rank-gold">1</div>
         <div class="details">
             <div class="player-name">KH</div>
             <div class="trophy-case">
-                <img src="lms1.png" class="trophy-img" alt="LMS" title="Premier League LMS Champion">
-                <img src="lms1.png" class="trophy-img" alt="LMS" title="Premier League LMS Champion">
-                <img src="lms1.png" class="trophy-img" alt="LMS" title="Premier League LMS Champion">
+                <img src="lms1.png" class="trophy-img" alt="LMS">
+                <img src="lms1.png" class="trophy-img" alt="LMS">
+                <img src="lms1.png" class="trophy-img" alt="LMS">
                 <div class="empty-slot"></div>
                 <div class="empty-slot"></div>
             </div>
@@ -167,13 +192,13 @@ body{ margin:0; background-color: var(--bg); background-image: linear-gradient(r
     </div>
 
     <div class="player-card">
-        <div class="rank-num rank-1">2</div>
+        <div class="rank-num rank-gold">1</div>
         <div class="details">
             <div class="player-name">STEEJAY</div>
             <div class="trophy-case">
-                <img src="lms1.png" class="trophy-img" alt="LMS" title="Premier League LMS Champion">
-                <img src="lms1.png" class="trophy-img" alt="LMS" title="Premier League LMS Champion">
-                <img src="lms1.png" class="trophy-img" alt="LMS" title="Premier League LMS Champion">
+                <img src="lms1.png" class="trophy-img" alt="LMS">
+                <img src="lms1.png" class="trophy-img" alt="LMS">
+                <img src="lms1.png" class="trophy-img" alt="LMS">
                 <div class="empty-slot"></div>
                 <div class="empty-slot"></div>
             </div>
@@ -185,13 +210,13 @@ body{ margin:0; background-color: var(--bg); background-image: linear-gradient(r
     </div>
 
     <div class="player-card">
-        <div class="rank-num rank-1">3</div>
+        <div class="rank-num rank-gold">1</div>
         <div class="details">
             <div class="player-name">T-CITY</div>
             <div class="trophy-case">
-                <img src="lms1.png" class="trophy-img" alt="LMS" title="Premier League LMS Champion">
-                <img src="lms1.png" class="trophy-img" alt="LMS" title="Premier League LMS Champion">
-                <img src="lms1.png" class="trophy-img" alt="LMS" title="Premier League LMS Champion">
+                <img src="lms1.png" class="trophy-img" alt="LMS">
+                <img src="lms1.png" class="trophy-img" alt="LMS">
+                <img src="lms1.png" class="trophy-img" alt="LMS">
                 <div class="empty-slot"></div>
                 <div class="empty-slot"></div>
             </div>
@@ -203,12 +228,12 @@ body{ margin:0; background-color: var(--bg); background-image: linear-gradient(r
     </div>
 
     <div class="player-card">
-        <div class="rank-num rank-2">4</div>
+        <div class="rank-num rank-std">4</div>
         <div class="details">
             <div class="player-name">KABZ</div>
             <div class="trophy-case">
-                <img src="lms1.png" class="trophy-img" alt="LMS" title="Premier League LMS Champion">
-                <img src="ic1.png" class="trophy-img" alt="INT" title="International Cup Champion">
+                <img src="lms1.png" class="trophy-img" alt="LMS">
+                <img src="ic1.png" class="trophy-img" alt="INT">
                 <div class="empty-slot"></div>
                 <div class="empty-slot"></div>
                 <div class="empty-slot"></div>
@@ -221,11 +246,12 @@ body{ margin:0; background-color: var(--bg); background-image: linear-gradient(r
     </div>
 
     <div class="player-card">
-        <div class="rank-num rank-3">5</div>
+        <div class="rank-num rank-std">5</div>
         <div class="details">
             <div class="player-name">LOCK</div>
             <div class="trophy-case">
-                <img src="lms1.png" class="trophy-img" alt="LMS" title="Premier League LMS Champion">
+                <img src="lms1.png" class="trophy-img" alt="LMS">
+                <div class="empty-slot"></div>
                 <div class="empty-slot"></div>
                 <div class="empty-slot"></div>
                 <div class="empty-slot"></div>
@@ -238,11 +264,12 @@ body{ margin:0; background-color: var(--bg); background-image: linear-gradient(r
     </div>
 
     <div class="player-card">
-        <div class="rank-num rank-3">6</div>
+        <div class="rank-num rank-std">5</div>
         <div class="details">
             <div class="player-name">ABW</div>
             <div class="trophy-case">
-                <img src="ic1.png" class="trophy-img" alt="INT" title="International Cup Champion">
+                <img src="ic1.png" class="trophy-img" alt="INT">
+                <div class="empty-slot"></div>
                 <div class="empty-slot"></div>
                 <div class="empty-slot"></div>
                 <div class="empty-slot"></div>
@@ -255,11 +282,12 @@ body{ margin:0; background-color: var(--bg); background-image: linear-gradient(r
     </div>
 
     <div class="player-card">
-        <div class="rank-num rank-3">7</div>
+        <div class="rank-num rank-std">5</div>
         <div class="details">
             <div class="player-name">CROSBO</div>
             <div class="trophy-case">
-                <img src="ic1.png" class="trophy-img" alt="INT" title="International Cup Champion">
+                <img src="ic1.png" class="trophy-img" alt="INT">
+                <div class="empty-slot"></div>
                 <div class="empty-slot"></div>
                 <div class="empty-slot"></div>
                 <div class="empty-slot"></div>
