@@ -20,15 +20,15 @@ body{
     margin:0; background-color: var(--bg);
     background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
     background-size: 20px 20px; color: var(--text-main); font-family:"VT323", monospace; font-size: 20px; 
-    text-align:center; display:flex; flex-direction:column; align-items:center; min-height: 100vh; padding-bottom: 60px;
+    text-align:center; display:flex; flex-direction:column; align-items:center; min-height: 100vh; padding-bottom: 20px;
 }
-.hero-section { width: 100%; max-width: 960px; padding: 30px 0; margin-bottom: 10px; border-bottom: 4px solid var(--neon-cyan); background: linear-gradient(180deg, rgba(5, 217, 232, 0) 0%, rgba(5, 217, 232, 0.1) 100%); position: relative; overflow: hidden; text-align: center; }
+.hero-section { width: 100%; max-width: 960px; padding: 20px 0; margin-bottom: 5px; border-bottom: 4px solid var(--neon-cyan); background: linear-gradient(180deg, rgba(5, 217, 232, 0) 0%, rgba(5, 217, 232, 0.1) 100%); position: relative; overflow: hidden; text-align: center; }
 .scanlines { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1)); background-size: 100% 4px; pointer-events: none; z-index: 2; }
 .glitch { font-family: "Press Start 2P", cursive; font-size: 40px; color: var(--neon-yellow); text-shadow: 4px 4px 0px var(--neon-pink), -3px -3px 0px var(--neon-cyan); text-transform: uppercase; margin: 0; line-height: 1; letter-spacing: -2px; text-align: center; }
 .hero-sub { font-family: "Press Start 2P", cursive; font-size: 10px; color: #fff; margin-top: 15px; letter-spacing: 3px; background: var(--neon-pink); padding: 6px 12px; display: inline-block; box-shadow: 4px 4px 0 #000; }
 
-/* NAV RESTORED TO ORIGINAL 4 TABS */
-.nav { width: 100%; max-width: 960px; display: flex; gap: 10px; padding: 10px; margin-top: 10px; }
+/* NAV */
+.nav { width: 100%; max-width: 960px; display: flex; gap: 10px; padding: 10px; margin-top: 5px; }
 .nav a { flex: 1; font-family: "Press Start 2P", cursive; font-size: 10px; padding: 12px 5px; color: var(--neon-cyan); text-decoration: none; background: #111; border: 2px solid var(--neon-cyan); box-shadow: 4px 4px 0px 0px rgba(5, 217, 232, 0.4); text-transform: uppercase; transition: all 0.1s; display: flex; align-items: center; justify-content: center; }
 .nav a.active { background: var(--neon-pink); border-color: var(--neon-pink); color: #fff; }
 
@@ -43,74 +43,87 @@ body{
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: opacity 0.5s ease-out; /* Faster transition */
+    transition: opacity 0.5s ease-out;
 }
-
 .intro-img-container {
-    width: 90%;
-    max-width: 600px;
+    width: 90%; max-width: 600px;
     border: 4px solid var(--neon-cyan);
     box-shadow: 0 0 20px var(--neon-cyan);
-    margin-bottom: 40px;
-    background: #111;
-    padding: 10px;
+    margin-bottom: 30px; background: #111; padding: 10px;
 }
-.intro-img-container img {
-    width: 100%; height: auto; display: block;
-    image-rendering: pixelated;
-}
-
+.intro-img-container img { width: 100%; height: auto; display: block; image-rendering: pixelated; }
 .blink-start {
-    font-family: "Press Start 2P";
-    font-size: 24px;
-    color: var(--neon-yellow);
-    animation: blinker 0.8s step-end infinite;
-    text-shadow: 4px 4px 0 #ff2a6d;
+    font-family: "Press Start 2P"; font-size: 24px; color: var(--neon-yellow);
+    animation: blinker 0.8s step-end infinite; text-shadow: 4px 4px 0 #ff2a6d;
 }
 
 /* --- MAIN MENU STYLES --- */
 .blink-option {
-    font-family: "Press Start 2P";
-    font-size: 14px;
-    color: #fff;
-    margin-top: 20px;
-    animation: blinker 1s step-end infinite;
+    font-family: "Press Start 2P"; font-size: 14px; color: #fff;
+    margin: 15px 0; animation: blinker 1s step-end infinite;
 }
-
 @keyframes blinker { 50% { opacity: 0; } }
 
 .menu-container {
-    width: 95%; max-width: 800px;
-    margin-top: 20px;
-    display: flex; flex-direction: column; gap: 25px;
+    width: 95%; max-width: 600px;
+    display: flex; flex-direction: column; gap: 15px; /* Tighter gap */
 }
 
+/* ADJUSTED BUTTON SIZE FOR 3 BUTTONS */
 .big-btn {
-    display: flex; 
-    align-items: center; 
-    justify-content: center;
+    display: flex; align-items: center; justify-content: center;
     width: 100%;
-    height: 120px; /* FIXED HEIGHT FOR UNIFORMITY */
-    padding: 0 20px; /* Horizontal padding only */
-    font-family: "Press Start 2P";
-    font-size: 16px; 
-    line-height: 1.5;
-    text-decoration: none;
-    text-transform: uppercase;
-    text-align: center;
-    border: 4px solid #fff;
-    box-shadow: 10px 10px 0 #000;
-    transition: transform 0.1s, box-shadow 0.1s;
-    cursor: pointer;
+    height: 80px; /* Reduced height to fit 3 */
+    padding: 0 10px;
+    font-family: "Press Start 2P"; font-size: 14px; /* Slightly smaller text */
+    line-height: 1.4;
+    text-decoration: none; text-transform: uppercase; text-align: center;
+    border: 4px solid #fff; box-shadow: 6px 6px 0 #000;
+    transition: transform 0.1s, box-shadow 0.1s; cursor: pointer;
 }
 .btn-play { background: var(--neon-cyan); color: #000; border-color: #fff; }
 .btn-hall { background: #222; border-color: var(--neon-pink); color: var(--neon-pink); }
+.btn-reg  { background: var(--neon-yellow); border-color: #fff; color: #000; }
 
-.big-btn:hover { transform: translate(-4px, -4px); box-shadow: 14px 14px 0 #000; }
+.big-btn:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 #000; }
 .big-btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 #000; }
 
+/* --- MODAL STYLES --- */
+.modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.9);
+    display: none; align-items: center; justify-content: center; z-index: 5000;
+}
+.modal-box {
+    width: 90%; max-width: 500px; background: #0f0e17;
+    border: 4px solid var(--neon-yellow); padding: 25px;
+    text-align: center; position: relative;
+    box-shadow: 0 0 30px rgba(255, 200, 0, 0.2);
+}
+.close-btn {
+    position: absolute; top: 10px; right: 10px;
+    background: transparent; border: none; color: #666;
+    font-family: "Press Start 2P"; font-size: 20px; cursor: pointer;
+}
+.modal-title {
+    color: var(--neon-yellow); font-family: "Press Start 2P"; font-size: 18px;
+    margin-bottom: 20px; border-bottom: 2px solid #333; padding-bottom: 10px;
+}
+.modal-text { font-family: "VT323"; font-size: 22px; color: #ccc; margin-bottom: 20px; }
+.retro-input {
+    width: 100%; padding: 15px; background: #000; border: 2px solid #555;
+    color: var(--neon-cyan); font-family: "VT323"; font-size: 24px;
+    margin-bottom: 15px; outline: none; text-transform: uppercase;
+}
+.retro-input:focus { border-color: var(--neon-yellow); }
+.retro-submit {
+    width: 100%; padding: 15px; background: var(--neon-pink);
+    color: #fff; border: 2px solid #fff; font-family: "Press Start 2P";
+    cursor: pointer; text-transform: uppercase;
+}
+.success-msg { color: var(--neon-cyan); font-family: "Press Start 2P"; font-size: 14px; margin-top: 10px; line-height: 1.5;}
+
 .footer-nav {
-    margin-top: auto; padding-top: 40px;
+    margin-top: auto; padding-top: 20px;
     font-family: "Press Start 2P"; font-size: 10px;
     display: flex; gap: 20px;
 }
@@ -120,7 +133,7 @@ body{
 @media (min-width: 768px) {
     .glitch { font-size: 64px; }
     .nav a { font-size: 18px; padding: 20px 10px; }
-    .big-btn { font-size: 24px; height: 160px; } /* Larger fixed height on desktop */
+    .big-btn { font-size: 20px; height: 120px; } 
     .blink-start { font-size: 32px; }
     .blink-option { font-size: 18px; }
 }
@@ -160,6 +173,10 @@ body{
     <a href="hall.html" class="big-btn btn-hall">
         HALL OF FAME
     </a>
+
+    <button onclick="toggleModal(true)" class="big-btn btn-reg">
+        REGISTER INTEREST
+    </button>
 </div>
 
 <footer class="footer-nav">
@@ -167,25 +184,69 @@ body{
     <a href="terms.html">TERMS OF USE</a>
 </footer>
 
+<div id="regModal" class="modal-overlay">
+    <div class="modal-box">
+        <button class="close-btn" onclick="toggleModal(false)">X</button>
+        <div id="formContent">
+            <h2 class="modal-title">INCOMING TRANSMISSION</h2>
+            <p class="modal-text">TOURNAMENT IS LOADING...<br>ENTER COMMS ID TO BE SIGNALED WHEN KICKOFF APPROACHES.</p>
+            <input type="email" id="emailInput" class="retro-input" placeholder="ENTER EMAIL...">
+            <button onclick="submitInterest()" class="retro-submit">TRANSMIT</button>
+        </div>
+        <div id="successContent" style="display:none;">
+            <h2 class="modal-title" style="color:var(--neon-cyan);">SIGNAL RECEIVED</h2>
+            <p class="success-msg">YOUR COORDINATES HAVE BEEN LOGGED.<br><br>WE WILL CONTACT YOU BEFORE THE TOURNAMENT BEGINS.</p>
+            <button onclick="toggleModal(false)" class="retro-submit" style="margin-top:20px; background:#333;">CLOSE</button>
+        </div>
+    </div>
+</div>
+
 <script>
 'use strict';
-// Function to handle the "Press Start" click
+
+// 1. ENTER SITE LOGIC
 function enterSite() {
     const screen = document.getElementById('start-screen');
     const audio = document.getElementById('bgm');
     
-    // Play Music
-    audio.volume = 0.5; // Set volume to 50%
-    audio.play().catch(error => {
-        console.log("Audio play failed (browser policy or file missing):", error);
-    });
+    audio.volume = 0.5; 
+    audio.play().catch(e => console.log("Audio trigger blocked", e));
 
-    // Visual Transition
     screen.style.opacity = '0';
-    setTimeout(() => {
-        screen.style.display = 'none';
-    }, 500);
+    setTimeout(() => { screen.style.display = 'none'; }, 500);
 }
+
+// 2. MODAL LOGIC
+function toggleModal(show) {
+    const modal = document.getElementById('regModal');
+    const form = document.getElementById('formContent');
+    const success = document.getElementById('successContent');
+    
+    if(show) {
+        modal.style.display = 'flex';
+        // Reset state on open
+        form.style.display = 'block';
+        success.style.display = 'none';
+        document.getElementById('emailInput').value = '';
+    } else {
+        modal.style.display = 'none';
+    }
+}
+
+function submitInterest() {
+    const email = document.getElementById('emailInput').value;
+    if(email.length > 3 && email.includes('@')) {
+        document.getElementById('formContent').style.display = 'none';
+        document.getElementById('successContent').style.display = 'block';
+    } else {
+        alert("PLEASE ENTER VALID COMMS ID");
+    }
+}
+
+// Close modal if clicking outside box
+document.getElementById('regModal').addEventListener('click', function(e) {
+    if (e.target === this) toggleModal(false);
+});
 </script>
 
 </body>
