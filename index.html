@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>GOALSURGE! - MAIN MENU</title>
+<title>GOALSURGE! - PRESS START</title>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
 <style>
 /* --- CORE STYLES (MATCHING YOUR SHELL) --- */
@@ -26,174 +26,108 @@ body{
 .scanlines { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1)); background-size: 100% 4px; pointer-events: none; z-index: 2; }
 .glitch { font-family: "Press Start 2P", cursive; font-size: 40px; color: var(--neon-yellow); text-shadow: 4px 4px 0px var(--neon-pink), -3px -3px 0px var(--neon-cyan); text-transform: uppercase; margin: 0; line-height: 1; letter-spacing: -2px; text-align: center; }
 .hero-sub { font-family: "Press Start 2P", cursive; font-size: 10px; color: #fff; margin-top: 15px; letter-spacing: 3px; background: var(--neon-pink); padding: 6px 12px; display: inline-block; box-shadow: 4px 4px 0 #000; }
+
+/* NAV RESTORED TO ORIGINAL 4 TABS */
 .nav { width: 100%; max-width: 960px; display: flex; gap: 10px; padding: 10px; margin-top: 10px; }
 .nav a { flex: 1; font-family: "Press Start 2P", cursive; font-size: 10px; padding: 12px 5px; color: var(--neon-cyan); text-decoration: none; background: #111; border: 2px solid var(--neon-cyan); box-shadow: 4px 4px 0px 0px rgba(5, 217, 232, 0.4); text-transform: uppercase; transition: all 0.1s; display: flex; align-items: center; justify-content: center; }
 .nav a.active { background: var(--neon-pink); border-color: var(--neon-pink); color: #fff; }
 
-/* --- HOME PAGE SPECIFIC STYLES --- */
-.title-card-panel {
-    width: 95%;
-    max-width: 800px;
-    background: #000;
-    border: 4px solid var(--neon-pink);
-    padding: 40px 20px;
-    margin-top: 20px;
-    box-shadow: 10px 10px 0 rgba(0,0,0,0.5);
+/* --- INTRO / START SCREEN OVERLAY --- */
+#start-screen {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: #000;
+    z-index: 9999;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    cursor: pointer; /* Indicates clickable */
+    transition: opacity 0.8s ease-out;
 }
 
-.main-image-container {
-    width: 100%;
-    max-width: 500px;
-    margin: 20px 0;
-    border: 4px solid #333;
-    padding: 10px;
+.intro-img-container {
+    width: 90%;
+    max-width: 600px;
+    border: 4px solid var(--neon-cyan);
+    box-shadow: 0 0 20px var(--neon-cyan);
+    margin-bottom: 40px;
     background: #111;
+    padding: 10px;
 }
-
-.main-image-container img {
-    width: 100%;
-    height: auto;
-    display: block;
-    image-rendering: pixelated; /* Makes the PNG look sharp/retro */
+.intro-img-container img {
+    width: 100%; height: auto; display: block;
+    image-rendering: pixelated;
 }
 
 .blink-text {
     font-family: "Press Start 2P";
-    font-size: 18px;
-    color: var(--neon-cyan);
-    margin: 30px 0;
-    animation: blinker 1s step-end infinite;
+    font-size: 24px;
+    color: var(--neon-yellow);
+    animation: blinker 0.8s step-end infinite;
+    text-shadow: 4px 4px 0 #ff2a6d;
 }
 
-@keyframes blinker {
-    50% { opacity: 0; }
-}
+@keyframes blinker { 50% { opacity: 0; } }
 
-.menu-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    width: 100%;
-    max-width: 600px;
-    margin-top: 10px;
+/* --- MAIN MENU BUTTONS --- */
+.menu-container {
+    width: 95%; max-width: 800px;
+    margin-top: 40px;
+    display: flex; flex-direction: column; gap: 25px;
 }
-
 .big-btn {
-    display: block;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
     width: 100%;
-    padding: 25px;
+    padding: 30px;
     font-family: "Press Start 2P";
-    font-size: 16px;
+    font-size: 18px; line-height: 1.5;
     text-decoration: none;
     text-transform: uppercase;
     text-align: center;
     border: 4px solid #fff;
-    box-shadow: 8px 8px 0 #000;
+    box-shadow: 10px 10px 0 #000;
     transition: transform 0.1s, box-shadow 0.1s;
     cursor: pointer;
 }
+.btn-play { background: var(--neon-cyan); color: #000; border-color: #fff; }
+.btn-hall { background: #222; border-color: var(--neon-pink); color: var(--neon-pink); }
 
-.btn-start {
-    background: var(--neon-cyan);
-    color: #000;
-}
+.big-btn:hover { transform: translate(-4px, -4px); box-shadow: 14px 14px 0 #000; }
+.big-btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 #000; }
 
-.btn-hall {
-    background: var(--panel);
-    border-color: var(--neon-yellow);
-    color: var(--neon-yellow);
+.footer-nav {
+    margin-top: auto; padding-top: 40px;
+    font-family: "Press Start 2P"; font-size: 10px;
+    display: flex; gap: 20px;
 }
-
-.big-btn:hover {
-    transform: translate(-4px, -4px);
-    box-shadow: 12px 12px 0 #000;
-}
-
-.big-btn:active {
-    transform: translate(2px, 2px);
-    box-shadow: 2px 2px 0 #000;
-}
-
-/* STING OVERLAY (From your shell - kept for the load effect) */
-#sting-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: #000; z-index: 99999;
-    display: flex; align-items: center; justify-content: center;
-    transition: opacity 0.5s ease-out;
-}
-.copyright {
-    margin-top: 40px;
-    color: #555;
-    font-size: 14px;
-}
+.footer-nav a { color: #555; text-decoration: none; transition: color 0.3s; }
+.footer-nav a:hover { color: var(--neon-cyan); }
 
 @media (min-width: 768px) {
     .glitch { font-size: 64px; }
     .nav a { font-size: 18px; padding: 20px 10px; }
-    .big-btn { font-size: 20px; padding: 35px; }
+    .big-btn { font-size: 24px; padding: 40px; }
+    .blink-text { font-size: 32px; }
 }
 </style>
 </head>
 <body>
 
-<div id="sting-overlay">
-    <h1 class="glitch" style="font-size:20px;">LOADING CARTRIDGE...</h1>
+<div id="start-screen" onclick="enterSite()">
+    <div class="intro-img-container">
+        <img src="pic1.png" alt="Retro Intro Art">
+    </div>
+    <div class="blink-text">PRESS START</div>
 </div>
 
 <div class="nav" id="nav">
   <a href="index.html" class="active">HOME</a>
   <a href="predict.html">PLAY</a>
-  <a href="hall.html">HALL OF FAME</a>
+  <a href="scores.html">SCORES</a>
+  <a href="rules.html">RULES</a>
 </div>
 
 <div class="hero-section">
     <div class="scanlines"></div>
-    <h1 class="glitch" data-text="GOALSURGE!">GOALSURGE!</h1>
-    <div class="hero-sub">WORLD CUP EDITION</div>
-</div>
-
-<div class="title-card-panel">
-    
-    <div class="main-image-container">
-        <img src="pic1.png" alt="World Cup Retro Art">
-    </div>
-
-    <div class="blink-text">PRESS START</div>
-
-    <div class="menu-actions">
-        <a href="predict.html" class="big-btn btn-start">
-            PLAY WORLD CUP<br>PREDICTION GAME
-        </a>
-        
-        <a href="hall.html" class="big-btn btn-hall">
-            HALL OF FAME
-        </a>
-    </div>
-
-</div>
-
-<div class="copyright">
-    © 1994-2026 GOALSURGE SYSTEMS LTD.<br>
-    LICENSED BY NINTENDO OF AMERICA
-</div>
-
-<script>
-'use strict';
-// SIMPLE LOAD EFFECT
-window.addEventListener('load', () => {
-    setTimeout(() => {
-        const overlay = document.getElementById('sting-overlay');
-        overlay.style.opacity = '0';
-        setTimeout(() => overlay.style.display = 'none', 500);
-    }, 800); 
-});
-</script>
-
-</body>
-</html>
-
-```
+    <h1 class="glitch" data-text="GOALSUR
