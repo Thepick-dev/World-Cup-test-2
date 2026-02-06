@@ -29,7 +29,7 @@ body{ margin:0; background-color: var(--bg); background-image: linear-gradient(r
     background: #111;
     border: 2px solid #333;
     padding: 15px 10px;
-    align-items: flex-start; /* Changed to top alignment for big grid */
+    align-items: flex-start;
     position: relative;
     box-shadow: 6px 6px 0 #000;
 }
@@ -43,7 +43,7 @@ body{ margin:0; background-color: var(--bg); background-image: linear-gradient(r
     text-align: center;
     margin-right: 5px;
     flex-shrink: 0;
-    margin-top: 10px; /* Align with top of stickers */
+    margin-top: 10px; 
 }
 .rank-gold { color: var(--neon-yellow); text-shadow: 2px 2px 0 #000; font-size: 18px; }
 .rank-std { color: #666; } 
@@ -70,21 +70,21 @@ body{ margin:0; background-color: var(--bg); background-image: linear-gradient(r
 
 /* THE GRID: 
    Forces 4 columns per row. 
-   Total 8 slots = 2 rows exactly.
+   Total 12 slots = 3 rows exactly.
 */
 .trophy-case {
     display: grid;
     grid-template-columns: repeat(4, 1fr); 
     gap: 8px; 
     width: 100%;
-    max-width: 400px; /* Controls max width of the album area */
+    max-width: 400px;
 }
 
 /* The Actual Sticker Image */
 .trophy-img {
-    width: 100%; /* Fill the grid cell */
+    width: 100%; 
     height: auto;
-    aspect-ratio: 2 / 2.9; /* Keep sticker ratio */
+    aspect-ratio: 2 / 2.9; 
     display: block;
     filter: drop-shadow(4px 4px 0px rgba(0,0,0,1));
     transition: transform 0.1s;
@@ -92,12 +92,12 @@ body{ margin:0; background-color: var(--bg); background-image: linear-gradient(r
 }
 .trophy-img:hover { transform: scale(1.15) rotate(-2deg); z-index: 10; border-color: #fff; }
 
-/* The Empty Slot Placeholder - PROMINENT YELLOW */
+/* The Empty Slot Placeholder */
 .empty-slot {
     width: 100%;
     aspect-ratio: 2 / 2.9; 
-    background: rgba(255, 200, 0, 0.05); /* Slight yellow tint */
-    border: 2px dashed var(--neon-yellow); /* Yellow Dotted Outline */
+    background: rgba(255, 200, 0, 0.05); 
+    border: 2px dashed var(--neon-yellow); 
     display: flex; align-items: center; justify-content: center;
     opacity: 0.6;
 }
@@ -133,11 +133,10 @@ body{ margin:0; background-color: var(--bg); background-image: linear-gradient(r
     .nav a { font-size: 18px; padding: 20px 10px; } 
     .player-card { padding: 30px; }
     
-    /* Desktop Sizing */
     .rank-num { font-size: 28px; width: 60px; margin-right: 30px; }
     .player-name { font-size: 24px; margin-bottom: 20px; }
     
-    .trophy-case { gap: 15px; max-width: 500px; } /* Wider album on desktop */
+    .trophy-case { gap: 15px; max-width: 500px; } 
     
     .empty-slot { border-width: 3px; }
     .empty-slot::after { font-size: 20px; }
@@ -180,12 +179,16 @@ body{ margin:0; background-color: var(--bg); background-image: linear-gradient(r
     <div class="player-card">
         <div class="rank-num rank-gold">1</div>
         <div class="details">
-            <div class="player-name">KH</div>
+            <div class="player-name">STEEJAY</div>
             <div class="trophy-case">
                 <img src="lms1.png" class="trophy-img" alt="LMS">
                 <img src="lms1.png" class="trophy-img" alt="LMS">
                 <img src="lms1.png" class="trophy-img" alt="LMS">
                 <img src="fm.png" class="trophy-img" alt="FM">
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
                 <div class="empty-slot"></div>
                 <div class="empty-slot"></div>
                 <div class="empty-slot"></div>
@@ -199,14 +202,18 @@ body{ margin:0; background-color: var(--bg); background-image: linear-gradient(r
     </div>
 
     <div class="player-card">
-        <div class="rank-num rank-gold">1</div>
+        <div class="rank-num rank-gold">2</div>
         <div class="details">
-            <div class="player-name">STEEJAY</div>
+            <div class="player-name">KH</div>
             <div class="trophy-case">
                 <img src="lms1.png" class="trophy-img" alt="LMS">
                 <img src="lms1.png" class="trophy-img" alt="LMS">
                 <img src="lms1.png" class="trophy-img" alt="LMS">
                 <img src="fm.png" class="trophy-img" alt="FM">
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
                 <div class="empty-slot"></div>
                 <div class="empty-slot"></div>
                 <div class="empty-slot"></div>
@@ -227,6 +234,10 @@ body{ margin:0; background-color: var(--bg); background-image: linear-gradient(r
                 <img src="lms1.png" class="trophy-img" alt="LMS">
                 <img src="lms1.png" class="trophy-img" alt="LMS">
                 <img src="lms1.png" class="trophy-img" alt="LMS">
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
                 <div class="empty-slot"></div>
                 <div class="empty-slot"></div>
                 <div class="empty-slot"></div>
@@ -253,6 +264,10 @@ body{ margin:0; background-color: var(--bg); background-image: linear-gradient(r
                 <div class="empty-slot"></div>
                 <div class="empty-slot"></div>
                 <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
             </div>
         </div>
         <div class="score-area">
@@ -274,6 +289,10 @@ body{ margin:0; background-color: var(--bg); background-image: linear-gradient(r
                 <div class="empty-slot"></div>
                 <div class="empty-slot"></div>
                 <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
             </div>
         </div>
         <div class="score-area">
@@ -289,6 +308,10 @@ body{ margin:0; background-color: var(--bg); background-image: linear-gradient(r
             <div class="trophy-case">
                 <img src="ic1.png" class="trophy-img" alt="INT">
                 <img src="fm.png" class="trophy-img" alt="FM">
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
                 <div class="empty-slot"></div>
                 <div class="empty-slot"></div>
                 <div class="empty-slot"></div>
@@ -316,6 +339,10 @@ body{ margin:0; background-color: var(--bg); background-image: linear-gradient(r
                 <div class="empty-slot"></div>
                 <div class="empty-slot"></div>
                 <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
             </div>
         </div>
         <div class="score-area">
@@ -327,9 +354,38 @@ body{ margin:0; background-color: var(--bg); background-image: linear-gradient(r
     <div class="player-card">
         <div class="rank-num rank-std">8</div>
         <div class="details">
+            <div class="player-name">R</div>
+            <div class="trophy-case">
+                <img src="fm.png" class="trophy-img" alt="FM">
+                <img src="cc.png" class="trophy-img" alt="Christmas Cup">
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
+            </div>
+        </div>
+        <div class="score-area">
+            <span class="points">350</span>
+            <span class="pts-label">PTS</span>
+        </div>
+    </div>
+
+    <div class="player-card">
+        <div class="rank-num rank-std">9</div>
+        <div class="details">
             <div class="player-name">INGZ</div>
             <div class="trophy-case">
                 <img src="fm.png" class="trophy-img" alt="FM">
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
                 <div class="empty-slot"></div>
                 <div class="empty-slot"></div>
                 <div class="empty-slot"></div>
@@ -346,7 +402,7 @@ body{ margin:0; background-color: var(--bg); background-image: linear-gradient(r
     </div>
 
     <div class="player-card">
-        <div class="rank-num rank-std">8</div>
+        <div class="rank-num rank-std">9</div>
         <div class="details">
             <div class="player-name">STOOBZ</div>
             <div class="trophy-case">
@@ -358,23 +414,6 @@ body{ margin:0; background-color: var(--bg); background-image: linear-gradient(r
                 <div class="empty-slot"></div>
                 <div class="empty-slot"></div>
                 <div class="empty-slot"></div>
-            </div>
-        </div>
-        <div class="score-area">
-            <span class="points">100</span>
-            <span class="pts-label">PTS</span>
-        </div>
-    </div>
-
-    <div class="player-card">
-        <div class="rank-num rank-std">8</div>
-        <div class="details">
-            <div class="player-name">R</div>
-            <div class="trophy-case">
-                <img src="fm.png" class="trophy-img" alt="FM">
-                <div class="empty-slot"></div>
-                <div class="empty-slot"></div>
-                <div class="empty-slot"></div>
                 <div class="empty-slot"></div>
                 <div class="empty-slot"></div>
                 <div class="empty-slot"></div>
@@ -388,11 +427,15 @@ body{ margin:0; background-color: var(--bg); background-image: linear-gradient(r
     </div>
 
     <div class="player-card">
-        <div class="rank-num rank-std">8</div>
+        <div class="rank-num rank-std">9</div>
         <div class="details">
             <div class="player-name">TBW</div>
             <div class="trophy-case">
                 <img src="fm.png" class="trophy-img" alt="FM">
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
                 <div class="empty-slot"></div>
                 <div class="empty-slot"></div>
                 <div class="empty-slot"></div>
