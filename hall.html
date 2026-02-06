@@ -28,22 +28,23 @@ body{ margin:0; background-color: var(--bg); background-image: linear-gradient(r
     display: flex;
     background: #111;
     border: 2px solid #333;
-    padding: 15px;
+    padding: 10px; /* Reduced padding slightly for mobile */
     align-items: center;
     position: relative;
-    box-shadow: 5px 5px 0 #000;
+    box-shadow: 4px 4px 0 #000;
 }
 
-/* Rank Number */
+/* Rank Number - SMALLER ON MOBILE */
 .rank-num {
     font-family: "Press Start 2P";
-    font-size: 20px;
+    font-size: 14px; /* Reduced font size */
     color: #444;
-    width: 40px;
+    width: 30px;
     text-align: center;
-    margin-right: 15px;
+    margin-right: 10px;
+    flex-shrink: 0; /* Prevents squashing */
 }
-.rank-1 { color: var(--neon-yellow); text-shadow: 2px 2px 0 #000; }
+.rank-1 { color: var(--neon-yellow); text-shadow: 1px 1px 0 #000; }
 .rank-2 { color: #C0C0C0; }
 .rank-3 { color: #CD7F32; }
 
@@ -54,56 +55,59 @@ body{ margin:0; background-color: var(--bg); background-image: linear-gradient(r
     display: flex;
     flex-direction: column;
     justify-content: center;
+    overflow-x: auto; /* Allows scrolling if too many stickers on tiny screens */
 }
 
 .player-name {
     font-family: "Press Start 2P";
-    font-size: 16px;
+    font-size: 14px;
     color: var(--neon-cyan);
     margin-bottom: 8px;
     text-transform: uppercase;
     letter-spacing: 1px;
+    white-space: nowrap;
 }
 
-/* Trophy/Sticker Row */
+/* Trophy/Sticker Container */
 .trophy-case {
     display: flex;
-    gap: 15px;
+    gap: 8px; /* Spacing between stickers */
     align-items: center;
+    flex-wrap: wrap; /* Allows stickers to wrap to next line if needed */
+    padding-bottom: 5px;
 }
 
-.trophy-item {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    background: #000;
-    border: 1px solid #333;
-    padding: 4px 8px;
+/* The Actual Sticker Image - BIGGER ON MOBILE */
+.trophy-img {
+    width: 50px; /* Increased size */
+    height: auto;
+    display: block;
+    filter: drop-shadow(2px 2px 0px #000); /* Adds definition */
+    transition: transform 0.1s;
+}
+.trophy-img:hover { transform: scale(1.1); z-index: 2; }
+
+/* The Empty Slot Placeholder */
+.empty-slot {
+    width: 50px; /* Match sticker width */
+    aspect-ratio: 2 / 3; /* Match sticker aspect ratio */
+    background: rgba(255,255,255,0.05);
+    border: 2px dashed #333;
     border-radius: 4px;
 }
 
-.trophy-img {
-    width: 30px; /* Adjust sticker size */
-    height: auto;
-    display: block;
-}
 
-.win-count {
-    font-family: "Press Start 2P";
-    font-size: 10px;
-    color: #fff;
-}
-
-/* Score Section */
+/* Score Section - SMALLER ON MOBILE */
 .score-area {
     font-family: "Press Start 2P";
     text-align: right;
-    padding-left: 15px;
+    padding-left: 10px;
     border-left: 2px solid #333;
-    min-width: 100px;
+    min-width: 80px; /* Reduced min-width */
+    flex-shrink: 0;
 }
-.points { font-size: 18px; color: var(--neon-yellow); display: block; }
-.pts-label { font-size: 8px; color: #666; display: block; margin-top: 5px; }
+.points { font-size: 16px; color: var(--neon-yellow); display: block; } /* Reduced size */
+.pts-label { font-size: 7px; color: #666; display: block; margin-top: 5px; } /* Reduced size */
 
 
 .footer-nav { margin-top: auto; padding-top: 40px; font-family: "Press Start 2P"; font-size: 10px; display: flex; gap: 20px; }
@@ -114,9 +118,16 @@ body{ margin:0; background-color: var(--bg); background-image: linear-gradient(r
     .glitch { font-size: 64px; } 
     .nav a { font-size: 18px; padding: 20px 10px; } 
     .player-card { padding: 20px; }
-    .trophy-img { width: 40px; } /* Larger stickers on desktop */
-    .player-name { font-size: 22px; }
-    .points { font-size: 24px; }
+    
+    /* Desktop Sizing Adjustments */
+    .rank-num { font-size: 20px; width: 40px; margin-right: 15px; }
+    .player-name { font-size: 20px; }
+    .trophy-img { width: 70px; } /* Much bigger on desktop */
+    .empty-slot { width: 70px; border-width: 3px;}
+    .trophy-case { gap: 15px; }
+    .score-area { min-width: 120px; padding-left: 20px; }
+    .points { font-size: 22px; }
+    .pts-label { font-size: 10px; }
 }
 </style>
 </head>
@@ -132,7 +143,7 @@ body{ margin:0; background-color: var(--bg); background-image: linear-gradient(r
 <div class="hero-section">
     <div class="scanlines"></div>
     <h1 class="glitch">HALL OF FAME</h1>
-    <div class="hero-sub">ALL-TIME LEADERBOARD</div>
+    <div class="hero-sub">GOALSURGE</div>
 </div>
 
 <div class="hall-container">
@@ -142,10 +153,11 @@ body{ margin:0; background-color: var(--bg); background-image: linear-gradient(r
         <div class="details">
             <div class="player-name">KH</div>
             <div class="trophy-case">
-                <div class="trophy-item">
-                    <img src="lms1.png" class="trophy-img" alt="LMS">
-                    <span class="win-count">x3</span>
-                </div>
+                <img src="lms1.png" class="trophy-img" alt="LMS" title="Premier League LMS Champion">
+                <img src="lms1.png" class="trophy-img" alt="LMS" title="Premier League LMS Champion">
+                <img src="lms1.png" class="trophy-img" alt="LMS" title="Premier League LMS Champion">
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
             </div>
         </div>
         <div class="score-area">
@@ -159,10 +171,11 @@ body{ margin:0; background-color: var(--bg); background-image: linear-gradient(r
         <div class="details">
             <div class="player-name">STEEJAY</div>
             <div class="trophy-case">
-                <div class="trophy-item">
-                    <img src="lms1.png" class="trophy-img" alt="LMS">
-                    <span class="win-count">x3</span>
-                </div>
+                <img src="lms1.png" class="trophy-img" alt="LMS" title="Premier League LMS Champion">
+                <img src="lms1.png" class="trophy-img" alt="LMS" title="Premier League LMS Champion">
+                <img src="lms1.png" class="trophy-img" alt="LMS" title="Premier League LMS Champion">
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
             </div>
         </div>
         <div class="score-area">
@@ -176,10 +189,11 @@ body{ margin:0; background-color: var(--bg); background-image: linear-gradient(r
         <div class="details">
             <div class="player-name">T-CITY</div>
             <div class="trophy-case">
-                <div class="trophy-item">
-                    <img src="lms1.png" class="trophy-img" alt="LMS">
-                    <span class="win-count">x3</span>
-                </div>
+                <img src="lms1.png" class="trophy-img" alt="LMS" title="Premier League LMS Champion">
+                <img src="lms1.png" class="trophy-img" alt="LMS" title="Premier League LMS Champion">
+                <img src="lms1.png" class="trophy-img" alt="LMS" title="Premier League LMS Champion">
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
             </div>
         </div>
         <div class="score-area">
@@ -193,14 +207,11 @@ body{ margin:0; background-color: var(--bg); background-image: linear-gradient(r
         <div class="details">
             <div class="player-name">KABZ</div>
             <div class="trophy-case">
-                <div class="trophy-item">
-                    <img src="lms1.png" class="trophy-img" alt="LMS">
-                    <span class="win-count">x1</span>
-                </div>
-                <div class="trophy-item">
-                    <img src="ic1.png" class="trophy-img" alt="INT">
-                    <span class="win-count">x1</span>
-                </div>
+                <img src="lms1.png" class="trophy-img" alt="LMS" title="Premier League LMS Champion">
+                <img src="ic1.png" class="trophy-img" alt="INT" title="International Cup Champion">
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
             </div>
         </div>
         <div class="score-area">
@@ -214,10 +225,10 @@ body{ margin:0; background-color: var(--bg); background-image: linear-gradient(r
         <div class="details">
             <div class="player-name">LOCK</div>
             <div class="trophy-case">
-                <div class="trophy-item">
-                    <img src="lms1.png" class="trophy-img" alt="LMS">
-                    <span class="win-count">x1</span>
-                </div>
+                <img src="lms1.png" class="trophy-img" alt="LMS" title="Premier League LMS Champion">
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
             </div>
         </div>
         <div class="score-area">
@@ -231,10 +242,10 @@ body{ margin:0; background-color: var(--bg); background-image: linear-gradient(r
         <div class="details">
             <div class="player-name">ABW</div>
             <div class="trophy-case">
-                <div class="trophy-item">
-                    <img src="ic1.png" class="trophy-img" alt="INT">
-                    <span class="win-count">x1</span>
-                </div>
+                <img src="ic1.png" class="trophy-img" alt="INT" title="International Cup Champion">
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
             </div>
         </div>
         <div class="score-area">
@@ -248,10 +259,10 @@ body{ margin:0; background-color: var(--bg); background-image: linear-gradient(r
         <div class="details">
             <div class="player-name">CROSBO</div>
             <div class="trophy-case">
-                <div class="trophy-item">
-                    <img src="ic1.png" class="trophy-img" alt="INT">
-                    <span class="win-count">x1</span>
-                </div>
+                <img src="ic1.png" class="trophy-img" alt="INT" title="International Cup Champion">
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
+                <div class="empty-slot"></div>
             </div>
         </div>
         <div class="score-area">
