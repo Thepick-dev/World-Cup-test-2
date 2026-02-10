@@ -1,11 +1,11 @@
 <!doctype html>
 <html lang="en">
 <head>
+<link rel="stylesheet" href="style.css">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>GOALSURGE! — SEMI FINALS</title>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
 <style>
 /* --- 1. CORE PALETTE & THEME --- */
 :root{
@@ -83,6 +83,10 @@ input, select { width: 100%; padding: 15px; margin: 10px 0; background: #000 !im
 .strat-btn.active-hedge { border-color: var(--neon-cyan); color: var(--neon-cyan); box-shadow: inset 0 0 15px rgba(5, 217, 232, 0.3); }
 .strat-btn.active-risk { border-color: var(--neon-pink); color: var(--neon-pink); box-shadow: inset 0 0 15px rgba(255, 42, 109, 0.3); }
 
+/* Policy/Terms Links styling */
+.legal-link { text-decoration: underline !important; color: inherit; cursor: pointer; }
+
+/* Summary Page */
 #summaryPage {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg);
     z-index: 9999; display: none; flex-direction: column; align-items: center; justify-content: center;
@@ -139,8 +143,8 @@ input, select { width: 100%; padding: 15px; margin: 10px 0; background: #000 !im
     <input id="leaguePin" placeholder="LEAGUE PIN (OPTIONAL)" maxlength="4" onfocus="termHelp('id-msg', 'JOIN A PRIVATE LEAGUE OR LEAVE BLANK')">
 
     <div style="text-align:left; margin-top:20px; color:var(--neon-yellow); font-family:'VT323'; font-size:24px; line-height:1.4;">
-        <label style="display:flex; align-items:center; gap:10px; cursor:pointer;"><input type="checkbox" id="privacyCheck" onchange="validate()" style="width:25px; height:25px;"> <span>ACCEPT <a href="privacy.html" style="color:inherit; text-decoration: underline;">PRIVACY POLICY</a> (REQUIRED)</span></label>
-        <label style="display:flex; align-items:center; gap:10px; cursor:pointer; margin-top:10px;"><input type="checkbox" id="termsCheck" onchange="validate()" style="width:25px; height:25px;"> <span>ACCEPT <a href="terms.html" style="color:inherit; text-decoration: underline;">TERMS OF USE</a> (REQUIRED)</span></label>
+        <label style="display:flex; align-items:center; gap:10px; cursor:pointer;"><input type="checkbox" id="privacyCheck" onchange="validate()" style="width:25px; height:25px;"> <span>ACCEPT <a href="privacy.html" class="legal-link">PRIVACY POLICY</a> (REQUIRED)</span></label>
+        <label style="display:flex; align-items:center; gap:10px; cursor:pointer; margin-top:10px;"><input type="checkbox" id="termsCheck" onchange="validate()" style="width:25px; height:25px;"> <span>ACCEPT <a href="terms.html" class="legal-link">TERMS OF USE</a> (REQUIRED)</span></label>
     </div>
 </div>
 
@@ -197,8 +201,8 @@ input, select { width: 100%; padding: 15px; margin: 10px 0; background: #000 !im
 <button id="submitBtn" style="width: 100%; max-width: 800px; padding:25px; background:var(--neon-pink); color:#fff; font-family:'Press Start 2P'; border:4px solid #fff; box-shadow:10px 10px 0 #000; margin-bottom:60px; cursor:not-allowed; opacity:0.5;" disabled onclick="showSummary()">LOCK TERMINAL PICKS</button>
 
 <footer class="footer-nav">
-    <a href="privacy.html" style="text-decoration: underline;">PRIVACY POLICY</a>
-    <a href="terms.html" style="text-decoration: underline;">TERMS OF USE</a>
+    <a href="privacy.html">PRIVACY POLICY</a>
+    <a href="terms.html">TERMS OF USE</a>
 </footer>
 
 <script>
