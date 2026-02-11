@@ -1,11 +1,11 @@
 <!doctype html>
 <html lang="en">
 <head>
-<link rel="stylesheet" href="style.css">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>GOALSURGE! — SEMI FINALS</title>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 <style>
 /* --- 1. CORE PALETTE & THEME --- */
 :root{
@@ -41,11 +41,11 @@ body{
 .glitch { 
     font-family: "Press Start 2P", cursive; font-size: 40px; color: var(--neon-yellow); 
     text-shadow: 4px 4px 0px var(--neon-pink), -3px -3px 0px var(--neon-cyan); 
-    text-transform: uppercase; margin: 0; line-height: 1; letter-spacing: -2px; text-align: center;
+    text-transform: uppercase; margin: 0 auto; line-height: 1; letter-spacing: -2px; width: fit-content;
 }
 .hero-sub { 
     font-family: "Press Start 2P", cursive; font-size: 10px; color: #fff; 
-    margin-top: 15px; letter-spacing: 3px; background: var(--neon-pink); 
+    margin: 15px auto 0; letter-spacing: 3px; background: var(--neon-pink); 
     padding: 6px 12px; display: inline-block; box-shadow: 4px 4px 0 #000; 
 }
 
@@ -61,9 +61,10 @@ body{
 /* --- 3. PANELS & INPUTS --- */
 .panel { width: 95%; max-width: 960px; background: var(--panel); border: 4px solid var(--neon-cyan); padding: 25px; margin-bottom: 30px; box-shadow: 10px 10px 0 #000; text-align: left; }
 h1 { font-family: "Press Start 2P", cursive; font-size: 18px; margin-bottom: 20px; color: var(--neon-cyan); border-bottom: 4px solid #000; padding-bottom: 10px; text-align: left; }
-.points-tag { float: right; color: var(--neon-yellow); font-size: 14px; }
+.pts { float: right; color: var(--neon-yellow); font-size: 14px; }
 
 input, select { width: 100%; padding: 15px; margin: 10px 0; background: #000 !important; color: var(--neon-yellow) !important; border: 2px solid #888; font-family: "VT323", monospace; font-size: 24px; outline: none; text-transform: uppercase; transition: all 0.3s; }
+input:-webkit-autofill { -webkit-text-fill-color: var(--neon-yellow) !important; -webkit-box-shadow: 0 0 0px 1000px #000 inset !important; }
 
 .sys { margin: 15px 0; font-size: 18px; color: #555; text-transform: uppercase; min-height: 24px; transition: color 0.3s; padding: 15px; background: rgba(0,0,0,0.3); border-left: 4px solid var(--neon-pink); font-family: "VT323"; }
 .sys.active { color: var(--neon-yellow); border-left-color: var(--neon-yellow); }
@@ -75,6 +76,7 @@ input, select { width: 100%; padding: 15px; margin: 10px 0; background: #000 !im
 .arcade-btn { font-family: "VT323"; font-size: 20px; padding: 10px; width: 100%; background: #000; border: 1px solid #444; color: #666; cursor: pointer; text-transform: uppercase; transition: all 0.2s; margin-bottom: 5px; }
 .arcade-btn.selected { background: var(--neon-cyan); color: #000; border-color: #fff; box-shadow: 0 0 10px var(--neon-cyan); }
 
+/* 3x3 GRID FOR GOAL TIMES */
 .time-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 .time-btn { font-family: "VT323"; font-size: 18px; padding: 12px 2px; background: #000; border: 1px solid #444; color: #666; cursor: pointer; }
 .time-btn.selected { background: var(--neon-pink); color: #fff; border-color: #fff; box-shadow: 0 0 10px var(--neon-pink); }
@@ -83,24 +85,22 @@ input, select { width: 100%; padding: 15px; margin: 10px 0; background: #000 !im
 .strat-btn.active-hedge { border-color: var(--neon-cyan); color: var(--neon-cyan); box-shadow: inset 0 0 15px rgba(5, 217, 232, 0.3); }
 .strat-btn.active-risk { border-color: var(--neon-pink); color: var(--neon-pink); box-shadow: inset 0 0 15px rgba(255, 42, 109, 0.3); }
 
-/* Policy/Terms Links styling */
-.legal-link { text-decoration: underline !important; color: inherit; cursor: pointer; }
+.option-row { display: flex; align-items: center; gap: 15px; padding: 15px; border: 1px solid #333; background: #000; margin-bottom: 8px; cursor: pointer; font-family: "VT323"; font-size: 20px; color: #888; text-align: left; }
+.option-row.selected { border-color: var(--neon-pink); color: #fff; background: rgba(255, 42, 109, 0.1); }
 
-/* Summary Page */
-#summaryPage {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg);
-    z-index: 9999; display: none; flex-direction: column; align-items: center; justify-content: center;
-    padding: 20px; text-align: center; overflow-y: auto;
+/* SUMMARY PAGE */
+#summary-page {
+    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+    background: var(--bg); z-index: 9999; padding: 20px; overflow-y: auto;
 }
 .summary-card {
-    background: #111; border: 4px solid var(--neon-cyan); padding: 30px; width: 100%; max-width: 600px;
-    box-shadow: 0 0 20px var(--neon-cyan); position: relative;
+    max-width: 500px; margin: 0 auto; border: 6px double var(--neon-cyan); padding: 20px;
+    background: #000; font-family: "VT323"; color: #fff; text-align: center;
 }
-.screenshot-msg { font-family: "Press Start 2P"; font-size: 14px; color: var(--neon-yellow); margin-bottom: 20px; animation: blink 1s infinite; }
-@keyframes blink { 50% { opacity: 0; } }
+.summary-item { border-bottom: 1px dashed #444; padding: 10px 0; display: flex; justify-content: space-between; }
 
-.footer-nav { margin-top: 40px; display: flex; gap: 20px; justify-content: center; }
-.footer-nav a { color: var(--neon-cyan); text-decoration: underline; font-family: "VT323"; font-size: 18px; }
+.footer-nav { margin-top: 40px; padding: 20px; }
+.footer-nav a { color: var(--neon-cyan); margin: 0 15px; font-family: "Press Start 2P"; font-size: 10px; }
 
 @media (min-width: 768px) {
     .glitch { font-size: 64px; }
@@ -109,15 +109,6 @@ input, select { width: 100%; padding: 15px; margin: 10px 0; background: #000 !im
 </style>
 </head>
 <body>
-
-<div id="summaryPage">
-    <div class="summary-card">
-        <h1 class="glitch" style="font-size: 30px; border:none;">GOALSURGE!</h1>
-        <div class="screenshot-msg">SCREENSHOT YOUR PICKS!</div>
-        <div id="summaryData" style="font-family: 'VT323'; color: #fff; font-size: 22px; text-align: left; line-height: 1.2;"></div>
-        <button onclick="window.location.href='index.html'" style="margin-top:25px; padding:15px; background:var(--neon-pink); color:#fff; border:none; font-family:'Press Start 2P'; cursor:pointer; width:100%;">RETURN HOME</button>
-    </div>
-</div>
 
 <div class="nav">
   <a href="index.html">HOME</a>
@@ -129,13 +120,13 @@ input, select { width: 100%; padding: 15px; margin: 10px 0; background: #000 !im
 <div class="hero-section">
     <div class="scanlines"></div>
     <div class="hero-content">
-        <h1 class="glitch">GOALSURGE!</h1>
+        <h1 class="glitch" data-text="GOALSURGE!">GOALSURGE!</h1>
         <div class="hero-sub">SEMI FINALS</div>
     </div>
 </div>
 
 <div class="panel">
-    <h1>1. PLAYER IDENTITY <span class="points-tag">[0 PTS]</span></h1>
+    <h1>1. PLAYER IDENTITY <span class="pts">[REQUIRED]</span></h1>
     <div class="sys active" id="id-msg">TERMINAL READY: AWAITING CREDENTIALS...</div>
 
     <input id="user" placeholder="USERNAME" oninput="validate()" onfocus="termHelp('id-msg', 'DISPLAY NAME FOR GLOBAL LEADERBOARDS')">
@@ -143,44 +134,50 @@ input, select { width: 100%; padding: 15px; margin: 10px 0; background: #000 !im
     <input id="leaguePin" placeholder="LEAGUE PIN (OPTIONAL)" maxlength="4" onfocus="termHelp('id-msg', 'JOIN A PRIVATE LEAGUE OR LEAVE BLANK')">
 
     <div style="text-align:left; margin-top:20px; color:var(--neon-yellow); font-family:'VT323'; font-size:24px; line-height:1.4;">
-        <label style="display:flex; align-items:center; gap:10px; cursor:pointer;"><input type="checkbox" id="privacyCheck" onchange="validate()" style="width:25px; height:25px;"> <span>ACCEPT <a href="privacy.html" class="legal-link">PRIVACY POLICY</a> (REQUIRED)</span></label>
-        <label style="display:flex; align-items:center; gap:10px; cursor:pointer; margin-top:10px;"><input type="checkbox" id="termsCheck" onchange="validate()" style="width:25px; height:25px;"> <span>ACCEPT <a href="terms.html" class="legal-link">TERMS OF USE</a> (REQUIRED)</span></label>
+        <label style="display:flex; align-items:center; gap:10px; cursor:pointer;">
+            <input type="checkbox" id="privacyCheck" onchange="validate()" style="width:25px; height:25px;"> 
+            <span>ACCEPT <a href="privacy.html" style="color:var(--neon-cyan); text-decoration:underline;">PRIVACY POLICY</a> (REQUIRED)</span>
+        </label>
+        <label style="display:flex; align-items:center; gap:10px; cursor:pointer; margin-top:10px;">
+            <input type="checkbox" id="termsCheck" onchange="validate()" style="width:25px; height:25px;"> 
+            <span>ACCEPT <a href="terms.html" style="color:var(--neon-cyan); text-decoration:underline;">TERMS OF USE</a> (REQUIRED)</span>
+        </label>
     </div>
 </div>
 
 <div class="panel">
-    <h1>2. DANGEROUS DUO <span class="points-tag">[20 PTS]</span></h1>
+    <h1>2. DANGEROUS DUO <span class="pts">[50 PTS]</span></h1>
     <select id="playerCombo" onchange="validate()">
         <option value="">SELECT DUO...</option>
-        <option value="Mbappe & Kane">Mbappe & Kane</option>
-        <option value="Messi & Alvarez">Messi & Alvarez</option>
-        <option value="Yamal & Williams">Yamal & Williams</option>
-        <option value="Bellingham & Saka">Bellingham & Saka</option>
+        <option>Mbappe & Kane</option>
+        <option>Messi & Alvarez</option>
+        <option>Yamal & Williams</option>
+        <option>Bellingham & Saka</option>
     </select>
     <input id="tiebreaker" placeholder="TIEBREAKER: TOTAL YEL CARDS?" type="number" oninput="validate()" style="margin-top:20px;">
 </div>
 
 <div class="panel">
-    <h1>3. SEMI FINALS <span class="points-tag">[50 PTS]</span></h1>
+    <h1>3. SEMI FINALS <span class="pts">[100 PTS PER MATCH]</span></h1>
     <div id="sf1-container"></div>
     <div id="sf2-container"></div>
 </div>
 
 <div class="panel">
-    <h1>4. 3RD PLACE PLAYOFF <span class="points-tag">[15 PTS]</span></h1>
+    <h1>4. 3RD PLACE PLAYOFF <span class="pts">[75 PTS]</span></h1>
     <div id="playoff-container"></div>
 </div>
 
 <div class="panel">
-    <h1>5. WORLD CUP WINNER <span class="points-tag">[100 PTS]</span></h1>
+    <h1>5. WORLD CUP WINNER <span class="pts">[200 PTS]</span></h1>
     <div style="display:flex; gap:10px; margin-bottom:15px;">
         <button class="strat-btn" id="btnHedge" onclick="setStrategy('hedge')">HEDGE IT<br>(PICK 2)</button>
         <button class="strat-btn" id="btnRisk" onclick="setStrategy('risk')">RISK IT<br>(PICK 1)</button>
     </div>
     <div id="hedgeContent" style="display:none;">
-        <p style="margin-bottom:10px; color:var(--neon-cyan);">PICK THE TWO SEMI-FINAL WINNERS:</p>
-        <select id="hedge1" onchange="validate()"><option value="WINNER SF1">WINNER SEMI FINAL 1</option></select>
-        <select id="hedge2" onchange="validate()"><option value="WINNER SF2">WINNER SEMI FINAL 2</option></select>
+        <p style="margin-bottom:10px; font-size:16px; color:var(--neon-cyan);">PICK TWO TEAMS FROM THE SEMIS:</p>
+        <select id="rank1" onchange="validate()"><option value="">SEMI FINALIST 1...</option></select>
+        <select id="rank2" onchange="validate()"><option value="">SEMI FINALIST 2...</option></select>
     </div>
     <div id="riskContent" style="display:none;">
         <select id="riskSelect" onchange="validate()"><option value="">SELECT CHAMPION...</option></select>
@@ -188,21 +185,33 @@ input, select { width: 100%; padding: 15px; margin: 10px 0; background: #000 !im
 </div>
 
 <div class="panel">
-    <h1>6. THE FINAL <span class="points-tag">[75 PTS]</span></h1>
+    <h1>6. THE FINAL <span class="pts">[150 PTS]</span></h1>
     <div id="final-container"></div>
 </div>
 
 <div class="panel">
-    <h1>7. TOTAL TOURNAMENT GOALS <span class="points-tag">[30 PTS]</span></h1>
-    <p style="margin-bottom:10px; font-size:18px; color:var(--neon-yellow);">ESTIMATE TOTAL GOALS SCORED IN THE 4 FINAL MATCHES (EXCL. SHOOTOUTS):</p>
-    <input type="number" id="totalGoals" placeholder="ENTER GOAL COUNT" oninput="validate()">
+    <h1>7. TOTAL GOALS <span class="pts">[40 PTS]</span></h1>
+    <p style="margin-bottom:10px; color:var(--neon-pink);">PREDICT TOTAL GOALS IN THE FINAL 4 MATCHES (EXCL. SHOOTOUTS)</p>
+    <input type="number" id="totalGoals" placeholder="ENTER NUMBER OF GOALS" oninput="validate()">
 </div>
 
-<button id="submitBtn" style="width: 100%; max-width: 800px; padding:25px; background:var(--neon-pink); color:#fff; font-family:'Press Start 2P'; border:4px solid #fff; box-shadow:10px 10px 0 #000; margin-bottom:60px; cursor:not-allowed; opacity:0.5;" disabled onclick="showSummary()">LOCK TERMINAL PICKS</button>
+<button id="submitBtn" style="width: 100%; max-width: 800px; padding:25px; background:var(--neon-pink); color:#fff; font-family:'Press Start 2P'; border:4px solid #fff; box-shadow:10px 10px 0 #000; margin-bottom:60px; cursor:pointer;" disabled onclick="showSummary()">LOCK TERMINAL PICKS</button>
+
+<div id="summary-page">
+    <div class="summary-card">
+        <h1 class="glitch" style="font-size: 24px;">GOALSURGE!</h1>
+        <p style="color:var(--neon-pink); margin:10px 0; font-family:'Press Start 2P'; font-size:12px;">PICK SUMMARY</p>
+        <p style="font-size:18px; margin-bottom:20px; border:1px solid #fff; padding:5px;">📸 SCREENSHOT THIS PAGE</p>
+        
+        <div id="summary-list"></div>
+
+        <button onclick="window.location.href='index.html'" style="margin-top:30px; width:100%; padding:15px; background:var(--neon-cyan); font-family:'Press Start 2P'; font-size:12px; border:none; cursor:pointer;">RETURN TO HOME</button>
+    </div>
+</div>
 
 <footer class="footer-nav">
-    <a href="privacy.html">PRIVACY POLICY</a>
-    <a href="terms.html">TERMS OF USE</a>
+    <a href="privacy.html" style="text-decoration: underline;">PRIVACY POLICY</a>
+    <a href="terms.html" style="text-decoration: underline;">TERMS OF USE</a>
 </footer>
 
 <script>
@@ -210,31 +219,30 @@ input, select { width: 100%; padding: 15px; margin: 10px 0; background: #000 !im
 
 const CONFIG = { sf1_home: "ENGLAND", sf1_away: "FRANCE", sf2_home: "SPAIN", sf2_away: "ARGENTINA" };
 const TEAMS = [CONFIG.sf1_home, CONFIG.sf1_away, CONFIG.sf2_home, CONFIG.sf2_away];
-const TIME_OPTIONS = ['0-15', '16-30', '31-HT', '46-60', '61-75', '76-FT', '91-HT(in ET)', '106-FT (in ET)', 'No goal (penalties)'];
-const picks = { sf1:{}, sf2:{}, p3:{}, fin:{}, strategy:null, combo:null, goals:null };
+const picks = { sf1:{}, sf2:{}, p3:{}, fin:{}, strategy:null, rank1:null, rank2:null, risk:null, duo:null, tie:null, totalGoals:null };
+
+const GOAL_TIMES = ['0-15', '16-30', '31-HT', '46-60', '61-75', '76-FT', '91-HT(in ET)', '106-FT (in ET)', 'No goal (penalties)'];
 
 window.onload = function() {
     renderMatch('sf1-container', 'sf1', CONFIG.sf1_home, CONFIG.sf1_away, 'SEMI FINAL 1');
     renderMatch('sf2-container', 'sf2', CONFIG.sf2_home, CONFIG.sf2_away, 'SEMI FINAL 2');
-    renderPlayoff('playoff-container');
+    renderPlayoff();
     renderMatch('final-container', 'fin', 'SF1 WINNER', 'SF2 WINNER', 'THE FINAL');
     populateTeamDropdowns();
 };
-
-function termHelp(id, msg) { document.getElementById(id).textContent = msg; }
 
 function renderMatch(containerId, matchKey, home, away, title) {
     document.getElementById(containerId).innerHTML = `
     <div class="match-box">
         <div class="match-title">${title}</div>
-        <div class="method-grid" id="grid-${matchKey}" style="display:flex; gap:10px;">
-            <div style="flex:1">
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;" id="grid-${matchKey}">
+            <div class="team-col">
                 <div class="section-label">${home}</div>
                 <button class="arcade-btn" onclick="selectMatchResult('${matchKey}', '${home}', 'Normal', this)">Normal</button>
                 <button class="arcade-btn" onclick="selectMatchResult('${matchKey}', '${home}', 'Ex.Time', this)">Ex.Time</button>
                 <button class="arcade-btn" onclick="selectMatchResult('${matchKey}', '${home}', 'Pens', this)">Pens</button>
             </div>
-            <div style="flex:1">
+            <div class="team-col">
                 <div class="section-label">${away}</div>
                 <button class="arcade-btn" onclick="selectMatchResult('${matchKey}', '${away}', 'Normal', this)">Normal</button>
                 <button class="arcade-btn" onclick="selectMatchResult('${matchKey}', '${away}', 'Ex.Time', this)">Ex.Time</button>
@@ -243,25 +251,32 @@ function renderMatch(containerId, matchKey, home, away, title) {
         </div>
         <div class="section-label">TIME OF 1ST GOAL</div>
         <div class="time-grid" id="time-${matchKey}">
-            ${TIME_OPTIONS.map(t => `<button class="time-btn" onclick="selectMatchTime('${matchKey}', '${t}', this)">${t}</button>`).join('')}
+            ${GOAL_TIMES.map(t => `<button class="time-btn" onclick="selectMatchTime('${matchKey}', '${t}', this)">${t}</button>`).join('')}
         </div>
     </div>`;
 }
 
-function renderPlayoff(containerId) {
-    document.getElementById(containerId).innerHTML = `
+function renderPlayoff() {
+    document.getElementById('playoff-container').innerHTML = `
     <div class="match-box">
         <div class="match-title">3RD PLACE PLAYOFF</div>
         <div class="section-label">WHO WILL WIN THIS MATCH?</div>
         <select id="p3Winner" onchange="picks.p3.winner = this.value; validate();">
-            <option value="">SELECT WINNER...</option>
+            <option value="">SELECT TEAM...</option>
             ${TEAMS.map(t => `<option value="${t}">${t}</option>`).join('')}
         </select>
         <div class="section-label">TIME OF 1ST GOAL</div>
         <div class="time-grid" id="time-p3">
-            ${TIME_OPTIONS.map(t => `<button class="time-btn" onclick="selectMatchTime('p3', '${t}', this)">${t}</button>`).join('')}
+            ${GOAL_TIMES.map(t => `<button class="time-btn" onclick="selectMatchTime('p3', '${t}', this)">${t}</button>`).join('')}
         </div>
     </div>`;
+}
+
+function populateTeamDropdowns() {
+    ['rank1', 'rank2', 'riskSelect'].forEach(id => {
+        const sel = document.getElementById(id);
+        TEAMS.forEach(t => { const o = document.createElement('option'); o.value = t; o.text = t; sel.add(o); });
+    });
 }
 
 function selectMatchResult(key, winner, method, btn) {
@@ -274,11 +289,6 @@ function selectMatchTime(key, time, btn) {
     btn.classList.add('selected'); picks[key].time = time; validate();
 }
 
-function populateTeamDropdowns() {
-    const riskSel = document.getElementById('riskSelect');
-    TEAMS.forEach(t => { const o = document.createElement('option'); o.value = t; o.text = t; riskSel.add(o); });
-}
-
 function setStrategy(strat) {
     picks.strategy = strat;
     document.getElementById('btnHedge').className = strat === 'hedge' ? 'strat-btn active-hedge' : 'strat-btn';
@@ -288,49 +298,49 @@ function setStrategy(strat) {
     validate();
 }
 
+function termHelp(id, msg) { document.getElementById(id).textContent = msg; }
+
 function validate() {
     const user = document.getElementById('user').value.trim();
     const email = document.getElementById('email').value.trim();
     const privacy = document.getElementById('privacyCheck').checked;
     const terms = document.getElementById('termsCheck').checked;
-    const btn = document.getElementById('submitBtn');
-    
+    const duo = document.getElementById('playerCombo').value;
+    const tie = document.getElementById('tiebreaker').value;
+    const goals = document.getElementById('totalGoals').value;
+
     const isIdentityComplete = user.length > 2 && email.includes('@') && privacy && terms;
-    const isSFComplete = picks.sf1.winner && picks.sf1.time && picks.sf2.winner && picks.sf2.time;
-    const isP3Complete = picks.p3.winner && picks.p3.time;
-    const isFinalComplete = picks.fin.winner && picks.fin.time;
-    const isStratComplete = picks.strategy === 'risk' ? document.getElementById('riskSelect').value !== "" : (picks.strategy === 'hedge');
-    const isComboComplete = document.getElementById('playerCombo').value !== "" && document.getElementById('tiebreaker').value !== "";
-    const isGoalsComplete = document.getElementById('totalGoals').value !== "";
+    const isDuoComplete = duo !== "" && tie !== "";
+    const isMatchesComplete = picks.sf1.winner && picks.sf1.time && picks.sf2.winner && picks.sf2.time && picks.p3.winner && picks.p3.time && picks.fin.winner && picks.fin.time;
+    
+    let isStrategyComplete = false;
+    if (picks.strategy === 'risk' && document.getElementById('riskSelect').value) isStrategyComplete = true;
+    if (picks.strategy === 'hedge' && document.getElementById('rank1').value && document.getElementById('rank2').value) isStrategyComplete = true;
 
-    const allValid = isIdentityComplete && isSFComplete && isP3Complete && isFinalComplete && isStratComplete && isComboComplete && isGoalsComplete;
-
-    if(allValid) {
-        btn.disabled = false;
-        btn.style.opacity = "1";
-        btn.style.cursor = "pointer";
-    } else {
-        btn.disabled = true;
-        btn.style.opacity = "0.5";
-        btn.style.cursor = "not-allowed";
+    const allValid = isIdentityComplete && isDuoComplete && isMatchesComplete && isStrategyComplete && goals !== "";
+    
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = !allValid;
+    
+    if(isIdentityComplete) {
+        document.getElementById('id-msg').textContent = "ACCESS GRANTED. TERMINAL READY.";
+        document.getElementById('id-msg').className = "sys complete";
     }
 }
 
 function showSummary() {
-    const data = document.getElementById('summaryData');
-    data.innerHTML = `
-        <p><strong>PLAYER:</strong> ${document.getElementById('user').value}</p>
-        <hr style="margin:10px 0; border-color:#333;">
-        <p><strong>DANGEROUS DUO:</strong> ${document.getElementById('playerCombo').value}</p>
-        <p><strong>SEMI 1:</strong> ${picks.sf1.winner} (${picks.sf1.time})</p>
-        <p><strong>SEMI 2:</strong> ${picks.sf2.winner} (${picks.sf2.time})</p>
-        <p><strong>3RD PLACE:</strong> ${picks.p3.winner} (${picks.p3.time})</p>
-        <p><strong>FINAL:</strong> ${picks.fin.winner} (${picks.fin.time})</p>
-        <p><strong>STRATEGY:</strong> ${picks.strategy.toUpperCase()}</p>
-        <p><strong>TOTAL GOALS:</strong> ${document.getElementById('totalGoals').value}</p>
-        <p><strong>TIEBREAKER:</strong> ${document.getElementById('tiebreaker').value} CARDS</p>
+    const list = document.getElementById('summary-list');
+    list.innerHTML = `
+        <div class="summary-item"><span>USER:</span> <span>${document.getElementById('user').value}</span></div>
+        <div class="summary-item"><span>DUO:</span> <span>${document.getElementById('playerCombo').value}</span></div>
+        <div class="summary-item"><span>SF1 WIN:</span> <span>${picks.sf1.winner}</span></div>
+        <div class="summary-item"><span>SF2 WIN:</span> <span>${picks.sf2.winner}</span></div>
+        <div class="summary-item"><span>3RD PLACE:</span> <span>${picks.p3.winner}</span></div>
+        <div class="summary-item"><span>FINAL WIN:</span> <span>${picks.fin.winner}</span></div>
+        <div class="summary-item"><span>TOTAL GOALS:</span> <span>${document.getElementById('totalGoals').value}</span></div>
+        <div class="summary-item"><span>STRATEGY:</span> <span>${picks.strategy.toUpperCase()}</span></div>
     `;
-    document.getElementById('summaryPage').style.display = 'flex';
+    document.getElementById('summary-page').style.display = 'block';
 }
 </script>
 </body>
